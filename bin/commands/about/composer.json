@@ -1,0 +1,26 @@
+{
+	"name": "sinebridge/wp-cli-about",
+	"description": "Returns information about the wordpress installation and environment",
+	"type": "command",
+	"keywords": ["wp-cli", "wordpress", "about"],
+	"homepage": "https://github.com/sinebridge/wp-cli-about",
+	"license": "MIT",
+	"require": {
+		"wp-cli/wp-cli": ">=0.12"
+	},
+	"authors": [
+		{
+			"name": "Sinebridge",
+			"email": "support@sinebridge.com",
+			"homepage": "http://sinebridge.com"
+		},
+		{
+			"name": "Mark Wallace",
+			"email": "markofsine@sinebridge.com",
+			"homepage": "http://sinebridge.com"
+		}
+	],
+	"autoload": {
+		"files": [ "about.php" ]
+	}
+}

@@ -1,0 +1,4 @@
+
+require:
+	- bin/commands/about/about.php
+	- bin/commands/query-debug/command.php
