@@ -1,21 +1,41 @@
 
-const psi = require('psi');
+const curl = require('curlrequest');
+const _ = require('lodash');
+const fs = require('fs');
+const env = require('node-env-file');
+const path = require('path');
+
+const cwd = path.dirname( __dirname );
+const envFile = path.join( cwd, '/.env' );
 
 class Performance {
 
 	constructor() {
-		this.URL = 'http://staging.riverline.sandbox3.cliquedomains.com/';
+		this.defaults = {
+			strategy : 'desktop',
+			threshold : 85
+		};
 	}
 
-	checkSpeed() {
-		psi(this.URL).then(data => {
-			console.log(data);
+	init(options, callback) {
+		this.config = _.extend(this.defaults, options);
+
+		// set the environment
+		if( fs.existsSync( envFile ) ) {
+			env( envFile );
+			this.config.url = process.env.WP_URL;
+		}
+
+		var url = encodeURIComponent( this.config.url );
+		var strategy = this.config.strategy;
+		var get = 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=' + url + '&screenshot=false&strategy=' + strategy + '&key=AIzaSyBwB5pCLn_6i0QtDqqly_CmrO-Oe42daTg';
+		curl.request(get, function(err, stdout, meta) {
+			if( err ) {
+				callback(err);
+				return;
+			}
+			callback(null, JSON.parse( stdout ));
 		});
-	}
-
-	init() {
-		// Supply options to PSI and get back speed and usability scores
-		this.checkSpeed();
 	}
 }
 

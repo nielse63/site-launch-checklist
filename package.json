@@ -20,7 +20,9 @@
   },
   "dependencies": {
     "async": "2.1.2",
+    "broken-link-checker": "0.7.3",
     "cli-color": "1.1.0",
+    "curlrequest": "0.5.7",
     "lighthouse": "1.1.6",
     "lodash": "4.16.4",
     "node-env-file": "0.1.8",
