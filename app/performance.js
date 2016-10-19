@@ -20,12 +20,6 @@ class Performance {
 	init(options, callback) {
 		this.config = _.extend(this.defaults, options);
 
-		// set the environment
-		if( fs.existsSync( envFile ) ) {
-			env( envFile );
-			this.config.url = process.env.WP_URL;
-		}
-
 		var url = encodeURIComponent( this.config.url );
 		var strategy = this.config.strategy;
 		var get = 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=' + url + '&screenshot=false&strategy=' + strategy + '&key=AIzaSyBwB5pCLn_6i0QtDqqly_CmrO-Oe42daTg';

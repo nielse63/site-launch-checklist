@@ -29,6 +29,7 @@
     "cli-color": "1.1.0",
     "curlrequest": "0.5.7",
     "gtmetrix": "1.1.1",
+    "html-validator": "2.0.1",
     "lighthouse": "1.1.6",
     "lodash": "4.16.4",
     "node-env-file": "0.1.8",
