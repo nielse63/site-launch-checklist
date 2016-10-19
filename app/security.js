@@ -1,5 +1,5 @@
 
-const curl = require('curlrequest');
+// const curl = require('curlrequest');
 const _ = require('lodash');
 const path = require('path');
 const exec = require('child_process').exec;
@@ -31,8 +31,10 @@ class Security {
 	getSecurityConfig() {
 		var cmd = [this.commands.wp, 'wp-security'].join(' ');
 		return new Promise(function(resolve, reject) {
-			exec(cmd, (err, stdout, stderr) => {
-				if (err) return reject(err);
+			exec(cmd, (err, stdout) => {
+				if (err) {
+					return reject(err);
+				}
 
 				resolve(JSON.parse(stdout));
 			});

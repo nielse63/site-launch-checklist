@@ -1,5 +1,5 @@
 
-const async = require("async");
+// const async = require("async");
 const curl = require('curlrequest');
 const _ = require( 'lodash' );
 const cheerio = require('cheerio');
@@ -11,6 +11,8 @@ const cwd = path.dirname( __dirname );
 
 // utils
 Array.prototype.unique = Array.prototype.unique || function() {
+	'use strict';
+
 	var u = {}, a = [];
 	for(var i = 0, l = this.length; i < l; ++i) {
 		if(u.hasOwnProperty(this[i])) {
@@ -23,6 +25,8 @@ Array.prototype.unique = Array.prototype.unique || function() {
 };
 
 function uid() {
+	'use strict';
+
 	return 'uid' + Date.now() + 'RAND' + Math.ceil( Math.random() * 100000 );
 }
 
@@ -65,7 +69,7 @@ class SEO {
 	getHTML() {
 		var _url = this.config.url;
 		return new Promise(function(resolve, reject) {
-			curl.request(_url, function(err, stdout, meta) {
+			curl.request(_url, function(err, stdout) {
 				if( err ) {
 					reject(err);
 					return;
@@ -107,11 +111,14 @@ class SEO {
 		return url.resolve(this.config.url, uid());
 	}
 
-	getSEOReport(cb) {
+	getSEOReport() {
 		var cmd = this.commands.wp + ' wp-seo';
 		return new Promise(function(resolve, reject) {
-			exec(cmd, (err, stdout, stderr) => {
-				if( err ) return reject(err);
+			exec(cmd, (err, stdout) => {
+				if( err ) {
+					return reject(err);
+				}
+
 				resolve( JSON.parse( stdout ) );
 			});
 		});

@@ -1,14 +1,12 @@
 
 
-"use strict";
-
 // modules
 const async = require("async");
 const path = require('path');
 const fs = require('fs');
-const WP = require('wp-cli');
+// const WP = require('wp-cli');
 const env = require('node-env-file');
-const shell = require('shelljs');
+// const shell = require('shelljs');
 const exec = require('child_process').exec;
 const _ = require( 'lodash' );
 
@@ -43,7 +41,7 @@ class WordPress {
 
 		var pathArray = __dirname.split('/');
 		var configPath = '';
-		pathArray.forEach(function(part, i) {
+		pathArray.forEach(function() {
 			var _path = pathArray.join('/');
 			var _configPath = path.join( _path, 'wp-config.php' );
 			if( fs.existsSync(_configPath) ) {
@@ -84,7 +82,9 @@ class WordPress {
 					_this.getPluginInfo(callback);
 				},
 			], function(err, results) {
-				if( err ) return reject(err);
+				if( err ) {
+					return reject(err);
+				}
 
 				// end execution
 				let output = _this.formatOutput( results );
@@ -105,8 +105,10 @@ class WordPress {
 		var cmd = [this.commands.wp, args].join(' ');
 
 		return new Promise(function(resolve, reject) {
-			exec(cmd, (err, stdout, stderr) => {
-				if (err) return reject(err);
+			exec(cmd, (err, stdout) => {
+				if (err) {
+					return reject(err);
+				}
 
 				resolve(stdout.trim());
 			});

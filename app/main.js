@@ -9,7 +9,6 @@ const brokenLinks = require('./broken-links');
 const security = require('./security');
 const validateHtml = require('./validate-html');
 const fs = require('fs');
-const util = require('util');
 const async = require("async");
 const env = require('node-env-file');
 var jsonfile = require('jsonfile');
@@ -24,7 +23,7 @@ class LaunchChecklist {
 		this.init( config );
 	}
 
-	init( config ) {
+	init(config) {
 
 		//Specify module default config here
 		const defaults = {
@@ -79,10 +78,14 @@ class LaunchChecklist {
 				_this.data.security = results[3];
 				_this.data.html = results[4];
 
-				jsonfile.writeFile(jsonFile, _this.data, function(err) {
-					if( err ) return utils.fail(err);
-					utils.success('Data written to test file');
-				}, { spaces: 2 });
+				if( process.env.NODE_ENV === 'development' ) {
+					jsonfile.writeFile(jsonFile, _this.data, { spaces: 2 }, function(_err) {
+						if( _err ) {
+							return utils.fail(_err);
+						}
+						utils.success('Data written to test file');
+					});
+				}
 			});
 		}, function(err) {
 			utils.fail(err);
@@ -90,7 +93,7 @@ class LaunchChecklist {
 	}
 
 	getData() {
-		var _this = this;
+		const _this = this;
 		return new Promise(function(resolve, reject) {
 			wordpress.init( _this.config ).then(function(data) {
 				resolve(data);

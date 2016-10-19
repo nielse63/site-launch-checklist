@@ -10,7 +10,7 @@ class BrokenLinks {
 		new blc.HtmlUrlChecker({
 			excludeLinksToSamePage : true,
 		}, {
-			link: function(result, customData) {
+			link: function(result) {
 				if(result.broken) {
 					output.push({
 						url    : result.url.original,

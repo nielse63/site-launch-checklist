@@ -24,28 +24,6 @@
 		}],
 		"no-extra-parens": 0,
 		"strict": [2, "function" ],
-		"keyword-spacing": [2, {
-			"overrides": {
-				"if": {
-					"after": false
-				},
-				"for": {
-					"after": false
-				},
-				"while": {
-					"after": false
-				},
-				"do": {
-					"after": false
-				},
-				"switch": {
-					"after": false
-				},
-				"catch": {
-					"after": false
-				}
-			}
-		}],
 		"spaced-comment": 0,
 		"semi-spacing": [2, {
 			"before": false,
@@ -56,4 +34,3 @@
 		}]
 	}
 }
-

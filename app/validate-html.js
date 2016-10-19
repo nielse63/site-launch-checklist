@@ -15,7 +15,9 @@ class ValidateHTML {
 			url: this.config.url,
 			format: 'json'
 		}, function(err, data) {
-			if (err) return callback(err);
+			if (err) {
+				return callback(err);
+			}
 
 			callback(null, data);
 		});
