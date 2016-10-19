@@ -34,7 +34,7 @@ class Security {
 			exec(cmd, (err, stdout, stderr) => {
 				if (err) return reject(err);
 
-				resolve(stdout);
+				resolve(JSON.parse(stdout));
 			});
 		});
 	}

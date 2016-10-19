@@ -36,6 +36,7 @@ class WordPress {
 	_getDocRoot() {
 
 		// dev testing
+		console.log(process.env.WP_ROOT);
 		if( process.env.NODE_ENV === 'development' && process.env.WP_ROOT ) {
 			return process.env.WP_ROOT;
 		}
@@ -83,14 +84,18 @@ class WordPress {
 					_this.getPluginInfo(callback);
 				},
 			], function(err, results) {
-				if( err ) {
-					console.error(err);
-					return;
-				}
+				if( err ) return reject(err);
 
 				// end execution
 				let output = _this.formatOutput( results );
 				output.site_info.docroot = _this.config.docroot;
+
+				// dev env
+				if( process.env.NODE_ENV === 'development' && process.env.WP_URL ) {
+					output.site_info.siteurl = process.env.WP_URL;;
+				}
+
+				// resolve
 				resolve( output );
 			});
 		});

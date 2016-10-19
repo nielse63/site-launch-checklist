@@ -20,6 +20,7 @@ gulp.task('eslint', function() {
 
 	return gulp.src([
 		'./app/**/*.js',
+		'!./app/**/_*.js',
 	])
 	.pipe(eslint({
 		configFile : './.eslintrc',
@@ -48,7 +49,6 @@ gulp.task('eslint', function() {
 					message.ruleId,
 				].join('\t')
 			});
-			// output = output.concat([content.join('\n'), '\n']);
 			output.push(content.join('\n').trim());
 		});
 		writeFile(outputFile, output.join('\n'));

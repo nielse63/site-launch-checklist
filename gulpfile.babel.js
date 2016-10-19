@@ -43,14 +43,16 @@ gulp.task('scripts', () =>
 			//       you need to explicitly list your scripts here in the right order
 			//       to be correctly concatenated
 			'./app/*.js',
+			'!./app/_*.js',
 			// Other scripts
 		])
-			.pipe($.newer('.tmp/scripts'))
-			// .pipe($.babel())
-			.pipe(gulp.dest('.tmp/scripts'))
-			// Output files
-			.pipe($.size({title: 'scripts'}))
-			.pipe(gulp.dest('lib'))
+		.pipe($.newer('.tmp'))
+		.pipe($.babel())
+		.pipe(gulp.dest('.tmp'))
+
+		// Output files
+		.pipe($.size({title: 'scripts'}))
+		.pipe(gulp.dest('lib'))
 );
 
 // Clean output directory
@@ -59,20 +61,9 @@ gulp.task('clean', () => del(['.tmp', 'lib/*', '!lib/.git'], {dot: true}));
 // Build production files, the default task
 gulp.task('default', ['clean'], cb =>
 	runSequence(
-		['lint', 'scripts'],
+		['eslint', 'scripts'],
 		cb
 	)
-);
-
-// Run PageSpeed Insights
-gulp.task('pagespeed', cb =>
-	// Update the below URL to the public URL of your site
-	pagespeed('http://staging.riverline.sandbox3.cliquedomains.com', {
-		strategy: 'mobile'
-		// By default we use the PageSpeed Insights free (no API key) tier.
-		// Use a Google Developer API key if you have one: http://goo.gl/RkN0vE
-		// key: 'YOUR_API_KEY'
-	}, cb)
 );
 
 // Watch files for changes & reload

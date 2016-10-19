@@ -3,7 +3,6 @@ const blc = require('broken-link-checker');
 
 class BrokenLinks {
 	constructor() {
-		// ...
 	}
 
 	init(options, callback) {
@@ -21,9 +20,7 @@ class BrokenLinks {
 				}
 			},
 			end: function() {
-				callback(null, {
-					broken_links : output
-				});
+				callback(null, output);
 			}
 		}).enqueue(options.url);
 	}

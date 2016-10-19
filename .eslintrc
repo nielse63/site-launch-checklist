@@ -18,7 +18,7 @@
 			"builtinGlobals": true,
 			"hoist": "all"
 		}],
-		"key-spacing": [2, {
+		"key-spacing": [1, {
 			"beforeColon": true,
 			"align": "colon"
 		}],

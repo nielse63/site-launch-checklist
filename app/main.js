@@ -1,6 +1,4 @@
 
-"use strict";
-
 const path = require( 'path' );
 const utils = require( './utils' );
 const _ = require( 'lodash' );
@@ -10,9 +8,16 @@ const seo = require('./seo');
 const brokenLinks = require('./broken-links');
 const security = require('./security');
 const validateHtml = require('./validate-html');
-// const gtmetrixReports = require('./gtmetrix-reports');
+const fs = require('fs');
 const util = require('util');
 const async = require("async");
+const env = require('node-env-file');
+var jsonfile = require('jsonfile');
+
+// vars
+const cwd = path.dirname( __dirname );
+const envFile = path.join( cwd, '/.env' );
+const jsonFile = path.join( cwd, '/test/results/data.json' );
 
 class LaunchChecklist {
 	constructor(config) {
@@ -29,15 +34,15 @@ class LaunchChecklist {
 
 		//override config defaults if specified
 		this.config = _.extend(defaults, config);
-		var _this = this;
 
-		// validateHtml.init({
-		// 	url : 'http://staging.riverline.sandbox3.cliquedomains.com/',
-		// 	docroot : '/Users/eriknielsen/Sites/riverline-staging.dev',
-		// }, function(err, data) {
-		// 	if(err) return console.error(err);
-		// 	console.log(data);
-		// });
+		// set environment in dev
+		if( fs.existsSync( envFile ) ) {
+			env( envFile );
+			this.config.url = process.env.WP_URL;
+			this.config.docroot = process.env.WP_ROOT;
+		}
+
+		var _this = this;
 
 		// get site data
 		this.getData().then(function(data) {
@@ -74,7 +79,10 @@ class LaunchChecklist {
 				_this.data.security = results[3];
 				_this.data.html = results[4];
 
-				console.log(_this.data);
+				jsonfile.writeFile(jsonFile, _this.data, function(err) {
+					if( err ) return utils.fail(err);
+					utils.success('Data written to test file');
+				}, { spaces: 2 });
 			});
 		}, function(err) {
 			utils.fail(err);

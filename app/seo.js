@@ -5,6 +5,7 @@ const _ = require( 'lodash' );
 const cheerio = require('cheerio');
 const path = require('path');
 const exec = require('child_process').exec;
+const url = require('url');
 
 const cwd = path.dirname( __dirname );
 
@@ -20,6 +21,10 @@ Array.prototype.unique = Array.prototype.unique || function() {
 	}
 	return a;
 };
+
+function uid() {
+	return 'uid' + Date.now() + 'RAND' + Math.ceil( Math.random() * 100000 );
+}
 
 class SEO {
 
@@ -43,36 +48,24 @@ class SEO {
 				has_backlink : _this.getClickBacklink(),
 				icons : _this.getIcons(),
 				meta : _this.getPageMeta(),
+				custom_404 : _this.getCustom404Page(),
 			};
 
-			async.parallel([
-				function(cb) {
-					_this.getSEOReport(cb);
-				},
-				function(cb) {
-					_this.getCustom404Page(cb);
-				},
-			], function(err, results) {
-				if( err ) {
-					callback(err);
-					return;
-				}
+			_this.getSEOReport().then(function(results) {
+				data.seo_report = results;
 
-				data.seo_report = results[0];
-				data.custom_404 = results[1];
-
-				// set data
 				callback(null, data);
 			});
+
 		}, function(err) {
 			callback(err);
 		});
 	}
 
 	getHTML() {
-		var url = this.config.url;
+		var _url = this.config.url;
 		return new Promise(function(resolve, reject) {
-			curl.request(url, function(err, stdout, meta) {
+			curl.request(_url, function(err, stdout, meta) {
 				if( err ) {
 					reject(err);
 					return;
@@ -110,24 +103,17 @@ class SEO {
 		return !! this.$('body').find('[href*="cliquestudios.com"]').length;
 	}
 
-	getCustom404Page(cb) {
-		var url = this.config.url + '/exrtcyvgubhjknlm';
-		curl.request(this.config.url + '/exrtcyvgubhjknlm', function(err, data) {
-			if(err) {
-				cb(err);
-				return;
-			}
-			cb(null, data);
-		});
+	getCustom404Page() {
+		return url.resolve(this.config.url, uid());
 	}
 
 	getSEOReport(cb) {
-		exec(this.commands.wp + ' wp-seo', (err, stdout, stderr) => {
-			if( err ) {
-				cb(err);
-				return;
-			}
-			cb(null, JSON.parse( stdout ));
+		var cmd = this.commands.wp + ' wp-seo';
+		return new Promise(function(resolve, reject) {
+			exec(cmd, (err, stdout, stderr) => {
+				if( err ) return reject(err);
+				resolve( JSON.parse( stdout ) );
+			});
 		});
 	}
 
@@ -201,17 +187,17 @@ class SEO {
 				switch(type) {
 					case 0 :
 						output[key] = src;
-					break;
+						break;
 					case 1 :
-						output[key].push( src );
-					break;
+						output[key].push( JSON.parse(src) );
+						break;
 					case 2 :
 						var attr = $item.attr('property') ? $item.attr('property') : $item.attr('name');
 						var attrArray = attr.split(':');
 						attrArray.shift();
 						var attrKey = attrArray.join(':');
 						output[key][attrKey] = src;
-					break;
+						break;
 				}
 			});
 		}
