@@ -34,13 +34,6 @@ import pkg from './package.json';
 
 const $ = gulpLoadPlugins();
 
-// Lint JavaScript
-gulp.task('lint', () =>
-	gulp.src('app/**/*.js')
-		.pipe($.eslint())
-		.pipe($.eslint.format())
-);
-
 // Concatenate and minify JavaScript. Optionally transpiles ES2015 code to ES5.
 // to enable ES2015 support remove the line `"only": "gulpfile.babel.js",` in the
 // `.babelrc` file.
@@ -89,4 +82,4 @@ gulp.task('watch', ['scripts'], () => {
 
 // Load custom tasks from the `tasks` directory
 // Run: `npm install --save-dev require-dir` from the command-line
-// try { require('require-dir')('tasks'); } catch (err) { console.error(err); }
+try { require('require-dir')('tasks'); } catch (err) { console.error(err); }

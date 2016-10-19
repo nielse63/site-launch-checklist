@@ -11,20 +11,43 @@
  * Module dependencies.
  */
 
-var path = require( 'path' );
-var utils = require( path.resolve( path.join( __dirname, 'utils' ) ) );
-var _ = require( 'lodash' );
+const path = require( 'path' );
+const utils = require( path.resolve( path.join( __dirname, 'utils' ) ) );
+const _ = require( 'lodash' );
 const wordpress = require('./wordpress.js');
 const performance = require('./performance.js');
+const seo = require('./seo.js');
 
 
 /**
  * Module constructor.
  */
 
-function MyModule( config ) {
-  this.init( config );
-};
+class MyModule( config ) {
+	constructor() {
+		this.init( config );
+	}
+
+	init( config ) {
+
+  //Specify module default config here
+  var defaults = {
+  	defaultValue1 : true,
+  	defaultValue2 : true
+  };
+
+  //override config defaults if specified
+  this.config = _.extend(defaults, config);
+
+  //for example
+  this.numbers = [ 1, 2, 3 ];
+
+  wordpress.init();
+  performance.init();
+  seo.init();
+}
+
+}
 
 /**
  * Module init.
@@ -44,9 +67,9 @@ MyModule.prototype.init = function( config ) {
   //for example
   this.numbers = [ 1, 2, 3 ];
 
-  // wordpress.init();
+  wordpress.init();
   performance.init();
-
+  seo.init();
 };
 
 /**

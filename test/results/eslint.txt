@@ -1,0 +1,54 @@
+
+
+[app/main.js]
+25:23	error	Parsing error: Unexpected token (
+
+
+[app/performance.js]
+2:1	error	Definition for rule 'keyword-spacing' was not found	keyword-spacing
+
+
+[app/seo.js]
+2:1	error	Definition for rule 'keyword-spacing' was not found	keyword-spacing
+11:7	error	"page" is defined but never used	no-unused-vars
+
+
+[app/utils.js]
+6:1	error	Definition for rule 'keyword-spacing' was not found	keyword-spacing
+8:9	error	Missing space after key "sky".	key-spacing
+8:21	error	Extra space before value for key "sky".	key-spacing
+9:9	error	Missing space after key "green".	key-spacing
+9:21	error	Extra space before value for key "green".	key-spacing
+10:9	error	Missing space after key "blue".	key-spacing
+10:21	error	Extra space before value for key "blue".	key-spacing
+11:9	error	Missing space after key "orange".	key-spacing
+11:21	error	Extra space before value for key "orange".	key-spacing
+12:9	error	Missing space after key "red".	key-spacing
+12:21	error	Extra space before value for key "red".	key-spacing
+13:9	error	Missing space after key "gray".	key-spacing
+13:21	error	Extra space before value for key "gray".	key-spacing
+14:9	error	Missing space after key "grey".	key-spacing
+14:21	error	Extra space before value for key "grey".	key-spacing
+15:9	error	Missing space after key "darkGray".	key-spacing
+15:21	error	Extra space before value for key "darkGray".	key-spacing
+16:9	error	Missing space after key "darkGrey".	key-spacing
+16:21	error	Extra space before value for key "darkGrey".	key-spacing
+17:9	error	Missing space after key "lightGreen".	key-spacing
+18:9	error	Missing space after key "lightGray".	key-spacing
+18:21	error	Extra space before value for key "lightGray".	key-spacing
+21:46	error	Use the function form of "use strict".	strict
+26:26	error	Use the function form of "use strict".	strict
+30:23	error	Use the function form of "use strict".	strict
+34:23	error	Use the function form of "use strict".	strict
+38:31	error	Use the function form of "use strict".	strict
+43:28	error	Use the function form of "use strict".	strict
+
+
+[app/wordpress.js]
+3:1	error	Use the function form of "use strict".	strict
+3:1	error	Definition for rule 'keyword-spacing' was not found	keyword-spacing
+7:5	error	"WP" is defined but never used	no-unused-vars
+15:2	error	Missing space after key "wp".	key-spacing
+35:36	error	"i" is defined but never used	no-unused-vars
+50:64	error	Missing space after key "silent".	key-spacing
+50:71	error	Missing space before value for key "silent".	key-spacing

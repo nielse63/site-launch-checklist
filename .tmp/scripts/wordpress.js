@@ -63,7 +63,6 @@ class WordPress {
 
 		var cmd = commands.wp + ' about';
 		var _this = this;
-		// console.log(cmd);
 		exec(cmd, (error, stdout, stderr) => {
 			if (error) {
 				console.error(`exec error: ${error}`);
@@ -71,7 +70,6 @@ class WordPress {
 			}
 
 			if( stdout ) {
-				// console.log(`stdout:\n${stdout}`);
 				var data = stdout.trim();
 				_this.about = {
 					string : data,
@@ -88,7 +86,6 @@ class WordPress {
 
 		var cmd = commands.wp + ' plugin list';
 		var _this = this;
-		// console.log(cmd);
 		exec(cmd, (error, stdout, stderr) => {
 			if (error) {
 				console.error(`exec error: ${error}`);
@@ -96,7 +93,6 @@ class WordPress {
 			}
 
 			if( stdout ) {
-				// console.log(`stdout:\n${stdout}`);
 				var data = stdout.trim();
 				_this.plugins = {
 					string : data,
