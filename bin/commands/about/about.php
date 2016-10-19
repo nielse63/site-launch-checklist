@@ -78,23 +78,30 @@ class About_Command extends WP_CLI_Command {
     		$this->inColor = false;
     	}
 
+    	// if (array_key_exists('misc', $assoc_args)) {
+    	// 	$this->misc();
+    	// }
+
     	// Check for parameters
-    	switch (true) {
-			case array_key_exists('site', $assoc_args):
-				$this->site($assoc_args['site']);
-				break;
+   //  	switch (true) {
+			// // case array_key_exists('site', $assoc_args):
+			// // 	$this->site($assoc_args['site']);
+			// // 	break;
 
-			case array_key_exists('db', $assoc_args):
-				$this->db($assoc_args['db']);
-				break;
+			// // case array_key_exists('db', $assoc_args):
+			// // 	$this->db($assoc_args['db']);
+			// // 	break;
 
-			default:
-				// Return both site and db information
-				$this->site();
-				$this->db();
-				$this->misc();
-				WP_CLI::log(PHP_EOL);
-    	}
+			// default:
+			// 	// Return both site and db information
+			// 	// $this->site();
+			// 	// $this->db();
+			// 	$this->misc();
+			// 	WP_CLI::log(PHP_EOL);
+   //  	}
+
+    	$this->misc();
+    	WP_CLI::log(PHP_EOL);
     }
 
 
@@ -158,6 +165,7 @@ class About_Command extends WP_CLI_Command {
 	 */
 	protected function misc()
 	{
+		// WP_CLI::success( "The script has run!" );
 		$versions_path = ABSPATH . 'wp-includes/version.php';
 
 		if ( !is_readable( $versions_path ) ) {
@@ -168,29 +176,18 @@ class About_Command extends WP_CLI_Command {
 
 		include $versions_path;
 
-		WP_CLI::log('');
-		WP_CLI::log(str_repeat('-', 50));
-		$this->log('Miscellaneous Environment Information', null,   '%Y');
+		$output = [
+			'wordpress_version' => $wp_version,
+			'php_version' => PHP_VERSION,
+			'os_hostname' => php_uname('n'),
+			'os_type' => php_uname('s'),
+			'os_version' => php_uname('v'),
+			'os_release' => php_uname('r'),
+			'machine_type' => php_uname('m'),
+		];
 
-		$this->log('Wordpress version'  , $wp_version);
-		$this->log('Database revision'  , $wp_db_version);
-
-		if ( is_multisite() ) {
-			$this->log('Multisite install'  , 'true');
-		} else {
-			$this->log('Multisite install'  , 'false');
-		}
-
-		WP_CLI::log('');
-		$this->log( "PHP version"       , PHP_VERSION );
-		WP_CLI::log('');
-
-		$this->log( "OS Hostname"       , php_uname('n') );
-		$this->log( "OS Type"           , php_uname('s') );
-		$this->log( "OS Version"        , php_uname('v') );
-		$this->log( "OS Release"        , php_uname('r') );
-		$this->log( "Machine type"      , php_uname('m') );
-
+		// output
+		WP_CLI::log( json_encode( $output ) );
 	}
 
 

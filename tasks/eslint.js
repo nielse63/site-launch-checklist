@@ -19,7 +19,7 @@ gulp.task('eslint', function() {
 	del.sync([outputFile]);
 
 	return gulp.src([
-		'app/**/*.js',
+		'./app/**/*.js',
 	])
 	.pipe(eslint({
 		configFile : './.eslintrc',
@@ -53,5 +53,5 @@ gulp.task('eslint', function() {
 		});
 		writeFile(outputFile, output.join('\n'));
 	}))
-	.pipe(gulpIf(isFixed, gulp.dest('app')));
+	.pipe(gulpIf(isFixed, gulp.dest('./app')));
 });

@@ -16,34 +16,42 @@ const _ = require( 'lodash' );
 const wordpress = require('./wordpress.js');
 const performance = require('./performance.js');
 const seo = require('./seo.js');
+const util = require('util');
 
 
 /**
  * Module constructor.
  */
 
-class LaunchChecklist( config ) {
-	constructor() {
+class LaunchChecklist {
+	constructor(config) {
 		this.init( config );
 	}
 
 	init( config ) {
 
 		//Specify module default config here
-		var defaults = {
-			defaultValue1 : true,
-			defaultValue2 : true
+		const defaults = {
+			url : '',
+			docroot : '',
 		};
 
 		//override config defaults if specified
 		this.config = _.extend(defaults, config);
 
-		//for example
-		this.numbers = [ 1, 2, 3 ];
+		// get site data
+		this.getData();
+		// performance.init();
+		// seo.init();
+	}
 
-		wordpress.init();
-		performance.init();
-		seo.init();
+	getData() {
+		wordpress.init( this.config ).then(function(data) {
+			console.log(util.inspect(data, false, null))
+		}, function(err) {
+			// throw err;
+			console.error(err);
+		});
 	}
 }
 

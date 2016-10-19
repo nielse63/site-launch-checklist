@@ -2,32 +2,45 @@
 
 "use strict";
 
-var path = require('path');
-var fs = require('fs');
-var WP = require('wp-cli');
-var env = require('node-env-file');
-var shell = require('shelljs');
-var exec = require('child_process').exec;
+// modules
+const async = require("async");
+const path = require('path');
+const fs = require('fs');
+const WP = require('wp-cli');
+const env = require('node-env-file');
+const shell = require('shelljs');
+const exec = require('child_process').exec;
+const _ = require( 'lodash' );
 
-env(path.dirname(__dirname) + '/.env');
-
-var commands = {
-	wp : path.dirname(__dirname) + '/bin/wp',
-	about : path.dirname(__dirname) + '/bin/commands/about/about.php'
-};
+// vars
+const cwd = path.dirname( __dirname );
+const envFile = path.join( cwd, '/.env' );
 
 class WordPress {
 	constructor() {
-		this.docroot = this._getConfig();
-		this.wp_config = path.join( this.docroot, 'wp-config.php' );
-		// this.php = this._getPHP();
+
+		// set the environment
+		if( fs.existsSync( envFile ) ) {
+			env( path.join(cwd, '/.env') );
+		}
+
+		// this.docroot = this._getConfig();
+		// this.wp_config = path.join( this.docroot, 'wp-config.php' );
+		this.defaults = {
+			docroot : '',
+		};
+
+		this.commands = {
+			wp : path.join(cwd, '/bin/wp'),
+			about : path.join(cwd, '/bin/commands/about/about.php')
+		};
 	}
 
-	_getConfig() {
+	_getDocRoot() {
 
 		// dev testing
-		if( process.env.NODE_ENV === 'development' ) {
-			return '/Users/eriknielsen/Sites/riverline-staging.dev';
+		if( process.env.NODE_ENV === 'development' && process.env.WP_ROOT ) {
+			return process.env.WP_ROOT;
 		}
 
 		var pathArray = __dirname.split('/');
@@ -44,64 +57,102 @@ class WordPress {
 		return configPath;
 	}
 
-	_getPHP() {
-		var mamp = '/Applications/MAMP/bin/php';
-		if( fs.existsSync( mamp ) ) {
-			var latest = exec('ls "' + mamp + '" | sort -n | tail -1', {silent:true}).stdout;
-			return '/Applications/MAMP/bin/php/' + latest.trim() + '/bin/php';
-		}
-		return shell.which('php');
-	}
-
-	init() {
-		commands.wp += ' --path=' + this.docroot;
-
-		this.getSiteInfo();
-	}
-
-	getSiteInfo() {
-
-		var cmd = commands.wp + ' about';
+	init( options ) {
+		this.config = _.extend(this.defaults, options);
 		var _this = this;
-		exec(cmd, (error, stdout, stderr) => {
-			if (error) {
-				console.error(`exec error: ${error}`);
-				return;
+
+		return new Promise(function(resolve, reject) {
+			if( ! _this.config.docroot ) {
+				_this.config.docroot = _this._getDocRoot();
+
+				if( ! _this.config.docroot ) {
+					reject('No doc root give and none found.');
+					return;
+				}
 			}
 
-			if( stdout ) {
-				var data = stdout.trim();
-				_this.about = {
-					string : data,
-				};
-			}
+			// setup commands
+			_this.commands.wp += ' --path=' + _this.config.docroot;
 
-			if( stderr ) {
-				console.log(`stderr:\n${stderr}`);
-			}
+			// run methods
+			async.parallel([
+				function(callback) {
+					_this.getSiteInfo(callback);
+				},
+				function(callback) {
+					_this.getServerInfo(callback);
+				},
+				function(callback) {
+					_this.getPluginInfo(callback);
+				},
+			], function(err, results) {
+				if( err ) {
+					console.error(results);
+					// throw err;
+					return;
+				}
+				resolve(results);
+			});
 		});
 	}
 
-	getPluginInfo() {
+	runWPCLI(args) {
+		var cmd = [this.commands.wp, args].join(' ');
 
-		var cmd = commands.wp + ' plugin list';
+		return new Promise(function(resolve, reject) {
+			exec(cmd, (error, stdout, stderr) => {
+				if (error) {
+					console.error(`exec error: ${error}`);
+					return;
+				}
+
+				if( stdout ) {
+					resolve(stdout.trim());
+					return
+				}
+
+				reject( stderr );
+			});
+		});
+	}
+
+	getSiteInfo(callback) {
+		var keys = ['siteurl', 'blogname', 'admin_email'];
 		var _this = this;
-		exec(cmd, (error, stdout, stderr) => {
-			if (error) {
-				console.error(`exec error: ${error}`);
-				return;
-			}
+		var i = 0;
+		var output = {};
+		keys.forEach(function(key) {
+			_this.runWPCLI('option get ' + key).then(function(data) {
+				output[key] = data;
+				i++;
+				if( i === keys.length ) {
+					callback(null, {
+						site_info : output
+					});
+				}
+			}, function(err) {
+				callback(err);
+			});
+		});
+	}
 
-			if( stdout ) {
-				var data = stdout.trim();
-				_this.plugins = {
-					string : data,
-				};
-			}
+	getServerInfo(callback) {
+		this.runWPCLI('about').then(function(data) {
+			callback(null, {
+				server_info : JSON.parse(data)
+			});
+		}, function(err) {
+			callback(err);
+		});
+	}
 
-			if( stderr ) {
-				console.log(`stderr:\n${stderr}`);
-			}
+	getPluginInfo(callback) {
+		this.runWPCLI('plugin list --format=json').then(function(data) {
+			callback(null, {
+				plugin_data : JSON.parse(data)
+			});
+		}, function(err) {
+			callback(err);
 		});
 	}
 }

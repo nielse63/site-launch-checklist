@@ -19,6 +19,7 @@
     "url": "http://github.com/nielse63/launch-checklist/issues"
   },
   "dependencies": {
+    "async": "2.1.2",
     "cli-color": "1.1.0",
     "lighthouse": "1.1.6",
     "lodash": "4.16.4",
