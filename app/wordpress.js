@@ -24,15 +24,12 @@ class WordPress {
 			env( path.join(cwd, '/.env') );
 		}
 
-		// this.docroot = this._getConfig();
-		// this.wp_config = path.join( this.docroot, 'wp-config.php' );
 		this.defaults = {
 			docroot : '',
 		};
 
 		this.commands = {
-			wp : path.join(cwd, '/bin/wp'),
-			about : path.join(cwd, '/bin/commands/about/about.php')
+			wp : path.join(cwd, '/bin/wp')
 		};
 	}
 
@@ -87,11 +84,12 @@ class WordPress {
 				},
 			], function(err, results) {
 				if( err ) {
-					console.error(results);
-					// throw err;
+					console.error(err);
 					return;
 				}
-				resolve(results);
+
+				// end execution
+				resolve( _this.formatOutput( results ) );
 			});
 		});
 	}
@@ -149,11 +147,21 @@ class WordPress {
 	getPluginInfo(callback) {
 		this.runWPCLI('plugin list --format=json').then(function(data) {
 			callback(null, {
-				plugin_data : JSON.parse(data)
+				plugins : JSON.parse(data)
 			});
 		}, function(err) {
 			callback(err);
 		});
+	}
+
+	formatOutput(array) {
+		let output = {};
+		array.forEach(function(object) {
+			for( const key in object ) {
+				output[key] = object[key];
+			}
+		});
+		return output;
 	}
 }
 
