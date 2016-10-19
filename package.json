@@ -19,15 +19,25 @@
     "url": "http://github.com/nielse63/launch-checklist/issues"
   },
   "dependencies": {
+    "@passmarked/links": "1.0.8",
+    "@passmarked/network": "1.0.5",
+    "@passmarked/seo": "1.0.6",
+    "@passmarked/ssl": "1.0.4",
     "async": "2.1.2",
     "broken-link-checker": "0.7.3",
+    "cheerio": "0.22.0",
     "cli-color": "1.1.0",
     "curlrequest": "0.5.7",
+    "gtmetrix": "1.1.1",
     "lighthouse": "1.1.6",
     "lodash": "4.16.4",
     "node-env-file": "0.1.8",
+    "passmarked": "0.5.1",
     "seo-checker": "0.3.2",
     "shelljs": "0.7.4",
+    "site-meta": "0.2.2",
+    "webcheck": "1.1.1",
+    "webcheck-robots": "0.1.0",
     "wp-cli": "0.0.5"
   },
   "devDependencies": {

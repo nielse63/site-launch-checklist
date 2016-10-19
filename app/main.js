@@ -8,6 +8,7 @@ const wordpress = require('./wordpress');
 const performance = require('./performance');
 const seo = require('./seo');
 const brokenLinks = require('./broken-links');
+// const gtmetrixReports = require('./gtmetrix-reports');
 const util = require('util');
 const async = require("async");
 
@@ -27,39 +28,42 @@ class LaunchChecklist {
 		//override config defaults if specified
 		this.config = _.extend(defaults, config);
 		var _this = this;
-		// brokenLinks.init( {
-		// 	url : 'http://staging.riverline.sandbox3.cliquedomains.com/'
-		// }, function(err, data) {
-		// 	console.log(err, data);
-		// } );
+		seo.init( {
+			url : 'http://staging.riverline.sandbox3.cliquedomains.com/'
+		}, function(err, data) {
+			console.log(err, data);
+		} );
 
 		// get site data
-		this.getData().then(function(data) {
-			_this.data = data;
-			_this.config.docroot = data.site_info.docroot;
-			_this.config.url = data.site_info.siteurl;
+		// this.getData().then(function(data) {
+		// 	_this.data = data;
+		// 	_this.config.docroot = data.site_info.docroot;
+		// 	_this.config.url = data.site_info.siteurl;
 
-			async.parallel([
-				function(callback) {
-					performance.init(_this.config, callback);
-				},
-				function(callback) {
-					brokenLinks.init( _this.config, callback );
-				},
-			], function(err, results) {
-				if( err ) {
-					console.log(err);
-					return;
-				}
+		// 	async.parallel([
+		// 		function(callback) {
+		// 			performance.init(_this.config, callback);
+		// 		},
+		// 		function(callback) {
+		// 			brokenLinks.init( _this.config, callback );
+		// 		},
+		// 		// function(callback) {
+		// 		// 	gtmetrixReports.init( _this.config, callback );
+		// 		// },
+		// 	], function(err, results) {
+		// 		if( err ) {
+		// 			console.log(err);
+		// 			return;
+		// 		}
 
-				// set data
-				_this.data.performance = results[0];
-				_this.data.broken_links = results[1];
-				console.log(_this.data);
-			});
-		}, function(err) {
-			console.error(err);
-		});
+		// 		// set data
+		// 		_this.data.performance = results[0];
+		// 		_this.data.broken_links = results[1];
+		// 		console.log(_this.data);
+		// 	});
+		// }, function(err) {
+		// 	console.error(err);
+		// });
 	}
 
 	getData() {

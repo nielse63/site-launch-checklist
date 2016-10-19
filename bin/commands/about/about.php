@@ -1,8 +1,5 @@
 <?php
-/**
- * Author  : Mark Wallace
- * Company : Sinebridge (sinebridge.com)
- */
+
 if ( !defined( 'WP_CLI' ) ) return;
 
 /**
