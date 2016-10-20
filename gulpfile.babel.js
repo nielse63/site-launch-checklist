@@ -32,6 +32,7 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 import {output as pagespeed} from 'psi';
 import pkg from './package.json';
 import jshint from 'gulp-jshint';
+import stylish from 'jshint-stylish'
 
 const $ = gulpLoadPlugins();
 
@@ -41,29 +42,29 @@ gulp.task('jshint', function() {
 		'!./lib/_*.js',
 	])
 	.pipe(jshint())
-	.pipe(jshint.reporter('default'));
+	.pipe(jshint.reporter(stylish));
 });
 
 // Concatenate and minify JavaScript. Optionally transpiles ES2015 code to ES5.
 // to enable ES2015 support remove the line `"only": "gulpfile.babel.js",` in the
 // `.babelrc` file.
-gulp.task('scripts', ['jshint'], () =>
-		gulp.src([
-			// Note: Since we are not using useref in the scripts build pipeline,
-			//       you need to explicitly list your scripts here in the right order
-			//       to be correctly concatenated
-			'./lib/*.js',
-			'!./lib/_*.js',
-			// Other scripts
-		])
-		.pipe($.newer('.tmp'))
-		.pipe($.babel())
-		.pipe(gulp.dest('.tmp'))
+// gulp.task('scripts', ['jshint'], () =>
+// 		gulp.src([
+// 			// Note: Since we are not using useref in the scripts build pipeline,
+// 			//       you need to explicitly list your scripts here in the right order
+// 			//       to be correctly concatenated
+// 			'./lib/*.js',
+// 			'!./lib/_*.js',
+// 			// Other scripts
+// 		])
+// 		.pipe($.newer('.tmp'))
+// 		.pipe($.babel())
+// 		.pipe(gulp.dest('.tmp'))
 
-		// Output files
-		.pipe($.size({title: 'scripts'}))
-		.pipe(gulp.dest('lib'))
-);
+// 		// Output files
+// 		.pipe($.size({title: 'scripts'}))
+// 		.pipe(gulp.dest('lib'))
+// );
 
 // Clean output directory
 gulp.task('clean', () => del(['.tmp'], {
@@ -79,7 +80,7 @@ gulp.task('default', ['clean'], callback =>
 );
 
 // Watch files for changes & reload
-gulp.task('watch', ['scripts'], () => {
+gulp.task('watch', () => {
   gulp.watch(['lib/**/*.js'], ['eslint', 'jshint']);
 });
 
