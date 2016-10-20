@@ -31,19 +31,29 @@ import runSequence from 'run-sequence';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import {output as pagespeed} from 'psi';
 import pkg from './package.json';
+import jshint from 'gulp-jshint';
 
 const $ = gulpLoadPlugins();
+
+gulp.task('jshint', function() {
+	return gulp.src([
+		'./lib/*.js',
+		'!./lib/_*.js',
+	])
+	.pipe(jshint())
+	.pipe(jshint.reporter('default'));
+});
 
 // Concatenate and minify JavaScript. Optionally transpiles ES2015 code to ES5.
 // to enable ES2015 support remove the line `"only": "gulpfile.babel.js",` in the
 // `.babelrc` file.
-gulp.task('scripts', () =>
+gulp.task('scripts', ['jshint'], () =>
 		gulp.src([
 			// Note: Since we are not using useref in the scripts build pipeline,
 			//       you need to explicitly list your scripts here in the right order
 			//       to be correctly concatenated
-			'./app/*.js',
-			'!./app/_*.js',
+			'./lib/*.js',
+			'!./lib/_*.js',
 			// Other scripts
 		])
 		.pipe($.newer('.tmp'))
@@ -56,19 +66,21 @@ gulp.task('scripts', () =>
 );
 
 // Clean output directory
-gulp.task('clean', () => del(['.tmp', 'lib/*', '!lib/.git'], {dot: true}));
+gulp.task('clean', () => del(['.tmp'], {
+	dot: true
+}));
 
 // Build production files, the default task
-gulp.task('default', ['clean'], cb =>
+gulp.task('default', ['clean'], callback =>
 	runSequence(
-		['eslint', 'scripts'],
-		cb
+		['eslint', 'jshint'],
+		callback
 	)
 );
 
 // Watch files for changes & reload
 gulp.task('watch', ['scripts'], () => {
-  gulp.watch(['app/**/*.js'], ['scripts']);
+  gulp.watch(['lib/**/*.js'], ['eslint', 'jshint']);
 });
 
 // Load custom tasks from the `tasks` directory

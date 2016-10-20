@@ -19,8 +19,8 @@ gulp.task('eslint', function() {
 	del.sync([outputFile]);
 
 	return gulp.src([
-		'./app/**/*.js',
-		'!./app/**/_*.js',
+		'./lib/**/*.js',
+		'!./lib/**/_*.js',
 	])
 	.pipe(eslint({
 		configFile : './.eslintrc.json',

@@ -8,6 +8,7 @@ const seo = require('./seo');
 const brokenLinks = require('./broken-links');
 const security = require('./security');
 const validateHtml = require('./validate-html');
+const ping = require('./ping');
 const fs = require('fs');
 const async = require("async");
 const env = require('node-env-file');
@@ -41,28 +42,46 @@ class LaunchChecklist {
 			this.config.docroot = process.env.WP_ROOT;
 		}
 
+		// set ping vars and notifiy of start
+		ping.setConfig(this.config);
+		ping.notify('start');
+
 		var _this = this;
+
 
 		// get site data
 		this.getData().then(function(data) {
+
+			// send data to server
+			ping.notify('addsite', {
+				url : data.site_info.siteurl,
+				name : data.site_info.blogname
+			});
+
+			// update object
 			_this.data = data;
 			_this.config.docroot = data.site_info.docroot;
 			_this.config.url = data.site_info.siteurl;
 
 			async.parallel([
 				function(callback) {
+					utils.info('Beginning performance evaluation');
 					performance.init(_this.config, callback);
 				},
 				function(callback) {
+					utils.info('Checking for broken links');
 					brokenLinks.init( _this.config, callback );
 				},
 				function(callback) {
+					utils.info('Running SEO tests');
 					seo.init( _this.config, callback );
 				},
 				function(callback) {
+					utils.info('Checking site security');
 					security.init( _this.config, callback );
 				},
 				function(callback) {
+					utils.info('Validating HTML');
 					validateHtml.init( _this.config, callback );
 				},
 			], function(err, results) {
@@ -78,14 +97,8 @@ class LaunchChecklist {
 				_this.data.security = results[3];
 				_this.data.html = results[4];
 
-				if( process.env.NODE_ENV === 'development' ) {
-					jsonfile.writeFile(jsonFile, _this.data, { spaces: 2 }, function(_err) {
-						if( _err ) {
-							return utils.fail(_err);
-						}
-						utils.success('Data written to test file');
-					});
-				}
+				//  submit to server
+				ping.submit(_this.data);
 			});
 		}, function(err) {
 			utils.fail(err);
@@ -93,6 +106,7 @@ class LaunchChecklist {
 	}
 
 	getData() {
+		utils.info('Getting WordPress data');
 		const _this = this;
 		return new Promise(function(resolve, reject) {
 			wordpress.init( _this.config ).then(function(data) {

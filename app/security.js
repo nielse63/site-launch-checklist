@@ -36,7 +36,9 @@ class Security {
 					return reject(err);
 				}
 
-				resolve(JSON.parse(stdout));
+				resolve({
+					aioswp : JSON.parse(stdout)
+				});
 			});
 		});
 	}

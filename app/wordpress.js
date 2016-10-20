@@ -4,9 +4,7 @@
 const async = require("async");
 const path = require('path');
 const fs = require('fs');
-// const WP = require('wp-cli');
 const env = require('node-env-file');
-// const shell = require('shelljs');
 const exec = require('child_process').exec;
 const _ = require( 'lodash' );
 
@@ -102,6 +100,7 @@ class WordPress {
 	}
 
 	runWPCLI(args) {
+		/* TODO: Handle errors */
 		var cmd = [this.commands.wp, args].join(' ');
 
 		return new Promise(function(resolve, reject) {

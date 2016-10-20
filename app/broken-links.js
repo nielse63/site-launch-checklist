@@ -11,13 +11,11 @@ class BrokenLinks {
 			excludeLinksToSamePage : true,
 		}, {
 			link: function(result) {
-				if(result.broken) {
-					output.push({
-						url    : result.url.original,
-						broken : result.broken,
-						reason : result.brokenReason,
-					});
-				}
+				output.push({
+					url    : result.url.original,
+					broken : result.broken,
+					reason : result.brokenReason,
+				});
 			},
 			end: function() {
 				callback(null, output);

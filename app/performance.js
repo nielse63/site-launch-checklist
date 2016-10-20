@@ -1,12 +1,6 @@
 
 const curl = require('curlrequest');
 const _ = require('lodash');
-// const fs = require('fs');
-// const env = require('node-env-file');
-// const path = require('path');
-
-// const cwd = path.dirname( __dirname );
-// const envFile = path.join( cwd, '/.env' );
 
 class Performance {
 
@@ -28,7 +22,9 @@ class Performance {
 				callback(err);
 				return;
 			}
-			callback(null, JSON.parse( stdout ));
+			callback(null, {
+				pagespeed : JSON.parse( stdout )
+			});
 		});
 	}
 }
