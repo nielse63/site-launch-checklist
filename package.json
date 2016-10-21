@@ -21,7 +21,7 @@
   "dependencies": {
     "@passmarked/links": "1.0.8",
     "@passmarked/network": "1.0.5",
-    "@passmarked/seo": "1.0.6",
+    "@passmarked/seo": "1.0.7",
     "@passmarked/ssl": "1.0.4",
     "async": "2.1.2",
     "broken-link-checker": "0.7.3",
@@ -30,6 +30,7 @@
     "cli-color": "1.1.0",
     "cli-spinner": "0.2.5",
     "curlrequest": "0.5.7",
+    "get-headers": "1.0.4",
     "gtmetrix": "1.1.1",
     "html-validator": "2.0.1",
     "lighthouse": "1.1.6",

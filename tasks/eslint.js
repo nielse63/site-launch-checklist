@@ -53,5 +53,5 @@ gulp.task('eslint', function() {
 		});
 		writeFile(outputFile, output.join('\n'));
 	}))
-	.pipe(gulpIf(isFixed, gulp.dest('./app')));
+	.pipe(gulpIf(isFixed, gulp.dest('./lib')));
 });
