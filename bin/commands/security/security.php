@@ -4,38 +4,25 @@ if ( ! defined( 'WP_CLI' ) ) {
 	return;
 }
 
-class Security_Command extends WP_CLI_Command {
-
-	public function __invoke()
-	{
-		$config = $this->get_security_config();
-		$output = $this->format_output($config);
-
-		// display
-		WP_CLI::log( json_encode( $output ) );
+function get_security_score_command()
+{
+	if( ! class_exists('AIOWPSecurity_Feature_Item_Manager') ) {
+		WP_CLI::error('AIOWPS Feature Manager not found');
 	}
 
-	protected function get_security_config()
-	{
-		if( ! $GLOBALS || ! isset( $GLOBALS['aio_wp_security'] ) ) {
-			return [];
-		}
-		if( ! isset( $GLOBALS['aio_wp_security']->configs ) || ! isset( $GLOBALS['aio_wp_security']->configs->configs ) ) {
-			return [];
-		}
+	$feature_mgr = new AIOWPSecurity_Feature_Item_Manager();
+	$feature_mgr->initialize_features();
+	$feature_mgr->check_and_set_feature_status();
 
-		return $GLOBALS['aio_wp_security']->configs->configs;
-	}
-
-	protected function format_output($array)
-	{
-		$output = [];
-		foreach( $array as $key => $value ) {
-			$key = str_replace('aiowps_', '', $key);
-			$output[$key] = $value;
+	$output = [];
+	$feature_items = $feature_mgr->feature_items;
+	foreach ($feature_items as $item) {
+		if ($item->feature_status == $feature_mgr->feature_active) {
+			$output['active'][] = $item->feature_name;
+		} else {
+			$output['inactive'][] = $item->feature_name;
 		}
-		return $output;
 	}
+	WP_CLI::log( json_encode( $output ) );
 }
-
-WP_CLI::add_command( 'wp-security', 'Security_Command' );
+WP_CLI::add_command( 'wp-security', 'get_security_score_command' );
