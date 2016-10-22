@@ -33,6 +33,7 @@ import {output as pagespeed} from 'psi';
 import pkg from './package.json';
 import jshint from 'gulp-jshint';
 import stylish from 'jshint-stylish'
+import eslint from 'gulp-eslint';
 
 const $ = gulpLoadPlugins();
 
@@ -44,6 +45,17 @@ gulp.task('jshint', function() {
 	.pipe(jshint())
 	.pipe(jshint.reporter(stylish));
 });
+
+gulp.task('lint:eslint', () =>
+	gulp.src([
+		'lib/modules/**/*.js',
+	])
+		.pipe($.eslint({
+			// fix : true,
+			configFile : './.eslintrc.json'
+		}))
+		.pipe($.eslint.format())
+);
 
 // Concatenate and minify JavaScript. Optionally transpiles ES2015 code to ES5.
 // to enable ES2015 support remove the line `"only": "gulpfile.babel.js",` in the

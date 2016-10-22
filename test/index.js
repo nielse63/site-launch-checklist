@@ -1,6 +1,6 @@
 
 var checklist = require('../index')();
 
-// console.log(checklist);
-var output = checklist.run();
-// console.log(output);
+const list = checklist.run().then(function(data) {
+	console.log(data);
+});
