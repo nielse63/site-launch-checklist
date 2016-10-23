@@ -31,6 +31,9 @@
 		"indent": [2, "tab", {
 			"SwitchCase": 1
 		}],
-		"no-var": "error"
+		"no-var": 1,
+		"prefer-arrow-callback": 2,
+		"object-shorthand": 2,
+		"prefer-const": 1
 	}
 }
