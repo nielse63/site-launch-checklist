@@ -39,8 +39,8 @@ const $ = gulpLoadPlugins();
 
 gulp.task('jshint', function() {
 	return gulp.src([
-		'./lib/*.js',
-		'!./lib/_*.js',
+		'./lib/**/*.js',
+		'!./lib/**/_*.js',
 	])
 	.pipe(jshint())
 	.pipe(jshint.reporter(stylish));
@@ -86,14 +86,14 @@ gulp.task('clean', () => del(['.tmp'], {
 // Build production files, the default task
 gulp.task('default', ['clean'], callback =>
 	runSequence(
-		['eslint', 'jshint'],
+		['jshint'],
 		callback
 	)
 );
 
 // Watch files for changes & reload
 gulp.task('watch', () => {
-  gulp.watch(['lib/**/*.js'], ['eslint', 'jshint']);
+  gulp.watch(['lib/**/*.js'], ['jshint']);
 });
 
 // Load custom tasks from the `tasks` directory
