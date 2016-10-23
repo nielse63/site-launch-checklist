@@ -30,6 +30,7 @@
 		}],
 		"indent": [2, "tab", {
 			"SwitchCase": 1
-		}]
+		}],
+		"no-var": "error"
 	}
 }
