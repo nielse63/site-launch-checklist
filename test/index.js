@@ -5,6 +5,4 @@ var checklist = require('../index')();
 // checklist.run('broken-links', {
 // 	url : 'http://bluemarble.dev',
 // })
-const list = checklist.run().then(function(data) {
-	console.log(data);
-});
+const list = checklist.run();

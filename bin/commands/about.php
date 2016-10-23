@@ -128,6 +128,7 @@ class About_Command extends WP_CLI_Command {
 			"os_version"   => php_uname('v'),
 			"os_release"   => php_uname('r'),
 			"machine_type" => php_uname('m'),
+			"ip_address"   => $_SERVER['REMOTE_ADDR'],
 			"other"        => $_SERVER,
 		];
 	}
