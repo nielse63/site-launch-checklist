@@ -1,2 +1,2 @@
 
-module.exports = require('./lib/main');
+module.exports = exports = require('./lib/main');

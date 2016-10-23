@@ -23,7 +23,7 @@ gulp.task('eslint', function() {
 		'!./lib/**/_*.js',
 	])
 	.pipe(eslint({
-		configFile : './.eslintrc.json',
+		configFile : './.eslintrc',
 		fix        : true
 	}))
 	.pipe(eslint.format('json', function(results) {

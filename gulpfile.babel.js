@@ -51,7 +51,7 @@ gulp.task('lint:eslint', () =>
 	])
 		.pipe($.eslint({
 			// fix : true,
-			configFile : './.eslintrc.json'
+			configFile : './.eslintrc'
 		}))
 		.pipe($.eslint.format())
 );
