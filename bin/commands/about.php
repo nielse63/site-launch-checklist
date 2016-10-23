@@ -120,14 +120,14 @@ class About_Command extends WP_CLI_Command {
 		include $versions_path;
 
 		$this->output['env'] = [
-			$wp_version    => $wp_version,
-			$wp_db_version => $wp_db_version,
-			"PHP version"  => PHP_VERSION,
-			"OS Hostname"  => php_uname('n'),
-			"OS Type"      => php_uname('s'),
-			"OS Version"   => php_uname('v'),
-			"OS Release"   => php_uname('r'),
-			"Machine type" => php_uname('m'),
+			'wp_version'   => $wp_version,
+			'db_version'   => $wp_db_version,
+			"php_version"  => PHP_VERSION,
+			"os_hostname"  => php_uname('n'),
+			"os_type"      => php_uname('s'),
+			"os_version"   => php_uname('v'),
+			"os_release"   => php_uname('r'),
+			"machine_type" => php_uname('m'),
 		];
 	}
 }
