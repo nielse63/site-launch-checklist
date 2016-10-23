@@ -24,16 +24,15 @@
 // You can read more about the new JavaScript features here:
 // https://babeljs.io/docs/learn-es2015/
 
-import path from 'path';
-import gulp from 'gulp';
-import del from 'del';
-import runSequence from 'run-sequence';
-import gulpLoadPlugins from 'gulp-load-plugins';
-import {output as pagespeed} from 'psi';
-import pkg from './package.json';
-import jshint from 'gulp-jshint';
+import path from 'path'
+import gulp from 'gulp'
+import del from 'del'
+import runSequence from 'run-sequence'
+import gulpLoadPlugins from 'gulp-load-plugins'
+import pkg from './package.json'
+import jshint from 'gulp-jshint'
 import stylish from 'jshint-stylish'
-import eslint from 'gulp-eslint';
+import eslint from 'gulp-eslint'
 
 const $ = gulpLoadPlugins();
 

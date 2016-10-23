@@ -1,6 +1,0 @@
-
-require:
-	- bin/commands/about.php
-	- bin/commands/seo/yoast.php
-	- bin/commands/query-debug/command.php
-	- bin/commands/security/security.php
