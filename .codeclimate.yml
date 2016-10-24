@@ -8,21 +8,18 @@ engines:
       - javascript
       - python
       - php
-  eslint:
+  nodesecurity:
     enabled: true
   fixme:
+    enabled: true
+  eslint:
     enabled: true
   phpmd:
     enabled: true
 ratings:
   paths:
-  - "**.inc"
-  - "**.js"
-  - "**.jsx"
-  - "**.module"
-  - "**.php"
-  - "**.py"
-  - "**.rb"
+  - "lib/**/*.js"
+  - "bin/**/*.php"
 exclude_paths:
 - test/
 languages:
