@@ -9,3 +9,4 @@ lib/_*
 coverage
 lib/reporters/html/*.html
 lib/reporters/html/*.json
+*.map

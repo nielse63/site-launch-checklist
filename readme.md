@@ -43,7 +43,7 @@ Testing is provided by Mocha.
 
 Either run in bash `$ npm test` or the full command `$ ./node_modules/.bin/mocha --reporter spec`.
 
-![MOCHA TEST](https://raw.githubusercontent.com/nielse63/launch-checklist/master/static/test.jpg "MOCHA TEST")
+![MOCHA TEST](https://raw.githubusercontent.com/nielse63/launch-checklist/master/src/reports/html/test.jpg "MOCHA TEST")
 
 
 ## LICENSE

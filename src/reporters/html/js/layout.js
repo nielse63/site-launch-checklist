@@ -1,6 +1,6 @@
 
 (function($) {
-	$(document).ready(() => {
+	$(document).one('content:ready', () => {
 		const AFFIX_TOP_LIMIT = 300;
 		const AFFIX_OFFSET = 49;
 		const $menu = $("#menu");
@@ -8,9 +8,10 @@
 			$menu.toggleClass("open");
 			return false;
 		});
-		$(".docs-nav").each(() => {
-			const $affixNav = $(this);
+		$(".docs-nav").each((i, item) => {
+			const $affixNav = $(item);
 			const $container = $affixNav.parent();
+			// console.log($container);
 			let affixNavfixed = false;
 			let current = null;
 			const $links = $affixNav.find("a");
