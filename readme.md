@@ -1,31 +1,32 @@
-# NPM Boilerplate [![Build Status](https://secure.travis-ci.org/sdeering/npm-boilerplate.png)](http://travis-ci.org/sdeering/npm-boilerplate)
+# WordPress Launch Checklist [![Build Status](https://secure.travis-ci.org/sdeering/npm-boilerplate.png)](http://travis-ci.org/sdeering/npm-boilerplate)
 
-> A good starting point for your new Node.js NPM packages.
-
-
-## Create a new package
-
-1. `$ git clone git@github.com:sdeering/npm-boilerplate.git`
-2. `$ mv npm-boilerplate <your-npm-package-name>`
-3. `$ cd <your-npm-package-name>`
-
-Then change the following fields below to adhere to [NPM package rules](https://www.npmjs.org/doc/misc/npm-developers.html#What-is-a-package).
+> Validates a WordPress site against common launch-checklist tests.
 
 
-## NPM Policies
+## Installing
 
- * Update `package.json`: name, version, description, keywords, homepage, author, repository, main, licenses.
+```
+$ npm install launch-checklist --save-dev
+```
 
-[Read more about package.json fields](https://www.npmjs.org/doc/files/package.json.html).
 
+## Usage
 
-## Customise
+```
+const checklist = require('launch-checklist');
 
-Some things you might want to change/update.
+// Returns basic information about the site being validated
+checklist.getSiteInfo().then(data => {
+	// ...
+});
 
- * Change Node.js versions for test in `.travis.yml`.
- * Change `LICENCE`.
- * Change `README`.
+// Runs all site-launch tests
+checklist.run();
+checklist.on('tests:complete', data => {
+	// ...
+});
+
+```
 
 
 ## Example Usage
@@ -38,11 +39,11 @@ console.log(ModuleName.functionName());
 
 ## TEST
 
-Testing is provided by MOCHA.
+Testing is provided by Mocha.
 
 Either run in bash `$ npm test` or the full command `$ ./node_modules/.bin/mocha --reporter spec`.
 
-![MOCHA TEST](https://raw.githubusercontent.com/sdeering/npm-boilerplate/master/test/npm-boilerplate-test.jpg "MOCHA TEST")
+![MOCHA TEST](https://raw.githubusercontent.com/nielse63/launch-checklist/master/test/test.jpg "MOCHA TEST")
 
 
 ## LICENSE
