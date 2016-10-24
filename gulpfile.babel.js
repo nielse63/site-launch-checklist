@@ -49,14 +49,11 @@ const $ = gulpLoadPlugins();
 gulp.task("babel", function () {
 	return gulp.src([
 			"src/**/*.js",
-			"!src/reporters/**/*.js"
+			"!src/reporters/html/js/*.js"
 		])
 		.pipe(newer("lib"))
-		// .pipe(sourcemaps.init())
 		.pipe(babel())
-		// .pipe(concat("all.js"))
-		.pipe(sourcemaps.write("."))
-		.pipe(gulp.dest("./lib/reporters"));
+		.pipe(gulp.dest("./lib"));
 });
 
 gulp.task("babel:reporters", function () {
@@ -68,11 +65,6 @@ gulp.task("babel:reporters", function () {
 		.pipe(sourcemaps.init())
 		.pipe(babel())
 		.pipe(uglify())
-		// .pipe(uglify({
-		// 	compress: {
-		// 		'drop_debugger': false
-		// 	}
-		// }))
 		.pipe(concat('reporter.js'))
 		.pipe(sourcemaps.write("."))
 		.pipe(gulp.dest("lib/reporters/html/js"));

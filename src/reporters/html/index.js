@@ -17,9 +17,8 @@ const checklist = require(cwd)({
 	docroot
 });
 
-const template = path.resolve(__dirname, 'index.mustache');
-const indexFile = template.replace('.mustache', '.html');
-const dataFile = template.replace('index.mustache', 'data.json');
+var indexFile = path.resolve(cwd, 'lib/reporters/html/index.html');
+var dataFile = indexFile.replace('index.html', 'data.json');
 
 checklist.on('tests:complete', (results) => {
 	const output = {
@@ -66,9 +65,11 @@ checklist.on('tests:complete', (results) => {
 
 	const data = JSON.stringify(output);
 	fs.writeFile( dataFile, data );
-	fs.readFile(template, 'utf8', (err, html) => {
+	fs.readFile(indexFile, 'utf8', (err, html) => {
 		if (err) {throw err;}
-		html = html.replace('{{{json}}}', data);
+		const matches = html.match(/<script id="tpl-data">(.*?)<\/script>/g);
+		const script = matches[0];
+		html = html.replace(script, '<script id="tpl-data">window.data = ' + data + ';<\/script>');
 		fs.writeFileSync(
 			indexFile,
 			html
