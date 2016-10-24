@@ -1,0 +1,66 @@
+#!/bin/bash
+
+ENV="$(pwd)/.env"
+if [ ! -e "$ENV" ]; then
+	echo "No env file found. Exiting"
+	exit
+fi
+
+# export $(cat $ENV | xargs)
+while IFS='' read -r line || [[ -n "$line" ]]; do
+	if [ -n "$line" ] && [[ $line != \#* ]]; then
+		export $line
+	fi
+done < $ENV
+
+OLD_VERSION="0_0_0"
+VERSION="0_0_1"
+CWD=$(pwd)
+DIR="$CWD/test/sample"
+WP="$CWD/bin/wp --debug --path=$DIR"
+PHP=$(which php)
+MYSQL=$(which mysql)
+
+SITE_URL=sample.dev
+SITE_TITLE="Launch Checklist Test"
+
+ADMIN_USER=admin
+ADMIN_PASS=$(openssl rand -base64 8)
+ADMIN_EMAIL=erik@312development.com
+
+OLD_DB_NAME=slc_test_$VERSION
+DB_NAME=slc_test_$VERSION
+
+# check for installed sample
+if $($WP core is-installed); then
+	echo "WP is already installed. Exiting"
+	exit
+fi
+
+# Remove and create directory
+rm -rf "$CWD/test/sample"
+mkdir "$CWD/test/sample"
+
+# Install locally
+$WP core download
+$WP core config \
+	--dbname=$DB_NAME \
+	--dbuser=$DB_USER \
+	--dbpass=$DB_PASS \
+	--dbhost=$DB_HOST
+
+# delete the test database if one is found
+$WP db query "DROP DATABASE IF EXISTS $OLD_DB_NAME; CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+
+# install
+$WP core install \
+	--url="$SITE_URL" \
+	--title="$SITE_TITLE" \
+	--admin_user="$ADMIN_USER" \
+	--admin_password="$ADMIN_PASS" \
+	--admin_email="$ADMIN_EMAIL"
+
+# install plugins
+$WP plugin install all-in-one-wp-security-and-firewall
+$WP plugin install w3-total-cache
+$WP plugin activate --all

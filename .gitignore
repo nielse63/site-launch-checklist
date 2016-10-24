@@ -1,8 +1,9 @@
 
 .DS_Store
 node_modules
-npm-debug.log
 .env
-.tmp
 test/results
+test/sample
 lib/_*
+*.log
+coverage

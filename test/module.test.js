@@ -1,18 +1,17 @@
 
 require('dotenv').config();
-// const path = require( 'path' );
+const path = require( 'path' );
 const LaunchChecklist = require('../index');
 const expect = require( 'chai' ).expect;
 
-// const testFile = path.join( __dirname, 'test.html' );
-// const outputFile = path.join(__dirname, 'results/test.json');
+const docroot = path.resolve(__dirname, 'sample');
 
-describe('Launch Checklist', () => {
+describe('main', () => {
 	let checklist;
 
 	before(() => {
 		checklist = LaunchChecklist({
-			docroot : process.env.WP_ROOT
+			docroot : docroot
 		});
 	});
 
@@ -22,43 +21,20 @@ describe('Launch Checklist', () => {
 	});
 
 	it('should contain `run` method', (done) => {
-		expect(checklist).to.exist;
+		expect(checklist.run).to.exist;
 		done();
 	});
 
-	// it.only('should run tasks', function(done) {
-	// 	seo.init({
-	// 		url : testUrl,
-	// 		docroot : testDocRoot,
-	// 	}, function(err, output) {
-	// 		if( err ) {
-	// 			console.log('ERROR');
-	// 			console.log(err);
-	// 			done(err);
-	// 			return;
-	// 		}
-	// 		console.log(output);
-	// 		done();
-	// 	});
-	// });
+	it('should contain properties', (done) => {
+		expect(checklist).to.include.keys('url');
+		expect(checklist).to.include.keys('cwd');
+		expect(checklist).to.include.keys('docroot');
+		expect(checklist).to.include.keys('wp-config');
+		done();
+	});
 
-	// it('should get sitemap', function(done) {
-	// 	seo.getSitemap(testUrl).then(function(sitemap) {
-	// 		expect(sitemap).to.exist;
-	// 		done();
-	// 	}, function(err) {
-	// 		expect(err).to.not.exist;
-	// 		done();
-	// 	});
-	// });
-
-	// it('should get page meta', function( done ) {
-	// 	// var html = fs.readFileSync(testFile, 'utf8');
-	// 	var p = seo.getPageMetaURL('http://staging.riverline.sandbox3.cliquedomains.com');
-	// 	p.then(function(json) {
-	// 		fs.writeFileSync(outputFile, JSON.stringify(json));
-	// 		done();
-	// 	});
-	// 	// expect( results ).to.exist;
-	// });
+	it('should contain `getSiteInfo` method', (done) => {
+		expect(checklist.getSiteInfo).to.exist;
+		done();
+	});
 });
