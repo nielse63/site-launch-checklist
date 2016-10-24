@@ -23,4 +23,4 @@ ratings:
 exclude_paths:
 - test/
 languages:
-	JavaScript: true
+  JavaScript: true

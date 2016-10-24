@@ -26,6 +26,7 @@
 
 import path from 'path'
 import gulp from 'gulp'
+import fs from 'fs'
 import del from 'del'
 import runSequence from 'run-sequence'
 import gulpLoadPlugins from 'gulp-load-plugins'
@@ -33,6 +34,8 @@ import pkg from './package.json'
 import jshint from 'gulp-jshint'
 import stylish from 'jshint-stylish'
 import eslint from 'gulp-eslint'
+import mustache from 'gulp-mustache'
+import rename from 'gulp-rename'
 
 const $ = gulpLoadPlugins();
 
@@ -45,16 +48,35 @@ gulp.task('jshint', function() {
 	.pipe(jshint.reporter(stylish));
 });
 
-gulp.task('lint:eslint', () =>
-	gulp.src([
-		'lib/modules/**/*.js',
-	])
-		.pipe($.eslint({
-			// fix : true,
-			configFile : './.eslintrc'
-		}))
-		.pipe($.eslint.format())
-);
+gulp.task('template', () => {
+	const data = fs.readFileSync(
+		'./static/data.json',
+		'utf-8'
+	);
+	gulp.src("static/*.mustache")
+	.pipe(mustache({
+		json : data
+	}))
+	.pipe(rename({
+		// dirname: "main/text/ciao",
+		// basename: "aloha",
+		// prefix: "bonjour-",
+		// suffix: "-hola",
+		extname: ".html"
+	}))
+	.pipe(gulp.dest("static"));
+});
+
+// gulp.task('lint:eslint', () =>
+// 	gulp.src([
+// 		'lib/modules/**/*.js',
+// 	])
+// 		.pipe($.eslint({
+// 			// fix : true,
+// 			configFile : './.eslintrc'
+// 		}))
+// 		.pipe($.eslint.format())
+// );
 
 // Concatenate and minify JavaScript. Optionally transpiles ES2015 code to ES5.
 // to enable ES2015 support remove the line `"only": "gulpfile.babel.js",` in the
@@ -92,7 +114,11 @@ gulp.task('default', ['clean'], callback =>
 
 // Watch files for changes & reload
 gulp.task('watch', () => {
-  gulp.watch(['lib/**/*.js'], ['jshint']);
+  gulp.watch([
+  	'static/*.mustache',
+  	'static/*.json'
+  	], ['template']);
+  // gulp.watch(['lib/**/*.js'], ['jshint']);
 });
 
 // Load custom tasks from the `tasks` directory
