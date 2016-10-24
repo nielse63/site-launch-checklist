@@ -70,6 +70,20 @@ gulp.task("babel:reporters", function () {
 		.pipe(gulp.dest("lib/reporters/html/js"));
 });
 
+gulp.task("babel:tests", function () {
+	return gulp.src([
+			"test/**/*.es6.js",
+			"!test/sample/**/*",
+			"!test/results/**/*"
+		])
+		.pipe(babel())
+		.pipe(rename(function (path) {
+			var basename = path.basename;
+			path.basename = basename.replace('.es6', '.test');
+		}))
+		.pipe(gulp.dest("./test"));
+});
+
 gulp.task('jshint', function() {
 	return gulp.src([
 		'./src/**/*.js',

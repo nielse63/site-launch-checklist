@@ -59,9 +59,9 @@
   "main": "lib/main.js",
   "scripts": {
     "pretest": "sh ./bin/pre-test",
-    "test": "./node_modules/.bin/mocha test/*.test.js",
+    "test": "gulp babel:tests && ./node_modules/.bin/mocha test/*.test.js",
     "cover": "./node_modules/.bin/istanbul cover _mocha -- test -R spec",
-    "lint": "./node_modules/.bin/eslint lib/**/* --fix",
+    "lint": "./node_modules/.bin/eslint src/**/* --fix",
     "lint:test": "./node_modules/.bin/eslint test/*.js --env mocha --fix"
   },
   "engines": {
