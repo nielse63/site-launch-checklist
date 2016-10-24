@@ -49,8 +49,12 @@ gulp.task('jshint', function() {
 });
 
 gulp.task('template', () => {
+	const file = './static/data.json';
+	if( ! fs.statSync( file ) ) {
+		fs.writeFileSync(file);
+	}
 	const data = fs.readFileSync(
-		'./static/data.json',
+		file,
 		'utf-8'
 	);
 	gulp.src("static/*.mustache")
@@ -58,25 +62,10 @@ gulp.task('template', () => {
 		json : data
 	}))
 	.pipe(rename({
-		// dirname: "main/text/ciao",
-		// basename: "aloha",
-		// prefix: "bonjour-",
-		// suffix: "-hola",
 		extname: ".html"
 	}))
 	.pipe(gulp.dest("static"));
 });
-
-// gulp.task('lint:eslint', () =>
-// 	gulp.src([
-// 		'lib/modules/**/*.js',
-// 	])
-// 		.pipe($.eslint({
-// 			// fix : true,
-// 			configFile : './.eslintrc'
-// 		}))
-// 		.pipe($.eslint.format())
-// );
 
 // Concatenate and minify JavaScript. Optionally transpiles ES2015 code to ES5.
 // to enable ES2015 support remove the line `"only": "gulpfile.babel.js",` in the

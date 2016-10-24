@@ -7,3 +7,5 @@ test/sample
 lib/_*
 *.log
 coverage
+lib/reporters/html/*.html
+lib/reporters/html/*.json
