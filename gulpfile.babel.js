@@ -49,44 +49,23 @@ gulp.task('jshint', function() {
 });
 
 gulp.task('template', () => {
-	const file = './static/data.json';
-	if( ! fs.statSync( file ) ) {
-		fs.writeFileSync(file);
-	}
+	const file = './lib/reporters/html/data.json';
+	// if( ! fs.statSync( file ) ) {
+	// 	fs.writeFileSync(file);
+	// }
 	const data = fs.readFileSync(
 		file,
 		'utf-8'
 	);
-	gulp.src("static/*.mustache")
+	gulp.src("lib/reporters/html/*.mustache")
 	.pipe(mustache({
 		json : data
 	}))
 	.pipe(rename({
 		extname: ".html"
 	}))
-	.pipe(gulp.dest("static"));
+	.pipe(gulp.dest("lib/reporters/html"));
 });
-
-// Concatenate and minify JavaScript. Optionally transpiles ES2015 code to ES5.
-// to enable ES2015 support remove the line `"only": "gulpfile.babel.js",` in the
-// `.babelrc` file.
-// gulp.task('scripts', ['jshint'], () =>
-// 		gulp.src([
-// 			// Note: Since we are not using useref in the scripts build pipeline,
-// 			//       you need to explicitly list your scripts here in the right order
-// 			//       to be correctly concatenated
-// 			'./lib/*.js',
-// 			'!./lib/_*.js',
-// 			// Other scripts
-// 		])
-// 		.pipe($.newer('.tmp'))
-// 		.pipe($.babel())
-// 		.pipe(gulp.dest('.tmp'))
-
-// 		// Output files
-// 		.pipe($.size({title: 'scripts'}))
-// 		.pipe(gulp.dest('lib'))
-// );
 
 // Clean output directory
 gulp.task('clean', () => del(['.tmp'], {
@@ -104,8 +83,8 @@ gulp.task('default', ['clean'], callback =>
 // Watch files for changes & reload
 gulp.task('watch', () => {
   gulp.watch([
-  	'static/*.mustache',
-  	'static/*.json'
+  	'lib/reporters/html/*.mustache',
+  	'lib/reporters/html/*.json'
   	], ['template']);
   // gulp.watch(['lib/**/*.js'], ['jshint']);
 });
