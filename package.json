@@ -53,7 +53,7 @@
   "main": "lib/main.js",
   "scripts": {
     "pretest": "sh ./bin/pre-test",
-    "test": "./node_modules/.bin/mocha test/*.test/js",
+    "test": "./node_modules/.bin/mocha test/*.test.js",
     "cover": "./node_modules/.bin/istanbul cover _mocha -- test -R spec",
     "lint": "./node_modules/.bin/eslint lib/**/* --fix",
     "lint:test": "./node_modules/.bin/eslint test/*.js --env mocha --fix"
