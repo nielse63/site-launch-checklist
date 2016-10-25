@@ -22,6 +22,7 @@
     "broken-link-checker": "0.7.3",
     "cheerio": "0.22.0",
     "cli-color": "1.1.0",
+    "commander": "2.9.0",
     "curlrequest": "0.5.7",
     "lodash": "4.16.4",
     "mkdirp": "0.5.1",
