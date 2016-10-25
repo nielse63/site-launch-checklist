@@ -9,7 +9,6 @@ require('shelljs/global');
 
 const dir = 'src/test/**/*.js';
 
-// Clean output directory
 gulp.task('test:clean', () => del(dir, {
 	dot : true
 }));
