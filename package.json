@@ -33,6 +33,7 @@
     "babel-core": "6.17.0",
     "babel-preset-es2015": "6.16.0",
     "chai": "3.5.0",
+    "codeclimate-test-reporter": "0.4.0",
     "complexity-report": "2.0.0-alpha",
     "del": "2.2.2",
     "dotenv": "2.0.0",
@@ -58,9 +59,10 @@
   },
   "main": "lib/main.js",
   "scripts": {
-    "pretest": "sh ./bin/pre-test",
-    "test": "gulp babel:tests && ./node_modules/.bin/mocha test/*.test.js",
-    "cover": "./node_modules/.bin/istanbul cover _mocha -- test -R spec",
+    "codeclimate": "export $(cat ./.env-global | xargs) && ./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
+    "cover": "./node_modules/.bin/istanbul cover --report lcov _mocha",
+    "pretest": "sh ./bin/dev/pre-test",
+    "test": "gulp babel:tests && ./node_modules/.bin/mocha test/*.test.js && npm run cover",
     "lint": "./node_modules/.bin/eslint src/**/* --fix",
     "lint:test": "./node_modules/.bin/eslint test/*.js --env mocha --fix"
   },

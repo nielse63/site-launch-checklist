@@ -1,0 +1,85 @@
+#!/bin/bash
+
+# versions
+OLD_VERSION="0_0_0"
+VERSION="0_0_1"
+
+# commands
+CWD=$(pwd)
+DOC_ROOT="$CWD/test/sample"
+WP="$CWD/bin/wp --path=$DOC_ROOT"
+PHP=$(which php)
+MYSQL=$(which mysql)
+
+SITE_URL=sample.dev
+SITE_TITLE="Launch Checklist Test"
+
+ADMIN_USER=admin
+ADMIN_PASS=$(openssl rand -base64 8)
+ADMIN_EMAIL=erik@312development.com
+
+OLD_DB_NAME=slc_test_$OLD_VERSION
+DB_NAME=slc_test_$VERSION
+
+# load environment variables
+ENV="$(pwd)/.env"
+if [ ! -e "$ENV" ]; then
+	echo "No env file found. Exiting"
+	exit
+fi
+
+while IFS='' read -r line || [[ -n "$line" ]]; do
+	if [ -n "$line" ] && [[ $line != \#* ]]; then
+		export $line
+	fi
+done < $ENV
+
+# functions
+remove_dir() {
+	if [ -d "$DOC_ROOT" ]; then
+		rm -rf "$DOC_ROOT"
+	fi
+}
+
+# load environment variables
+if [ -z "$DB_USER" ]; then
+	echo "DB_USER is not found. Returning."
+	exit
+fi
+
+# check for installed sample
+if [ -d "$DOC_ROOT" ] && $($WP core is-installed); then
+	echo "WP is already installed. Returning."
+	exit
+fi
+
+# Remove and create directory
+remove_dir
+mkdir "$DOC_ROOT"
+
+# Install locally
+$WP core download
+OUTPUT=$($WP core config --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASS --dbhost=$DB_HOST)
+echo $OUTPUT
+if [[ "$OUTPUT" == "ERROR*" ]]; then
+	echo "THERE WAS AN ERROR"
+	echo $OUTPUT
+	remove_dir
+	exit
+fi
+
+# delete the test database if one is found
+$WP db query "DROP DATABASE IF EXISTS $OLD_DB_NAME; CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+
+# install
+$WP core install \
+	--url="$SITE_URL" \
+	--title="$SITE_TITLE" \
+	--admin_user="$ADMIN_USER" \
+	--admin_password="$ADMIN_PASS" \
+	--admin_email="$ADMIN_EMAIL"
+
+# install plugins
+$WP plugin install all-in-one-wp-security-and-firewall
+$WP plugin install w3-total-cache
+$WP plugin activate --all

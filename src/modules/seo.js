@@ -156,18 +156,10 @@ class SEO extends TestSuite {
 						return false;
 					}
 
-					if( ! process.env.MASHAPE_KEY ) {
-						utils.warn([
-							'!! No Mashape API key was found.',
-							'Sign up for one at https://market.mashape.com/realfavicongenerator/realfavicongenerator.'
-						]);
-						return false;
-					}
-
 					const options = {
 						url     : 'https://realfavicongenerator.p.mashape.com/favicon/analysis?site=' + encodeURIComponent( json.site.siteurl ),
 						headers : {
-							'X-Mashape-Key' : process.env.MASHAPE_KEY,
+							'X-Mashape-Key' : process.env.MASHAPE_KEY || 'f64a016361ce93bbcf34527549a23f13fa0eb72f',
 							'Accept'        : 'application/json'
 						}
 					};

@@ -2,6 +2,11 @@
 
 > Validates a WordPress site against common launch-checklist tests.
 
+## Status
+
+[![Code Climate](https://codeclimate.com/github/nielse63/launch-checklist/badges/gpa.svg)](https://codeclimate.com/github/nielse63/launch-checklist)
+[![Test Coverage](https://codeclimate.com/github/nielse63/launch-checklist/badges/coverage.svg)](https://codeclimate.com/github/nielse63/launch-checklist/coverage)
+
 
 ## Installing
 
@@ -29,28 +34,20 @@ checklist.on('tests:complete', data => {
 ```
 
 
-## Example Usage
-
-```
-var ModuleName = require('your-npm-package-name'); //or npm package name
-console.log(ModuleName.functionName());
-```
-
-
 ## TEST
 
 Testing is provided by Mocha.
 
 Either run in bash `$ npm test` or the full command `$ ./node_modules/.bin/mocha --reporter spec`.
 
-![MOCHA TEST](https://raw.githubusercontent.com/nielse63/launch-checklist/master/src/reports/html/test.jpg "MOCHA TEST")
+![MOCHA TEST](https://raw.githubusercontent.com/nielse63/launch-checklist/master/src/reporters/html/test.jpg "MOCHA TEST")
 
 
 ## LICENSE
 
 (MIT License)
 
-Copyright (c) 2014 sdeering <samdeering@gmail.com>
+Copyright (c) 2016 Erik Nielsen <erik@312development.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
