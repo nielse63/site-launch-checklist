@@ -11,7 +11,7 @@ describe('main', () => {
 
 	before(() => {
 		checklist = LaunchChecklist({
-			docroot : docroot
+			docroot
 		});
 	});
 

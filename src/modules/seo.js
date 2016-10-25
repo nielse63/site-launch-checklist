@@ -151,7 +151,7 @@ class SEO extends TestSuite {
 				description : 'Validating favicons',
 				test() {
 
-					if( json.env.ip_address === '127.0.0.1' && process.env.NODE_ENV !== 'development' ) {
+					if( json.env.ip_address === '127.0.0.1' ) {
 						utils.warn('!! Cannot validate favicons on a local server.');
 						return false;
 					}

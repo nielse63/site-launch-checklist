@@ -55,12 +55,13 @@
     "jshint-stylish": "2.2.1",
     "mkdirp": "0.5.1",
     "mocha": "3.1.2",
+    "require-dir": "0.3.1",
     "run-sequence": "^1.0.1"
   },
   "main": "lib/main.js",
   "scripts": {
     "codeclimate": "export $(cat ./.env-global | xargs) && ./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
-    "cover": "./node_modules/.bin/istanbul cover --report lcov _mocha",
+    "cover": "./node_modules/.bin/istanbul cover test/*.test.js --report lcov _mocha",
     "pretest": "sh ./bin/dev/pre-test",
     "test": "gulp babel:tests && ./node_modules/.bin/mocha test/*.test.js && npm run cover",
     "lint": "./node_modules/.bin/eslint src/**/* --fix",
