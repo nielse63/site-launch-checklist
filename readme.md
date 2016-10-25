@@ -1,9 +1,10 @@
-# WordPress Launch Checklist [![Build Status](https://secure.travis-ci.org/sdeering/npm-boilerplate.png)](http://travis-ci.org/sdeering/npm-boilerplate)
+# WordPress Launch Checklist
 
 > Validates a WordPress site against common launch-checklist tests.
 
 ## Status
 
+[![Build Status](https://travis-ci.org/nielse63/launch-checklist.svg?branch=master)](http://travis-ci.org/nielse63/launch-checklist)
 [![Code Climate](https://codeclimate.com/github/nielse63/launch-checklist/badges/gpa.svg)](https://codeclimate.com/github/nielse63/launch-checklist)
 [![Test Coverage](https://codeclimate.com/github/nielse63/launch-checklist/badges/coverage.svg)](https://codeclimate.com/github/nielse63/launch-checklist/coverage)
 
