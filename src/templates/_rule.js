@@ -1,8 +1,5 @@
-/**
- * @fileoverview <%- desc %>
- * @author <%- userName %>
- */
-"use strict";
+
+'use strict';
 
 //------------------------------------------------------------------------------
 // Rule Definition

@@ -17,8 +17,8 @@ const checklist = require(cwd)({
 	docroot
 });
 
-var indexFile = path.resolve(cwd, 'lib/reporters/html/index.html');
-var dataFile = indexFile.replace('index.html', 'data.json');
+const indexFile = path.resolve(cwd, 'lib/reporters/html/index.html');
+const dataFile = indexFile.replace('index.html', 'data.json');
 
 checklist.on('tests:complete', (results) => {
 	const output = {
@@ -69,7 +69,7 @@ checklist.on('tests:complete', (results) => {
 		if (err) {throw err;}
 		const matches = html.match(/<script id="tpl-data">(.*?)<\/script>/g);
 		const script = matches[0];
-		html = html.replace(script, '<script id="tpl-data">window.data = ' + data + ';<\/script>');
+		html = html.replace(script, `<script id="tpl-data">window.data = ${ data };<\/script>`);
 		fs.writeFileSync(
 			indexFile,
 			html
