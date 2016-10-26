@@ -15,3 +15,4 @@ find $(pwd)/test -type d -exec chmod 775 {} \;
 
 # set executable file permissions
 find $(pwd)/src/bin -type f -exec chmod 664 {} \;
+find $(pwd)/bin -type f -exec chmod 664 {} \;

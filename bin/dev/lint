@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./node_modules/.bin/eslint $(pwd)/src/lib/**/*.js --fix
+./node_modules/.bin/eslint $(pwd)/src/bin/*.js --fix

@@ -75,7 +75,7 @@
     "cover": "./node_modules/.bin/istanbul cover --report lcov _mocha",
     "pretest": "sh ./bin/dev/pre-test",
     "test": "gulp test && ./node_modules/.bin/mocha test/*.test.js",
-    "lint": "./node_modules/.bin/eslint src/**/* --ignore-path ./templates --fix",
+    "lint": "./node_modules/.bin/eslint src/lib/**/* --fix",
     "lint:test": "./node_modules/.bin/eslint test/*.js --env mocha --fix"
   },
   "engines": {
