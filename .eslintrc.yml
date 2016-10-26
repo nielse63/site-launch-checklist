@@ -181,12 +181,16 @@ rules:
   no-underscore-dangle: 0
   no-unneeded-ternary: 0
   object-curly-spacing: 0
-  one-var: 0
+  one-var:
+    - 1
+    - never
   operator-assignment: 0
   operator-linebreak: 0
   padded-blocks: 0
   quote-props: 0
-  quotes: 0
+  quotes:
+    - 1
+    - single
   require-jsdoc: 0
   semi-spacing:
     - 2
@@ -207,7 +211,7 @@ rules:
 
   # ECMAScript 6
   arrow-body-style: 0
-  arrow-parens: 0
+  arrow-parens: 1
   arrow-spacing: 0
   constructor-super: 0
   generator-star-spacing: 0
@@ -222,5 +226,5 @@ rules:
   prefer-const: 1
   prefer-reflect: 0
   prefer-spread: 0
-  prefer-template: 0
+  prefer-template: 1
   require-yield: 0

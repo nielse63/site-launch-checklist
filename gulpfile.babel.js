@@ -95,15 +95,19 @@ gulp.task('default', callback =>
 );
 
 // Watch files for changes & reload
-gulp.task('watch', () => {
+gulp.task('watch', (done) => {
+	runSequence(
+		['watch:lib'],
+		done
+	);
 	// gulp.watch([
 	// 	'src/reporters/html/*.mustache',
 	// 	'src/reporters/html/*.json'
 	// 	], ['template']);
-	gulp.watch([
-			"src/**/*.js",
-			"!src/reporters/**/*.js"
-		], ['babel']);
+	// gulp.watch([
+	// 		"src/**/*.js",
+	// 		"!src/reporters/**/*.js"
+	// 	], ['babel']);
 	// gulp.watch(['src/reporters/**/*.js'], ['babel:reporters']);
 	// gulp.watch(['src/**/*.scss'], ['sass']);
 });

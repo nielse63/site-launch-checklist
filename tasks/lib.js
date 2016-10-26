@@ -3,7 +3,11 @@
 
 import gulp from 'gulp'
 import babel from "gulp-babel"
+import eslint from "gulp-eslint"
+import changed from "gulp-changed"
 import runSequence from 'run-sequence'
+import jshint from 'gulp-jshint'
+import stylish from 'jshint-stylish'
 import del from 'del'
 require('shelljs/global');
 
@@ -18,8 +22,16 @@ gulp.task('lib:clean', () => {
 
 gulp.task("lib:babel", function () {
 	return gulp.src(inDir)
+		.pipe(changed(outDir))
 		.pipe(babel())
 		.pipe(gulp.dest(outDir));
+});
+
+gulp.task('lib:jshint', function() {
+	return gulp.src(inDir)
+		.pipe(changed(inDir))
+		.pipe(jshint())
+		.pipe(jshint.reporter(stylish));
 });
 
 gulp.task("lib:lint", function () {
