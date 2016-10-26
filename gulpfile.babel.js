@@ -1,3 +1,4 @@
+
 'use strict';
 
 import path from 'path'
@@ -55,11 +56,11 @@ gulp.task('jshint', function() {
 });
 
 gulp.task('sass', function () {
-  return gulp.src('./src/**/*.scss')
-    .pipe(sass({
-    	outputStyle: 'compressed'
-    }).on('error', sass.logError))
-    .pipe(gulp.dest('./lib'));
+	return gulp.src('./src/**/*.scss')
+		.pipe(sass({
+			outputStyle: 'compressed'
+		}).on('error', sass.logError))
+		.pipe(gulp.dest('./lib'));
 });
 
 gulp.task('images', function() {
@@ -85,13 +86,8 @@ gulp.task('template', ['images', 'sass', 'babel:reporters'], () => {
 	.pipe(gulp.dest("lib/reporters/html"));
 });
 
-// Clean output directory
-gulp.task('clean', () => del(['.tmp'], {
-	dot: true
-}));
-
 // Build production files, the default task
-gulp.task('default', ['clean'], callback =>
+gulp.task('default', callback =>
 	runSequence(
 		['jshint'],
 		callback
@@ -100,16 +96,16 @@ gulp.task('default', ['clean'], callback =>
 
 // Watch files for changes & reload
 gulp.task('watch', () => {
-	gulp.watch([
-		'src/reporters/html/*.mustache',
-		'src/reporters/html/*.json'
-		], ['template']);
+	// gulp.watch([
+	// 	'src/reporters/html/*.mustache',
+	// 	'src/reporters/html/*.json'
+	// 	], ['template']);
 	gulp.watch([
 			"src/**/*.js",
 			"!src/reporters/**/*.js"
 		], ['babel']);
-	gulp.watch(['src/reporters/**/*.js'], ['babel:reporters']);
-	gulp.watch(['src/**/*.scss'], ['sass']);
+	// gulp.watch(['src/reporters/**/*.js'], ['babel:reporters']);
+	// gulp.watch(['src/**/*.scss'], ['sass']);
 });
 
 // Load custom tasks from the `tasks` directory

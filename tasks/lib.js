@@ -10,9 +10,11 @@ require('shelljs/global');
 const inDir = 'src/lib/**/*.js';
 const outDir = 'lib';
 
-gulp.task('lib:clean', () => del(outDir, {
-	dot : true
-}));
+gulp.task('lib:clean', () => {
+	del(outDir, {
+		dot : true
+	})
+});
 
 gulp.task("lib:babel", function () {
 	return gulp.src(inDir)
@@ -31,4 +33,9 @@ gulp.task("lib", function (done) {
 		'lib:babel',
 		done
 	);
+});
+
+// Watch files for changes & reload
+gulp.task('watch:lib', () => {
+	gulp.watch(["src/lib/**/*.js"], ['lib:babel']);
 });
