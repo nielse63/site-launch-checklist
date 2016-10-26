@@ -22,7 +22,6 @@ gulp.task('bin:clean', () => {
 
 gulp.task("bin:babel", function () {
 	return gulp.src(inDir)
-		.pipe(changed(outDir))
 		.pipe(babel())
 		.pipe(gulp.dest(outDir));
 });

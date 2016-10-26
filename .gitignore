@@ -11,5 +11,6 @@ lib/reporters/html/*.json
 *.map
 test/*.test.js
 lib
+!src/lib
 notes
 ./docs

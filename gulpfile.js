@@ -1,24 +1,22 @@
 
-'use strict';
+'use strict'
 
-import path from 'path'
-import gulp from 'gulp'
-import fs from 'fs'
-import del from 'del'
-import runSequence from 'run-sequence'
-import gulpLoadPlugins from 'gulp-load-plugins'
-import pkg from './package.json'
-import jshint from 'gulp-jshint'
-import stylish from 'jshint-stylish'
-import eslint from 'gulp-eslint'
-import mustache from 'gulp-mustache'
-import sourcemaps from "gulp-sourcemaps";
-import babel from "gulp-babel";
-import sass from "gulp-sass";
-import newer from 'gulp-newer';
-import uglify from'gulp-uglify'
-import concat from'gulp-concat'
-// import concat from "gulp-concat";
+var path = require('path');
+var gulp = require('gulp');
+var fs = require('fs');
+var del = require('del');
+var runSequence = require('run-sequence');
+var gulpLoadPlugins = require('gulp-load-plugins');
+var pkg = require('./package.json');
+var jshint = require('gulp-jshint');
+var stylish = require('jshint-stylish');
+var mustache = require('gulp-mustache');
+var sourcemaps = require('gulp-sourcemaps');;
+var babel = require('gulp-babel');;
+var sass = require('gulp-sass');;
+var newer = require('gulp-newer');;
+var uglify = require('gulp-uglify');
+var concat = require('gulp-concat');
 
 const $ = gulpLoadPlugins();
 
@@ -46,14 +44,14 @@ gulp.task("babel:reporters", function () {
 		.pipe(gulp.dest("lib/reporters/html/js"));
 });
 
-gulp.task('jshint', function() {
-	return gulp.src([
-		'./src/**/*.js',
-		'!./src/**/_*.js',
-	])
-	.pipe(jshint())
-	.pipe(jshint.reporter(stylish));
-});
+// gulp.task('jshint', function() {
+// 	return gulp.src([
+// 		'./src/**/*.js',
+// 		'!./src/**/_*.js',
+// 	])
+// 	.pipe(jshint())
+// 	.pipe(jshint.reporter(stylish));
+// });
 
 gulp.task('sass', function () {
 	return gulp.src('./src/**/*.scss')
@@ -87,12 +85,12 @@ gulp.task('template', ['images', 'sass', 'babel:reporters'], () => {
 });
 
 // Build production files, the default task
-gulp.task('default', callback =>
-	runSequence(
-		['jshint'],
-		callback
-	)
-);
+// gulp.task('default', callback =>
+// 	runSequence(
+// 		['jshint'],
+// 		callback
+// 	)
+// );
 
 // Watch files for changes & reload
 gulp.task('watch', (done) => {

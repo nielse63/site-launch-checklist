@@ -4,9 +4,9 @@ var babel = require('gulp-babel');
 var eslint = require('gulp-eslint');
 var changed = require('gulp-changed');
 var runSequence = require('run-sequence');
-var jshint = require('gulp-jshint');
-var stylish = require('jshint-stylish');
+// var eslint = require('gulp-eslint');
 var del = require('del');
+var fs = require('fs');
 require('shelljs/global');
 
 const inDir = 'src/lib/**/*.js';
@@ -20,20 +20,17 @@ gulp.task('lib:clean', () => {
 
 gulp.task("lib:babel", function () {
 	return gulp.src(inDir)
-		.pipe(changed(outDir))
 		.pipe(babel())
 		.pipe(gulp.dest(outDir));
 });
 
-gulp.task('lib:jshint', function() {
-	return gulp.src(inDir)
-		.pipe(changed(inDir))
-		.pipe(jshint())
-		.pipe(jshint.reporter(stylish));
-});
-
 gulp.task("lib:lint", function () {
-	exec('./node_modules/.bin/eslint ' + inDir + ' --fix');
+	return gulp.src(inDir)
+		.pipe(eslint({
+			configFile : './.eslintrc.yml',
+			fix : true,
+		}))
+		.pipe(eslint.format());
 });
 
 gulp.task("lib", function (done) {
