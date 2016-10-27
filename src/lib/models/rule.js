@@ -37,7 +37,7 @@ const Rule = BackBone.Model.extend({
 
 	// backbone methods
 	initialize() {
-		this.on('change:messaging', (changed) => {
+		this.on('change:messaging', () => {
 			var messaging = this.get('messaging');
 			var defaults = this.defaults.messaging;
 			Object.keys( messaging ).forEach((key) => {

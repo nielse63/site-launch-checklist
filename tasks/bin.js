@@ -1,36 +1,36 @@
 
-var gulp = require('gulp');
-var babel = require('gulp-babel');
-var eslint = require('gulp-eslint');
-var changed = require('gulp-changed');
-var runSequence = require('run-sequence');
-var del = require('del');
+const gulp = require('gulp');
+const babel = require('gulp-babel');
+const eslint = require('gulp-eslint');
+const changed = require('gulp-changed');
+const runSequence = require('run-sequence');
+const del = require('del');
 require('shelljs/global');
 
 const inDir = 'src/bin/**/*.js';
 const outDir = 'bin';
 
-var checkPerms = (function() {
+const checkPerms = (function() {
 	return function() {
 		console.log(this);
 	};
 }())
 
 gulp.task('bin:clean', () => {
-	del(outDir + '/*.js')
+	del(`${outDir }/*.js`)
 });
 
-gulp.task("bin:babel", function () {
+gulp.task('bin:babel', () => {
 	return gulp.src(inDir)
 		.pipe(babel())
 		.pipe(gulp.dest(outDir));
 });
 
-gulp.task("bin:lint", function () {
-	exec('./node_modules/.bin/eslint ' + inDir + ' --fix');
+gulp.task('bin:lint', () => {
+	exec(`./node_modules/.bin/eslint ${ inDir } --fix`);
 });
 
-gulp.task("bin", function (done) {
+gulp.task('bin', (done) => {
 	runSequence(
 		'lib:clean',
 		'lib:lint',
