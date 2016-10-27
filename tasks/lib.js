@@ -3,11 +3,11 @@ const gulp = require('gulp');
 const runSequence = require('run-sequence');
 const utils = require('./utils');
 
-const inDir = 'src/lib/**/*.js';
-const outDir = 'lib';
+const inDir = 'src/**/*.js';
+const outDir = './';
 
 gulp.task('lib:clean', () => {
-	return utils.clean(outDir);
+	return utils.clean('./lib');
 });
 
 gulp.task('lib:babel', () => {

@@ -35,12 +35,10 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		return new Promise((resolve, reject) => {
-			const plugins = model.get('plugins')
-			if( ! plugins || ! plugins.length ) {
-				return reject('No plugins are installed')
-			}
-			resolve(plugins);
-		});
+		const plugins = model.get('plugins')
+		if( ! plugins || ! plugins.length ) {
+			return reject('No plugins are installed')
+		}
+		resolve(plugins);
 	}
 };
