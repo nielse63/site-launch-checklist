@@ -9,28 +9,22 @@ require('shelljs/global');
 const inDir = 'src/test/**/*.js';
 const outDir = 'test';
 
-gulp.task('test:clean', () => del(`${outDir }/**/*.test.js`, {
-	dot : true
-}));
-
-gulp.task('test:babel', () => {
-	return gulp.src(inDir)
-		.pipe(babel())
-		.pipe(rename((path) => {
-			const basename = path.basename;
-			path.basename = basename.replace('.es6', '.test');
-		}))
-		.pipe(gulp.dest(outDir));
+gulp.task('test:clean', () => {
+	return utils.clean(`${outDir }/**/*.test.js`);
 });
 
-gulp.task('test:lint', () => {
-	exec(`./node_modules/.bin/eslint ${ inDir } --fix`);
+gulp.task('test:babel', () => {
+	return utils.babel(inDir, outDir);
+});
+
+gulp.task('test:eslint', () => {
+	return utils.eslint(inDir);
 });
 
 gulp.task('test', (done) => {
 	runSequence(
 		'test:clean',
-		'test:lint',
+		'test:eslint',
 		'test:babel',
 		done
 	);

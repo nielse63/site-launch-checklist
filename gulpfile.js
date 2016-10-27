@@ -1,15 +1,9 @@
 
 'use strict'
 
-const path = require('path');
 const gulp = require('gulp');
 const fs = require('fs');
-const del = require('del');
 const runSequence = require('run-sequence');
-const gulpLoadPlugins = require('gulp-load-plugins');
-const pkg = require('./package.json');
-const jshint = require('gulp-jshint');
-const stylish = require('jshint-stylish');
 const mustache = require('gulp-mustache');
 const sourcemaps = require('gulp-sourcemaps');
 const babel = require('gulp-babel');
@@ -17,17 +11,16 @@ const sass = require('gulp-sass');
 const newer = require('gulp-newer');
 const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
-
-// // const $ = gulpLoadPlugins();
+const rename = require('gulp-rename');
 
 gulp.task('babel', () => {
 	return gulp.src([
 		'src/**/*.js',
 		'!src/reporters/html/js/*.js'
 	])
-		.pipe(newer('lib'))
-		.pipe(babel())
-		.pipe(gulp.dest('./lib'));
+	.pipe(newer('lib'))
+	.pipe(babel())
+	.pipe(gulp.dest('./lib'));
 });
 
 gulp.task('babel:reporters', () => {
@@ -35,13 +28,13 @@ gulp.task('babel:reporters', () => {
 		'src/reporters/html/js/layout.js',
 		'src/reporters/html/js/data.js'
 	])
-		.pipe(newer('lib/reporters/html/js'))
-		.pipe(sourcemaps.init())
-		.pipe(babel())
-		.pipe(uglify())
-		.pipe(concat('reporter.js'))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('lib/reporters/html/js'));
+	.pipe(newer('lib/reporters/html/js'))
+	.pipe(sourcemaps.init())
+	.pipe(babel())
+	.pipe(uglify())
+	.pipe(concat('reporter.js'))
+	.pipe(sourcemaps.write('.'))
+	.pipe(gulp.dest('lib/reporters/html/js'));
 });
 
 gulp.task('sass', () => {

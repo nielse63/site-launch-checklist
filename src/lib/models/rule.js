@@ -38,10 +38,10 @@ const Rule = BackBone.Model.extend({
 	// backbone methods
 	initialize() {
 		this.on('change:messaging', () => {
-			var messaging = this.get('messaging');
-			var defaults = this.defaults.messaging;
+			const messaging = this.get('messaging');
+			const defaults = this.defaults.messaging;
 			Object.keys( messaging ).forEach((key) => {
-				var value = messaging[key];
+				const value = messaging[key];
 				if( ! value ) {
 					messaging[key] = defaults[key];
 				}

@@ -28,7 +28,7 @@ const WordPress = BackBone.Model.extend({
 		plugins         : [],
 		cli             : null,
 		working         : false,
-		installed       : false,
+		installed       : false
 	},
 
 	execWPCli(cmd, option, args) {
@@ -59,7 +59,7 @@ const WordPress = BackBone.Model.extend({
 	},
 
 	pushWorker(cmd, option, args) {
-		var queue = getQueue();
+		const queue = getQueue();
 		if( ! queue ) {
 			return this.execWPCli(cmd, option, args);
 		}

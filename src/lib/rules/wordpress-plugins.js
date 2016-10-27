@@ -36,7 +36,7 @@ module.exports = {
 		//----------------------------------------------------------------------
 
 		return new Promise((resolve, reject) => {
-			var plugins = model.get('plugins')
+			const plugins = model.get('plugins')
 			if( ! plugins || ! plugins.length ) {
 				return reject('No plugins are installed')
 			}
