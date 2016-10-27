@@ -6,11 +6,7 @@ const _ = require('lodash');
 const os = require('os');
 const shelljs = require('shelljs');
 const async = require('async');
-// const $ = require('cheerio');
-// const fs = require('fs');
-// const request = require('request');
 const utils = require('./utils');
-// const constants = require('./constants').rules;
 
 // collections
 const Rules = require('./collections/rules');
@@ -22,9 +18,12 @@ const models = require('./models');
 const reporters = require('./reporters/table');
 
 // vars
-const contexts = {};
+let contexts = {};
 
 function getServerData() {
+	if( ! contexts.Server ) {
+		contexts.Server = new models.Server();
+	}
 	contexts.Server.set({
 		hostname : os.hostname(),
 		type     : os.type(),
@@ -48,21 +47,32 @@ function getServerData() {
 }
 
 function getHtmlData(settings) {
+	if( settings.url ) {
+		return contexts.HTML.set({
+			page_url : settings.url
+		});
+	}
+
+	if( ! contexts.WordPress ) {
+		return utils.fail('No URL given and no WordPress installation found. Exiting');
+	}
+
 	var wp =  contexts.WordPress;
-	var url = settings.url || wp.get('siteurl');
+	var url = wp.get('siteurl');
 	if( url ) {
-		contexts.HTML.set({
-			url : url
+		return contexts.HTML.set({
+			page_url : url
 		});
 		return;
 	}
+
 	wp.on('change:siteurl', () => {
 		url = wp.get('siteurl');
 		if( ! url ) {
 			return;
 		}
 		contexts.HTML.set({
-			url : url
+			page_url : url
 		});
 	});
 }
@@ -84,7 +94,7 @@ function importRules() {
 }
 
 function runTests() {
-	var queue = async.queue((_rule, callback) => {
+	return async.queue((_rule, callback) => {
 		var name = _rule.get('name');
 		var test = _rule.get('test');
 		if( ! test || typeof test !== 'function' ) {
@@ -108,25 +118,52 @@ function runTests() {
 			return p.then(() => {
 				callback(null, name + ': ' + messaging.success);
 			}, err => {
-				callback(name + ': ' + messaging.fail + '(' + err + ')');
+				if( err && err.error && err.error.length ) {
+					return callback(name + ': ' + messaging.fail + ' (' + err.error.length + ' errors found)');
+				}
+				callback(name + ': ' + messaging.fail);
 			})
 		}
 
 		// we can assume that in the remaining cases the test passed
 		callback(null, name + ': ' + messaging.success);
 	}, 20);
-	return queue;
 }
 
-module.exports = function(options) {
+function updateContext() {
+	var tmpContext = {};
+	Rules.models.forEach(function(rule) {
+		var ctx = rule.get('context');
+		if( ! tmpContext.hasOwnProperty(ctx) ) {
+			tmpContext[ctx] = models[ctx];
+		}
+	});
+	contexts = tmpContext;
+}
+
+module.exports = exports = function(options) {
 	const settings = _.extend(defaults, options);
 	if( ! settings.docroot ) {
-		utils.fail('no doc root found');
+		utils.fail('no doc root provided. Exiting.');
 		return;
 	}
 
 	// import all rules
 	importRules();
+
+	if( settings.rules ) {
+		var filteredRules = [];
+		settings.rules.forEach(function(rule) {
+			var filter = Rules.where({
+				id : rule
+			});
+			filteredRules = filteredRules.concat(filter);
+		});
+		if( filteredRules.length ) {
+			Rules.reset(filteredRules);
+		}
+		updateContext();
+	}
 
 	// create test queue
 	var queue = runTests();
@@ -156,6 +193,7 @@ module.exports = function(options) {
 					completedRules++;
 					return contexts[key][event]();
 				}
+				// console.log(event);
 				contexts[key].on(event, function() {
 					queue.push(rule, (err, data) => {
 						completedRules++;
@@ -169,12 +207,11 @@ module.exports = function(options) {
 		})
 	}
 
-	queue.drain = function() {
-		console.log(completedRules, totalRules)
-		if( completedRules === totalRules ) {
-			console.log(reporters().toString());
-		}
-	};
+	// queue.drain = function() {
+	// 	if( completedRules === totalRules ) {
+	// 		console.log(reporters().toString());
+	// 	}
+	// };
 
 	const api = {
 		queue : queue,

@@ -14,8 +14,8 @@ const Rule = BackBone.Model.extend({
 		messaging : {
 			success  : 'The test passed successfully',
 			fail     : 'The test failed',
-			warning  : 'A warning was thrown',
-			error    : 'An error was thrown',
+			// warning  : 'A warning was thrown',
+			// error    : 'An error was thrown',
 			howtofix : 'Visit https://github.com/nielse63/launch-checklist for more information.'
 		},
 		context : '',
@@ -37,17 +37,17 @@ const Rule = BackBone.Model.extend({
 
 	// backbone methods
 	initialize() {
-		this.on('change:messaging', () => {
-			const messaging = this.get('messaging');
-			const defaults = this.defaults.messaging;
-			Object.keys( messaging ).forEach((key) => {
-				const value = messaging[key];
-				if( ! value ) {
-					messaging[key] = defaults[key];
-				}
-			})
-			this.set('messaging', messaging);
-		})
+		// this.on('change:messaging', () => {
+		// 	const messaging = this.get('messaging');
+		// 	const defaults = this.defaults.messaging;
+		// 	Object.keys( messaging ).forEach((key) => {
+		// 		const value = messaging[key];
+		// 		if( ! value ) {
+		// 			messaging[key] = defaults[key];
+		// 		}
+		// 	})
+		// 	this.set('messaging', messaging);
+		// })
 	}
 });
 

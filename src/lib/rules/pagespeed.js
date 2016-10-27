@@ -13,8 +13,6 @@ module.exports = {
 	messaging : {
 		success  : '',
 		fail     : '',
-		warning  : '',
-		error    : '',
 		howtofix : ''
 	},
 	context      : 'WordPress',

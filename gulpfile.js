@@ -71,18 +71,7 @@ gulp.task('template', ['images', 'sass', 'babel:reporters'], () => {
 // Watch files for changes & reload
 gulp.task('watch', (done) => {
 	gulp.watch(['src/lib/**/*.js'], ['lib:babel']);
-	gulp.watch(['ssrc/test/**/*.js'], ['test:babel']);
-	gulp.watch([
-		'tasks/**/*.js',
-		'gulpfile.js'
-		], ['internal:babel']);
-	gulp.watch(['src/bin/**/*.js'], ['bin:babel']);
-	// 	['watch:lib'],
-	// 	['watch:bin'],
-	// 	['watch:internal'],
-	// 	['watch:test'],
-	// 	done
-	// );
+	gulp.watch(['tasks/**/*.js', 'gulpfile.js'], ['internal:babel']);
 });
 
 // Load custom tasks from the `tasks` directory

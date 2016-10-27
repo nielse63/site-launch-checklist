@@ -1,29 +1,45 @@
 
+var url = require('url');
+var request = require('request');
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
 module.exports = {
-	id   : 'back-links',
-	name : 'Back Links',
+	id   : 'xml-sitemap',
+	name : 'XML Sitemap',
 	docs : {
-		description : 'Looks for a link back to the creators homepage',
-		category    : 'General'
+		description : 'Looks for an xml sitemap, and creates one if none is found',
+		category    : 'SEO'
 	},
 	messaging : {
-		success  : '',
-		fail     : '',
-		warning  : '',
-		error    : '',
+		success  : 'A valid xml sitemap was found',
+		fail     : 'Unable not find a valid xml sitemap',
 		howtofix : ''
 	},
-	context      : 'HTML',
-	triggerEvent : 'change:DOMTree',
+	context      : 'WordPress',
+	triggerEvent : 'change:siteurl',
 	output       : {
 		type  : '',
 		value : ''
 	},
 	test(model) {
+
+		var urls = {
+			home : model.get('siteurl'),
+		};
+		var urlObject = url.parse(urls.home);
+		urls.sitemap = urlObject.hostname + '/sitemap.xml';
+
+		return new Promise((resolve, reject) => {
+			request.get(urls.sitemap, (err, res, body) => {
+				if( err || res.statusCode !== 200 ) {
+					reject(err || res);
+				}
+				console.log(body);
+			});
+		});
 
 		// variables should be defined here
 
@@ -36,19 +52,5 @@ module.exports = {
 		//----------------------------------------------------------------------
 		// Public
 		//----------------------------------------------------------------------
-
-		if( model ) {
-			return true;
-		}
-		return false;
 	}
-	// test() {
-	// 	return $('[href*="cliquestudios.com"]').length && $('[href*="cliquestudios.com"]').attr('href');
-	// },
-	// format() {
-	// 	return {
-	// 		name   : this.name,
-	// 		values : this.results
-	// 	};
-	// }
 };

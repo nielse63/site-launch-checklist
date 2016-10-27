@@ -1,4 +1,7 @@
 
+var $ = require('cheerio')
+var url = require('url')
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
@@ -11,10 +14,8 @@ module.exports = {
 		category    : 'General'
 	},
 	messaging : {
-		success  : '',
-		fail     : '',
-		warning  : '',
-		error    : '',
+		success  : 'All social media links are valid',
+		fail     : 'Some social media links are pointing to the incorrect URL.',
 		howtofix : ''
 	},
 	context      : 'HTML',
@@ -26,6 +27,32 @@ module.exports = {
 	test(model) {
 
 		// variables should be defined here
+		const links = [
+			'facebook.com',
+			'twitter.com',
+			'instagram.com',
+			'youtube.com',
+			'linkedin.com'
+		];
+		const $body = model.get('DOMTree')
+		var tmpArray = [];
+		$body.find('a[href]').each((i, item) => {
+			var href = $(item).attr('href');
+			var matches = links.filter((link) => {
+				return href.indexOf( link ) > -1;
+			})
+			if( matches.length ) {
+				tmpArray = tmpArray.concat(href);
+			}
+		})
+		var output = {
+			error : tmpArray.filter((href) => {
+				return ! url.parse(href).path || url.parse(href).path === '/';
+			}),
+			success : tmpArray.filter((href) => {
+				return url.parse(href).path && url.parse(href).path !== '/';
+			})
+		};
 
 		//----------------------------------------------------------------------
 		// Helpers
@@ -37,38 +64,9 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		if( model ) {
-			return true;
+		if( output.error.length ) {
+			return output;
 		}
-		return false;
+		return true;
 	}
-	// test() {
-	// 	const links = [
-	// 		'facebook.com',
-	// 		'twitter.com',
-	// 		'instagram.com',
-	// 		'youtube.com',
-	// 		'linkedin.com'
-	// 	];
-	// 	const output = [];
-	// 	links.forEach((link) => {
-	// 		const $links = $(`a[href*="${ link }"]`);
-	// 		if( ! $links.length ) {
-	// 			return;
-	// 		}
-	// 		$links.each((i, element) => {
-	// 			const href = $(element).attr('href');
-	// 			if( output.indexOf(href) < 0 ) {
-	// 				output.push( $(element).attr('href') );
-	// 			}
-	// 		});
-	// 	});
-	// 	return output;
-	// },
-	// format() {
-	// 	return {
-	// 		name   : this.name,
-	// 		values : this.results
-	// 	};
-	// }
 };

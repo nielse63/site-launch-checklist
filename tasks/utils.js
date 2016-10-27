@@ -3,6 +3,7 @@ const shelljs = require('shelljs');
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const del = require('del');
+var plumber = require('gulp-plumber');
 
 module.exports.eslint = function(inDir) {
 	let _inDir = inDir;
@@ -16,6 +17,7 @@ module.exports.eslint = function(inDir) {
 
 module.exports.babel = function(inDir, outDir) {
 	return gulp.src(inDir)
+		.pipe(plumber())
 		.pipe(babel())
 		.pipe(gulp.dest(outDir));
 };

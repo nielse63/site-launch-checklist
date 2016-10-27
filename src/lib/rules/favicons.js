@@ -13,12 +13,10 @@ module.exports = {
 	messaging : {
 		success  : '',
 		fail     : '',
-		warning  : '',
-		error    : '',
 		howtofix : ''
 	},
-	context      : 'WordPress',
-	triggerEvent : 'change:siteurl',
+	context      : 'HTML',
+	triggerEvent : 'change:DOMTree',
 	output       : {
 		type  : '',
 		value : ''

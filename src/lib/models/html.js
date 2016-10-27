@@ -6,7 +6,7 @@ const $ = require('cheerio');
 
 const HTML = BackBone.Model.extend({
 	defaults : {
-		url     : '',
+		page_url     : '',
 		DOMTree : null
 	},
 	getDOMTree(url) {
@@ -23,20 +23,24 @@ const HTML = BackBone.Model.extend({
 				utils.warn(res.statusCode);
 			}
 			this.set({
+				HTML : body,
 				DOMTree : $(body)
 			});
 		});
 	},
 	onChangeTree() {
+		// console.trace(this);
 		utils.info('Finished getting site HTML');
 	},
 	onChangeURL() {
+		// console.trace(this);
 		utils.info('Getting compiled HTML');
-		this.getDOMTree( this.get('url') );
+		this.getDOMTree( this.get('page_url') );
 	},
 	initialize() {
+		// console.trace(this);
 		this.on('change:DOMTree', this.onChangeTree)
-		this.on('change:url', this.onChangeURL)
+		this.on('change:page_url', this.onChangeURL)
 	}
 });
 module.exports = exports = HTML;

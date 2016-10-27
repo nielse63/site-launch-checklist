@@ -13,8 +13,6 @@ module.exports = {
 	messaging : {
 		success  : '',
 		fail     : '',
-		warning  : '',
-		error    : '',
 		howtofix : ''
 	},
 	context      : 'WordPress',
@@ -24,6 +22,9 @@ module.exports = {
 		value : ''
 	},
 	test(model) {
+
+		// variables should be defined here
+		const plugins = model.get('plugins')
 
 		//----------------------------------------------------------------------
 		// Helpers
@@ -35,10 +36,9 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		const plugins = model.get('plugins')
 		if( ! plugins || ! plugins.length ) {
-			return reject('No plugins are installed')
+			return []
 		}
-		resolve(plugins);
+		return plugins
 	}
 };

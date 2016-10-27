@@ -11,7 +11,13 @@ gulp.task('lib:clean', () => {
 });
 
 gulp.task('lib:babel', () => {
-	return utils.babel(inDir, outDir);
+	var babelIn = [
+		'!src/reporters/**/*',
+		'!src/templates/**/*',
+		'!src/reporters/**/*',
+	];
+	babelIn.push(inDir)
+	return utils.babel(babelIn, outDir);
 });
 
 gulp.task('lib:eslint', () => {

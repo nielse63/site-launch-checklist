@@ -1,4 +1,6 @@
 
+var $ = require('cheerio')
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
@@ -11,10 +13,8 @@ module.exports = {
 		category    : 'Accessibility'
 	},
 	messaging : {
-		success  : '',
-		fail     : '',
-		warning  : '',
-		error    : '',
+		success  : 'All your <a> tags include the [title] attribute',
+		fail     : '<a> tags were found without the [title] attribute',
 		howtofix : ''
 	},
 	context      : 'HTML',
@@ -26,6 +26,11 @@ module.exports = {
 	test(model) {
 
 		// variables should be defined here
+		const $body = model.get('DOMTree')
+		var output = [];
+		$body.find('a:not([title])').each((i, item) => {
+			output.push( $.html(item).trim() );
+		})
 
 		//----------------------------------------------------------------------
 		// Helpers
@@ -37,9 +42,9 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		if( model ) {
+		if( ! output.length ) {
 			return true;
 		}
-		return false;
+		return output;
 	}
 };

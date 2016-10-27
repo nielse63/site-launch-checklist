@@ -23,9 +23,6 @@ const Server = BackBone.Model.extend({
 	},
 	initialize() {
 		this.on('change:hostname', this.onHostnameChange);
-		// this.on('change', function() {
-		// 	console.log(this);
-		// })
 	}
 });
 module.exports = exports = Server;

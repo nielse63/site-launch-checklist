@@ -1,4 +1,6 @@
 
+var $ = require('cheerio')
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
@@ -11,10 +13,8 @@ module.exports = {
 		category    : 'Accessibility'
 	},
 	messaging : {
-		success  : '',
-		fail     : '',
-		warning  : '',
-		error    : '',
+		success  : 'All <img> tags have an [alt] attribute',
+		fail     : 'Some of your <img> tags don\'t have an [alt] attribute.',
 		howtofix : ''
 	},
 	context      : 'HTML',
@@ -24,6 +24,13 @@ module.exports = {
 		value : ''
 	},
 	test(model) {
+
+		// variables should be defined here
+		const $body = model.get('DOMTree')
+		var output = [];
+		$body.find('img:not([alt])').each((i, item) => {
+			output.push( $.html(item).trim() );
+		})
 
 		// variables should be defined here
 
@@ -37,9 +44,9 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		if( model ) {
+		if( ! output.length ) {
 			return true;
 		}
-		return false;
+		return output;
 	}
 };

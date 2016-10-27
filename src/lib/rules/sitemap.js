@@ -1,4 +1,7 @@
 
+var url = require('url');
+var request = require('request');
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
@@ -7,14 +10,12 @@ module.exports = {
 	id   : 'sitemap',
 	name : 'Sitemap',
 	docs : {
-		description : 'Looks for a sitemap, and creates one if none is found',
+		description : 'Looks for an html sitemap page.',
 		category    : 'SEO'
 	},
 	messaging : {
-		success  : '',
-		fail     : '',
-		warning  : '',
-		error    : '',
+		success  : 'A valid html sitemap was found',
+		fail     : 'Unable not find a valid html sitemap',
 		howtofix : ''
 	},
 	context      : 'WordPress',
@@ -24,6 +25,21 @@ module.exports = {
 		value : ''
 	},
 	test(model) {
+
+		var urls = {
+			home : model.get('siteurl'),
+		};
+		var urlObject = url.parse(urls.home);
+		urls.sitemap = urlObject.hostname + '/sitemap.xml';
+
+		return new Promise((resolve, reject) => {
+			request.get(urls.sitemap, (err, res, body) => {
+				if( err || res.statusCode !== 200 ) {
+					reject(err || res);
+				}
+				console.log(body);
+			});
+		});
 
 		// variables should be defined here
 
@@ -36,32 +52,5 @@ module.exports = {
 		//----------------------------------------------------------------------
 		// Public
 		//----------------------------------------------------------------------
-
-		if( model ) {
-			return true;
-		}
-		return false;
 	}
-	// test() {
-	// 	const get = url.resolve(json.site.siteurl, 'sitemap.xml');
-	// 	return new Promise((resolve, reject) => {
-	// 		request(get, (err, res, body) => {
-	// 			if( err ) {
-	// 				reject(err);
-	// 				return;
-	// 			}
-	// 			if( res.statusCode !== 200 ) {
-	// 				reject('sitemap.xml not found.');
-	// 				return;
-	// 			}
-	// 			resolve(body.trim());
-	// 		});
-	// 	});
-	// },
-	// format() {
-	// 	return {
-	// 		name   : this.name,
-	// 		values : `<pre>${ this.results }</pre>`
-	// 	}
-	// }
 };
