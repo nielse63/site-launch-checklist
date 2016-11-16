@@ -9,7 +9,9 @@ const WordPress = BackBone.Model.extend({
 	defaults : {
 		url     : '',
 		cwd     : '',
-		docroot : ''
+		docroot : '',
+		options : {},
+		plugins : []
 	},
 
 	getSiteData() {

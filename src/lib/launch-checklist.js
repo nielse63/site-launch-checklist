@@ -36,7 +36,7 @@ function getServerData() {
 			network  : os.networkInterfaces()['lo0']
 		});
 
-		shelljs.exec(`php -f ${ paths.bin }/server.php ABSPATH=${ paths.wp.abspath}`, {
+		shelljs.exec(`php -f ${ paths.bin }/commands/server.php ABSPATH=${ paths.wp.abspath}`, {
 			silent : true,
 			async  : true
 		}, (code, stdout) => {
@@ -110,13 +110,13 @@ function runTestsForContext(ctx) {
 			}
 		}
 
-		const ignore = ['xml-sitemap', 'wordpress-plugins', 'robotstxt', 'pagespeed', 'all-in-one-security-settings']
+		// const ignore = ['all-in-one-security-settings']
 		rules.forEach((rule) => {
-			if(ignore.indexOf(rule.id) > -1) {
-				count--
-				return
-			}
-			utils.info(rule.id)
+			// if(ignore.indexOf(rule.id) > -1) {
+			// 	count--
+			// 	return
+			// }
+			// utils.info(rule.id)
 			const test = rule.get('test')
 			let result = test(context);
 			const tmp = result;
@@ -176,7 +176,6 @@ function runHTMLTests() {
 function runWordPressTests() {
 
 	return new Promise((resolve, reject) => {
-		// contexts.WordPress.once('change:docroot', () => {
 		runTestsForContext('WordPress').then(() => {
 			utils.success('Done with WordPress tests')
 
@@ -184,8 +183,6 @@ function runWordPressTests() {
 		}, (err) => {
 			reject(err);
 		})
-		// })
-		// contexts.WordPress.set(globals.settings)
 	})
 }
 
@@ -215,65 +212,4 @@ module.exports = exports = function(options) {
 	runServerRules()
 		.then(runHTMLTests)
 		.then(runWordPressTests)
-
-	// // create test queue
-	// const queue = runTests();
-
-	// // init models and tests
-	// const keys = Object.keys(contexts);
-	// let completedRules = 0;
-	// const totalRules = Rules.length;
-	// if( keys.length ) {
-	// 	keys.forEach((key) => {
-
-	// 		// create new data models
-	// 		contexts[key] = new contexts[key](settings);
-
-	// 		// set up event listeners on rules
-	// 		Rules.where({
-	// 			context : key
-	// 		}).forEach((rule) => {
-	// 			rule.set('model', contexts[key]);
-	// 			const event = rule.get('triggerEvent');
-	// 			if( ! event ) {
-	// 				return;
-	// 			}
-
-	// 			// begin test
-	// 			if( event.indexOf(':') < 0 && contexts[key][event] ) {
-	// 				completedRules++;
-	// 				return contexts[key][event]();
-	// 			}
-	// 			// console.log(event);
-	// 			contexts[key].on(event, () => {
-	// 				queue.push(rule, (err, data) => {
-	// 					completedRules++;
-	// 					if( err ) {
-	// 						return utils.error(err);
-	// 					}
-	// 					utils.success(data);
-	// 				});
-	// 			})
-	// 		});
-	// 	})
-	// }
-
-	// queue.drain = function() {
-	// 	if( completedRules === totalRules ) {
-	// 		console.log(reporters().toString());
-	// 	}
-	// };
-
-	// const api = {
-	// 	queue,
-	// 	models : contexts
-	// };
-
-	// // get server info
-	// getServerData();
-
-	// // get html
-	// getHtmlData(settings);
-
-	return {}
 }

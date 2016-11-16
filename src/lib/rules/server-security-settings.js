@@ -39,7 +39,7 @@ const mod = {
 	context : 'Server',
 	output  : {
 		type  : 'object',
-		value : ''
+		value : {}
 	},
 	failed : false,
 	test(ctx) {

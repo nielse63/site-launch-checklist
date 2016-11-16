@@ -16,7 +16,6 @@ const mod = {
 		howtofix : ''
 	},
 	context : 'WordPress',
-	// triggerEvent : 'change:siteurl',
 	output  : {
 		type  : '',
 		value : ''
@@ -25,6 +24,8 @@ const mod = {
 	test(ctx) {
 
 		// variables should be defined here
+		const options = ctx.get('options')
+		console.log(options)
 
 		//----------------------------------------------------------------------
 		// Helpers

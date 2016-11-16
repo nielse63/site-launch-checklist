@@ -21,7 +21,7 @@ const mod = {
 	},
 	context : 'WordPress',
 	output  : {
-		type  : '',
+		type  : 'string',
 		value : ''
 	},
 	failed : false,
@@ -30,28 +30,43 @@ const mod = {
 		// variables should be defined here
 		const siteurl = ctx.get('url');
 		const urlObject = url.parse(siteurl);
-		const sitemap = `${urlObject.protocol }//${ urlObject.host }/sitemap.xml`;
+		const targetUrl = `${urlObject.protocol }//${ urlObject.host }/sitemap.xml`;
 
 		//----------------------------------------------------------------------
 		// Helpers
 		//----------------------------------------------------------------------
 
 		// any helper functions should go here or else delete this section
+		function getFileContent() {
+			return new Promise((resolve) => {
+				shelljs.exec(`curl --no-keepalive ${ targetUrl}`, {
+					async  : true,
+					silent : true
+				}, (code, stdout, stderr) => {
+					if( code ) {
+						return reject(`${code }: ${ stderr}`);
+					}
+					resolve(stdout);
+				});
+			})
+		}
 
 		//----------------------------------------------------------------------
 		// Public
 		//----------------------------------------------------------------------
 
 		return new Promise((resolve, reject) => {
-			shelljs.exec(`curl -I --no-keepalive ${ sitemap}`, {
-				async  : true,
-				silent : true
-			}, (code, stdout, stderr) => {
-				if( code ) {
-					return reject(`${code }: ${ stderr}`);
+			utils.getHTTPCode(targetUrl).then((data) => {
+				if( data.code > 199 && data.code < 400 ) {
+					return getFileContent().then((content) => {
+						mod.output.value = content.trim()
+						resolve(mod);
+					})
 				}
-				resolve(mod);
-			});
+
+				mod.failed = true
+				resolve(mod)
+			})
 		}, (err) => {
 			utils.error(err)
 		});

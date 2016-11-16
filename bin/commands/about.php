@@ -33,8 +33,7 @@ function get_env()
 		"os_type"      => php_uname('s'),
 		"os_version"   => php_uname('v'),
 		"os_release"   => php_uname('r'),
-		"machine_type" => php_uname('m'),
-		"ip_address"   => $_SERVER['REMOTE_ADDR'],
+		"machine_type" => php_uname('m')
 	];
 }
 
