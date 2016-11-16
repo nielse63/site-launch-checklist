@@ -113,7 +113,7 @@ function runTestsForContext(ctx) {
 			}
 		}
 
-		const ignore = ['valid-html', 'title-tags', 'social-media', 'meta-tags', 'favicons', 'alt-tags']
+		const ignore = ['valid-html', 'title-tags', 'social-media', 'meta-tags', 'favicons']
 		rules.forEach((rule) => {
 			if(ignore.indexOf(rule.id) > -1) {
 				count--
@@ -125,7 +125,7 @@ function runTestsForContext(ctx) {
 			let tmp = result;
 			if( ! utils.isPromise(result) ) {
 				result = new Promise((_resolve) => {
-					_resolve(rule)
+					_resolve(tmp)
 				}, (err) => {
 					utils.error(err)
 				});

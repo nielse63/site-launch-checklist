@@ -25,6 +25,7 @@ module.exports = {
 		type  : '',
 		value : ''
 	},
+	failed : false,
 	test(ctx) {
 		let urls = {
 			home : ctx.get('siteurl'),

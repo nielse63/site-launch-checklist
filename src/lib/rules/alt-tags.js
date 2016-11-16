@@ -1,11 +1,12 @@
 
 var $ = require('cheerio')
+const utils = require('../utils')
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+const mod = {
 	id   : 'alt-tags',
 	name : 'Alt Tags',
 	docs : {
@@ -18,21 +19,16 @@ module.exports = {
 		howtofix : ''
 	},
 	context      : 'HTML',
-	// triggerEvent : 'change:DOMTree',
 	output       : {
-		type  : '',
-		value : ''
+		type  : 'object',
+		value : {}
 	},
+	failed : false,
 	test(ctx) {
 
 		// variables should be defined here
+		mod.output.value = [];
 		const $body = ctx.get('DOMTree')
-		var output = [];
-		$body.find('img:not([alt])').each((i, item) => {
-			output.push( $.html(item).trim() );
-		})
-
-		// variables should be defined here
 
 		//----------------------------------------------------------------------
 		// Helpers
@@ -44,9 +40,25 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		if( ! output.length ) {
-			return true;
+		let output = {
+			success : [],
+			fail : []
 		}
-		return output;
+		$body.find('img').each((i, item) => {
+			const alt = $(item).attr('alt')
+			const html = $.html(item).trim()
+			if( ! alt ) {
+				output.fail.push(html)
+			} else {
+				output.success.push(html)
+			}
+		})
+
+		mod.failed = !! output.fail.length
+		mod.output.value = output
+
+		return mod
 	}
-};
+}
+
+module.exports = mod

@@ -24,6 +24,7 @@ module.exports = {
 		type  : '',
 		value : ''
 	},
+	failed : false,
 	test(ctx) {
 
 		// variables should be defined here
