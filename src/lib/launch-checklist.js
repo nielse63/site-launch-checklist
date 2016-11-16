@@ -98,8 +98,8 @@ function runTestsForContext(ctx) {
 	return new Promise((resolve) => {
 
 		function callback(data) {
-			// console.log(data);
-			// console.log('*'.repeat(50));
+			console.log(data);
+			console.log('*'.repeat(50));
 			i++;
 			rules.forEach((_rule) => {
 				if( _rule.id === data.id ) {

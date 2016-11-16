@@ -1,10 +1,10 @@
 
-var async = require('async');
-var request = require('request');
-var url = require('url');
-var $ = require('cheerio');
-var utils = require('../utils');
-var _ = require('lodash');
+const async = require('async');
+const request = require('request');
+const url = require('url');
+const $ = require('cheerio');
+const utils = require('../utils');
+const _ = require('lodash');
 
 //------------------------------------------------------------------------------
 // Rule Definition
