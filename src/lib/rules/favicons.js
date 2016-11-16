@@ -1,9 +1,11 @@
 
+const _ = require('lodash')
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+const mod = {
 	id   : 'favicons',
 	name : 'Favicons',
 	docs : {
@@ -11,20 +13,69 @@ module.exports = {
 		category    : 'General'
 	},
 	messaging : {
-		success  : '',
-		fail     : '',
-		howtofix : ''
+		success  : 'All the correct favicons were found',
+		fail     : 'Unable to meet all the favicon requirements:\r\n<%= messages %>',
+		howtofix : [
+			'The ideal favicon package would look something like this:',
+			'\t<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">',
+			'\t<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">',
+			'\t<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">',
+			'\t<link rel="manifest" href="/manifest.json">',
+			'\t<meta name="theme-color" content="#ffffff">',
+			'\t<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">'
+		].join('\r\n')
 	},
 	context      : 'HTML',
-	// triggerEvent : 'change:DOMTree',
 	output       : {
-		type  : '',
-		value : ''
+		type  : 'object',
+		value : {}
 	},
 	failed : false,
 	test(ctx) {
 
+		/*
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+		<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+		<link rel="manifest" href="/manifest.json">
+		<meta name="theme-color" content="#ffffff">
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+		*/
+
 		// variables should be defined here
+		const $body = ctx.get('DOMTree')
+		let attributes = {
+			iOS : {
+				selectors : ['[rel="apple-touch-icon"][sizes="180x180"]'],
+				example : '<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">',
+				found : true,
+				message : 'Missing iOS Apple touch icon'
+			},
+			Desktop : {
+				selectors : [
+				'[rel="icon"][sizes="32x32"]',
+				'[rel="icon"][sizes="16x16"]',
+				],
+				example : '<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">\r\n<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">',
+				found : true,
+				message : 'One, or both, of the favicon declarations weren\'t found'
+			},
+			Android : {
+				selectors : [
+				'[rel="manifest"]',
+				'[name="theme-color"]',
+				],
+				example : '<link rel="manifest" href="/manifest.json">\r\n<meta name="theme-color" content="#ffffff">',
+				found : true,
+				message : 'The site\'s manifest.json file and/or theme color were not found'
+			},
+			Safari : {
+				selectors : ['[rel="mask-icon"]'],
+				example : '<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">',
+				found : true,
+				message : 'The Safari mask icon, used on the tabs of the browser, wasn\'t declared'
+			},
+		}
 
 		//----------------------------------------------------------------------
 		// Helpers
@@ -36,79 +87,40 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		if( true ) {
-			return true;
+		const keys = Object.keys(attributes)
+		let messages = []
+		keys.forEach((key) => {
+			let info = attributes[key]
+			const selectors = info.selectors
+
+			// find elements
+			selectors.forEach((selector) => {
+				const $element = $body.find(selector)
+
+				info.found = ! info.found ? false : !! $element.length
+			})
+
+			if( ! info.found ) {
+				messages.push(' - ' + info.message)
+			}
+
+			// set back on object
+			attributes[key] = info
+		})
+
+		// set the value
+		mod.output.value = attributes
+
+		if( messages.length ) {
+			const compiled = _.template( mod.messaging.fail )
+			mod.messaging.fail = compiled({
+				messages : messages.join('\r\n')
+			})
+			mod.failed = true
 		}
-		return false;
+
+		return mod;
 	}
-	// test() {
-	// 	if( json.env.ip_address === '127.0.0.1' ) {
-	// 		utils.warn('!! Cannot validate favicons on a local server.');
-	// 		return false;
-	// 	}
+}
 
-	// 	const options = {
-	// 		url     : `https://realfavicongenerator.p.mashape.com/favicon/analysis?site=${ encodeURIComponent( json.site.siteurl )}`,
-	// 		headers : {
-	// 			'X-Mashape-Key' : process.env.MASHAPE_KEY || 'f64a016361ce93bbcf34527549a23f13fa0eb72f',
-	// 			'Accept'        : 'application/json'
-	// 		}
-	// 	};
-
-	// 	const output = {};
-	// 	// const object = {};
-	// 	let passed = true;
-
-	// 	return new Promise((resolve, reject) => {
-	// 		request(options, (err, res, body) => {
-	// 			if(err) {
-	// 				return reject(err);
-	// 			}
-
-	// 			const _json = JSON.parse(body);
-	// 			Object.keys(_json).forEach((key) => {
-	// 				const messages = _json[key].messages;
-	// 				output[key] = messages;
-	// 				if( messages.no_icon || messages.error ) {
-	// 					passed = false;
-	// 				}
-	// 			});
-
-	// 			if( passed ) {
-	// 				resolve(output);
-	// 			} else {
-	// 				reject(output);
-	// 			}
-	// 		});
-	// 	});
-	// },
-	// format() {
-	// 	const output = {};
-	// 	for(const key in this.results) {
-	// 		if( ! this.results.hasOwnProperty(key) ) {
-	// 			continue;
-	// 		}
-	// 		const data = this.results[key];
-	// 		const deviceArray = [];
-	// 		for(const errorType in data) {
-	// 			if( ! data.hasOwnProperty(errorType) ) {
-	// 				continue;
-	// 			}
-	// 			const content = [];
-	// 			let tag = '<p>';
-	// 			if( errorType === 'no_icon' || errorType === 'error' ) {
-	// 				tag = '<p class="icon-error">';
-	// 			}
-	// 			data[errorType].forEach((array) => {
-	// 				content.push(`${tag + array[0] }</p>`);
-	// 			});
-	// 			deviceArray.push(content.join(''));
-	// 		}
-	// 		output[key] = deviceArray;
-	// 	}
-	// 	return {
-	// 		name   : this.name,
-	// 		values : output
-	// 	};
-	// }
-};
+module.exports = mod

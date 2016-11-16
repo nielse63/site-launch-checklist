@@ -98,8 +98,8 @@ function runTestsForContext(ctx) {
 	return new Promise((resolve) => {
 
 		function callback(data) {
-			console.log(data);
-			console.log('*'.repeat(50));
+			// console.log(data);
+			// console.log('*'.repeat(50));
 			i++;
 			rules.forEach((_rule) => {
 				if( _rule.id === data.id ) {
@@ -113,7 +113,7 @@ function runTestsForContext(ctx) {
 			}
 		}
 
-		const ignore = ['valid-html', 'title-tags', 'social-media', 'meta-tags', 'favicons']
+		const ignore = ['valid-html', 'title-tags', 'social-media', 'meta-tags']
 		rules.forEach((rule) => {
 			if(ignore.indexOf(rule.id) > -1) {
 				count--
