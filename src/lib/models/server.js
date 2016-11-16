@@ -2,7 +2,7 @@
 const BackBone = require('backbone');
 const utils = require('../utils');
 
-const Server = BackBone.Model.extend({
+module.exports = exports = BackBone.Model.extend({
 	defaults : {
 		hostname     : '',
 		type         : '',
@@ -18,11 +18,10 @@ const Server = BackBone.Model.extend({
 		os_release   : '',
 		machine_type : ''
 	},
-	onHostnameChange() {
-		utils.success('Finished getting server information.');
-	},
-	initialize() {
-		this.on('change:hostname', this.onHostnameChange);
-	}
+	// onHostnameChange() {
+	// 	utils.success('Finished getting server information.');
+	// },
+	// initialize() {
+	// 	this.on('change:hostname', this.onHostnameChange);
+	// }
 });
-module.exports = exports = Server;

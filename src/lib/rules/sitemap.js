@@ -1,6 +1,7 @@
 
-var url = require('url');
-var request = require('request');
+const url = require('url');
+const request = require('request');
+const shelljs = require('shelljs');
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -25,20 +26,38 @@ module.exports = {
 		value : ''
 	},
 	test(model) {
+		// model = model || this;
+		// console.log(model);
 
-		var urls = {
+		let urls = {
 			home : model.get('siteurl'),
 		};
-		var urlObject = url.parse(urls.home);
-		urls.sitemap = urlObject.hostname + '/sitemap.xml';
+		// console.log(urls);
+		const urlObject = url.parse(urls.home);
+		urls.sitemap = urlObject.protocol + '//' + urlObject.host + '/sitemap.xml';
 
 		return new Promise((resolve, reject) => {
-			request.get(urls.sitemap, (err, res, body) => {
-				if( err || res.statusCode !== 200 ) {
-					reject(err || res);
-				}
-				console.log(body);
-			});
+			// shelljs.exec('curl -I ' + urls.sitemap, {
+			// 	async : true,
+			// 	silent : true
+			// }, (err, res, body) => {
+			// 	if( err ) {
+			// 		return reject(err);
+			// 	}
+			// 	console.log(res);
+			// 	resolve('howdy');
+			// });
+			console.log('curl -I ' + urls.sitemap);
+			resolve('howdy');
+			// request.get(urls.sitemap, (err, res, body) => {
+			// 	console.log(err);
+			// 	if( err || res.statusCode !== 200 ) {
+			// 		reject(err || res);
+			// 	}
+			// 	// console.log(body);
+			// });
+		}, (err) => {
+			console.log('=> ERROR: ' + err)
 		});
 
 		// variables should be defined here

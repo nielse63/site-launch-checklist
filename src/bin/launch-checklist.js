@@ -28,22 +28,22 @@ function slugify(text) {
 }
 
 function writeFile(tpl, id, type) {
-	var filename = path.resolve( paths.rules, id + '.js' );
+	let filename = path.resolve( paths.rules, `${id }.js` );
 	if( type === 'md' ) {
-		filename = path.resolve( paths.docs, id + '.md' );
+		filename = path.resolve( paths.docs, `${id }.md` );
 	}
-	return fs.writeFile(filename, tpl, function(err) {
-		if(err) throw err;
+	return fs.writeFile(filename, tpl, (err) => {
+		if(err) {throw err;}
 	});
 }
 
 function generateRule(options) {
-	var templatesDir = path.resolve( paths.root, 'src', 'templates' );
-	fs.readdirSync(templatesDir).map(function(file) {
-		var filepath = path.resolve( templatesDir, file );
-		var content = fs.readFileSync(filepath, 'utf8');
-		var template = _.template(content);
-		var tpl = template(options);
+	const templatesDir = path.resolve( paths.root, 'src', 'templates' );
+	fs.readdirSync(templatesDir).map((file) => {
+		const filepath = path.resolve( templatesDir, file );
+		const content = fs.readFileSync(filepath, 'utf8');
+		const template = _.template(content);
+		const tpl = template(options);
 
 		writeFile(tpl, options.id, path.extname(file).substr(1));
 	});
@@ -67,7 +67,7 @@ program
 	.command('rule')
 	.option('-c, --create', 'Create a new rule')
 	.option('-l, --list', 'List all rules')
-	.action(function(create) {
+	.action((create) => {
 		if( create ) {
 			return inquirer.prompt([{
 				name    : 'name',

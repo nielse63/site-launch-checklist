@@ -1,46 +1,71 @@
 
 const BackBone = require('backbone');
 const request = require('request');
+const path = require('path');
+const shelljs = require('shelljs');
 const utils = require('../utils');
 const $ = require('cheerio');
 
-const HTML = BackBone.Model.extend({
+module.exports = exports = BackBone.Model.extend({
 	defaults : {
-		page_url     : '',
-		DOMTree : null
+		page_url : '',
+		docroot : '',
+		DOMTree  : null
 	},
-	getDOMTree(url) {
-		if( ! url ) {
-			return;
+	getDOMTree() {
+		utils.info('updated docroot on html');
+		// if( ! url ) {
+		// 	return;
+		// }
+		const docroot = this.get('docroot');
+		let index = docroot;
+		const _this = this;
+		if( docroot.indexOf('index.php') < 0 ) {
+			index = path.join(docroot, 'index.php');
 		}
-		// console.log(url);
-		request.get(url, (err, res, body) => {
-			if( err ) {
-				utils.error(err);
+		shelljs.exec(`php-cgi -f ${ index }`, {
+			silent : true,
+			async  : true
+		}, (code, stdout) => {
+			// console.log(code);
+			if( code ) {
 				return;
 			}
-			if( res.statusCode !== 200 ) {
-				utils.warn(res.statusCode);
-			}
-			this.set({
-				HTML : body,
-				DOMTree : $(body)
+			_this.set({
+				HTML : stdout,
+				DOMTree : $(stdout)
 			});
+			// let data = {};
+			// try {
+			// 	data = JSON.parse(stdout);
+			// } catch(e) {
+			// 	return reject(e)
+			// }
+			// resolve(data);
 		});
+		// request.get(url, (err, res, body) => {
+		// 	if( err ) {
+		// 		utils.error(err);
+		// 		return;
+		// 	}
+		// 	if( res.statusCode !== 200 ) {
+		// 		utils.warn(res.statusCode);
+		// 	}
+		// 	this.set({
+		// 		HTML : body,
+		// 		DOMTree : $(body)
+		// 	});
+		// });
 	},
-	onChangeTree() {
-		// console.trace(this);
-		utils.info('Finished getting site HTML');
-	},
-	onChangeURL() {
-		// console.trace(this);
-		utils.info('Getting compiled HTML');
-		this.getDOMTree( this.get('page_url') );
-	},
+	// onChangeTree() {
+	// 	utils.info('Finished getting site HTML');
+	// },
+	// onChangeURL() {
+	// 	// utils.info('Getting compiled HTML');
+	// 	this.getDOMTree();
+	// },
 	initialize() {
-		// console.trace(this);
-		this.on('change:DOMTree', this.onChangeTree)
-		this.on('change:page_url', this.onChangeURL)
+		// this.on('change:DOMTree', this.onChangeTree)
+		this.on('change:docroot', this.getDOMTree)
 	}
 });
-module.exports = exports = HTML;

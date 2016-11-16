@@ -15,8 +15,8 @@ function getWPConfig(dir) {
 	return '';
 }
 
-function getDocRoot() {
-	let cwd = currentDir;
+function getDocRoot(dir) {
+	let cwd = dir || currentDir;
 	const sep = path.sep;
 	const pathArray = cwd.split(sep);
 
@@ -32,6 +32,7 @@ function getDocRoot() {
 }
 
 module.exports.getWPConfig = getWPConfig;
+module.exports.getDocRoot = getDocRoot;
 
 module.exports.defaults = {
 	url         : '',

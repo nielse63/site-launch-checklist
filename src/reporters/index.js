@@ -1,6 +1,6 @@
 
-var table = require('./table');
+const table = require('./table');
 
 module.exports = {
-	table : table,
+	table
 };

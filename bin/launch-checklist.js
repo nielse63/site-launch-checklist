@@ -29,7 +29,9 @@ function writeFile(tpl, id, type) {
 		filename = path.resolve(paths.docs, id + '.md');
 	}
 	return fs.writeFile(filename, tpl, function (err) {
-		if (err) throw err;
+		if (err) {
+			throw err;
+		}
 	});
 }
 

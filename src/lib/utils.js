@@ -3,6 +3,7 @@ const clc = require('cli-color');
 const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
+const shelljs = require('shelljs');
 
 const colors = {
 	sky        : clc.cyanBright,
@@ -76,3 +77,21 @@ exports.writeFileSync = function(_path, contents) {
 		fs.appendFileSync(_path, contents);
 	});
 };
+
+exports.isPromise = function(object) {
+	return {}.toString.call(object) === '[object Promise]';
+};
+
+exports.getHeaders = function(url) {
+	return new Promise((resolve, reject) => {
+		shelljs.exec('curl -I ' + url, {
+			async : true,
+			silent : true
+		}, (err, res, body) => {
+			if( err ) {
+				return reject(err);
+			}
+			resolve(res);
+		});
+	});
+}
