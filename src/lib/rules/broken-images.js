@@ -3,50 +3,40 @@ var async = require('async');
 var request = require('request');
 var url = require('url');
 var $ = require('cheerio');
+var utils = require('../utils');
+var _ = require('lodash');
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+const mod = {
 	id   : 'broken-images',
-	name : 'Broken Images',
+	name : 'Broken Links',
 	docs : {
-		description : 'Ensures that there are no broken images on the site',
+		description : 'Searches the homepage for broken images',
 		category    : 'General'
 	},
 	messaging : {
 		success  : 'No broken images were found',
-		fail     : 'Several broken images were found on the site',
+		fail     : 'Broken images here found on the homepage: <%= images %>',
 		howtofix : ''
 	},
 	context      : 'HTML',
-	// triggerEvent : 'change:DOMTree',
 	output       : {
-		type  : '',
+		type  : 'object',
 		value : ''
 	},
+	failed : false,
 	test(ctx) {
 
 		// variables should be defined here
 		const pageURL = ctx.get('url')
 		const protocol = url.parse(pageURL).protocol;
+		const host = url.parse(pageURL).host;
+		const base = protocol + '//' + host;
 		const $body = ctx.get('DOMTree')
-		var array = [];
-		$body.find('img[src]').each((i, item) => {
-			array.push( $(item).attr('src') );
-		})
-
-		var queue = async.queue((src, callback) => {
-			request.get(src, (err, res, body) => {
-				if( err ) {
-					return callback(err, src);
-				}
-				callback(null, src);
-			});
-		}, 10);
-
-		// variables should be defined here
+		let array = [];
 
 		//----------------------------------------------------------------------
 		// Helpers
@@ -65,30 +55,52 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
+		$body.find('img[src]').each((i, item) => {
+			const _src = $(item).attr('src');
+			const urlObject = url.parse(_src);
+			let src = urlObject.protocol + '//' + urlObject.host + urlObject.path
+			src = parseSrc(src);
+			if( array.indexOf(src) < 0 ) {
+				array.push(src);
+			}
+		})
+
 		return new Promise((resolve, reject) => {
-			var total = array.length;
-			var count = 0;
-			var output = {
+			const total = array.length;
+			let count = 0;
+			let output = {
 				success : [],
 				fail : []
 			};
 
 			array.forEach((src) => {
-				src = parseSrc(src);
-				queue.push(src, (err, data) => {
-					count++;
+				utils.getHTTPCode(src).then((res) => {
+					if( res.code > 199 && res.code < 400 ) {
+						output.success.push(res)
+					} else {
+						output.fail.push(res)
+					}
 
-					var method = err ? output.fail : output.success;
-					method.push( src );
+					count++
 
 					if( count === total ) {
+						mod.output.value = output
 						if( output.fail.length ) {
-							return reject( output );
+							mod.failed = true
+							const images = output.fail.map((link) => {
+								return '- ' + link
+							}).join('\r\n')
+							const compiled = _.template(mod.messaging.fail)
+							mod.messaging.fail = compiled({
+								images : images
+							})
 						}
-						resolve( output );
+						resolve(mod);
 					}
 				})
 			});
 		});
 	}
 };
+
+module.exports = mod

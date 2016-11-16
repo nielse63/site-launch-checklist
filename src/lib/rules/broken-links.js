@@ -64,9 +64,9 @@ const mod = {
 		})
 
 		return new Promise((resolve, reject) => {
-			var total = array.length;
-			var count = 0;
-			var output = {
+			const total = array.length;
+			let count = 0;
+			let output = {
 				success : [],
 				fail : []
 			};
