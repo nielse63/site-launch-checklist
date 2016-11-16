@@ -113,7 +113,7 @@ function runTestsForContext(ctx) {
 			}
 		}
 
-		const ignore = ['valid-html', 'title-tags', 'social-media']
+		const ignore = ['valid-html', 'title-tags']
 		rules.forEach((rule) => {
 			if(ignore.indexOf(rule.id) > -1) {
 				count--

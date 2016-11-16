@@ -1,12 +1,12 @@
 
-var $ = require('cheerio')
-var url = require('url')
+const $ = require('cheerio')
+const url = require('url')
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+const mod = {
 	id   : 'social-media',
 	name : 'Social Media',
 	docs : {
@@ -19,10 +19,9 @@ module.exports = {
 		howtofix : ''
 	},
 	context      : 'HTML',
-	// triggerEvent : 'change:DOMTree',
 	output       : {
-		type  : '',
-		value : ''
+		type  : 'object',
+		value : {}
 	},
 	failed : false,
 	test(ctx) {
@@ -35,25 +34,10 @@ module.exports = {
 			'youtube.com',
 			'linkedin.com'
 		];
+		const selector = links.map((link) => {
+			return 'a[href*="' + link + '"]'
+		}).join(', ')
 		const $body = ctx.get('DOMTree')
-		var tmpArray = [];
-		$body.find('a[href]').each((i, item) => {
-			var href = $(item).attr('href');
-			var matches = links.filter((link) => {
-				return href.indexOf( link ) > -1;
-			})
-			if( matches.length ) {
-				tmpArray = tmpArray.concat(href);
-			}
-		})
-		var output = {
-			error : tmpArray.filter((href) => {
-				return ! url.parse(href).path || url.parse(href).path === '/';
-			}),
-			success : tmpArray.filter((href) => {
-				return url.parse(href).path && url.parse(href).path !== '/';
-			})
-		};
 
 		//----------------------------------------------------------------------
 		// Helpers
@@ -65,9 +49,31 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		if( output.error.length ) {
-			return output;
+		let tmpArray = [];
+		$body.find(selector).each((i, item) => {
+			var href = $(item).attr('href');
+			var matches = links.filter((link) => {
+				return href.indexOf( link ) > -1;
+			})
+			if( matches.length ) {
+				tmpArray = tmpArray.concat(href);
+			}
+		})
+		const output = {
+			error : tmpArray.filter((href) => {
+				return ! url.parse(href).path || url.parse(href).path === '/';
+			}),
+			success : tmpArray.filter((href) => {
+				return url.parse(href).path && url.parse(href).path !== '/';
+			})
 		}
-		return true;
+
+		// set output data
+		mod.output.value = output
+		mod.failed = !! output.error.length
+
+		return mod;
 	}
-};
+}
+
+module.exports = mod
