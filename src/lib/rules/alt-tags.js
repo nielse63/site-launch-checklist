@@ -1,6 +1,5 @@
 
-var $ = require('cheerio')
-const utils = require('../utils')
+const $ = require('cheerio')
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -18,8 +17,8 @@ const mod = {
 		fail     : 'Some of your <img> tags don\'t have an [alt] attribute.',
 		howtofix : ''
 	},
-	context      : 'HTML',
-	output       : {
+	context : 'HTML',
+	output  : {
 		type  : 'object',
 		value : {}
 	},
@@ -39,9 +38,9 @@ const mod = {
 		// Public
 		//----------------------------------------------------------------------
 
-		let output = {
+		const output = {
 			success : [],
-			fail : []
+			fail    : []
 		}
 		$body.find('img').each((i, item) => {
 			const alt = $(item).attr('alt')

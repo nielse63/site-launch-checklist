@@ -1,7 +1,5 @@
 
 const url = require('url');
-const request = require('request');
-const shelljs = require('shelljs');
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -19,21 +17,20 @@ module.exports = {
 		fail     : 'Unable not find a valid html sitemap',
 		howtofix : ''
 	},
-	context      : 'WordPress',
-	// triggerEvent : 'change:siteurl',
-	output       : {
+	context : 'WordPress',
+	output  : {
 		type  : '',
 		value : ''
 	},
 	failed : false,
 	test(ctx) {
-		let urls = {
-			home : ctx.get('siteurl'),
+		const urls = {
+			home : ctx.get('siteurl')
 		};
 		const urlObject = url.parse(urls.home);
-		urls.sitemap = urlObject.protocol + '//' + urlObject.host + '/sitemap.xml';
+		urls.sitemap = `${urlObject.protocol }//${ urlObject.host }/sitemap.xml`;
 
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			// shelljs.exec('curl -I ' + urls.sitemap, {
 			// 	async : true,
 			// 	silent : true
@@ -44,7 +41,7 @@ module.exports = {
 			// 	console.log(res);
 			// 	resolve('howdy');
 			// });
-			console.log('curl -I ' + urls.sitemap);
+			console.log(`curl -I ${ urls.sitemap}`);
 			resolve('howdy');
 			// request.get(urls.sitemap, (err, res, body) => {
 			// 	console.log(err);
@@ -54,7 +51,7 @@ module.exports = {
 			// 	// console.log(body);
 			// });
 		}, (err) => {
-			console.log('=> ERROR: ' + err)
+			console.log(`=> ERROR: ${ err}`)
 		});
 
 		// variables should be defined here

@@ -1,10 +1,8 @@
 
-var async = require('async');
-var request = require('request');
-var url = require('url');
-var $ = require('cheerio');
-var utils = require('../utils');
-var _ = require('lodash');
+const url = require('url');
+const $ = require('cheerio');
+const utils = require('../utils');
+const _ = require('lodash');
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -22,8 +20,8 @@ const mod = {
 		fail     : 'Broken links here found on the homepage: <%= links %>',
 		howtofix : ''
 	},
-	context      : 'HTML',
-	output       : {
+	context : 'HTML',
+	output  : {
 		type  : 'object',
 		value : ''
 	},
@@ -34,9 +32,9 @@ const mod = {
 		const pageURL = ctx.get('url')
 		const protocol = url.parse(pageURL).protocol;
 		const host = url.parse(pageURL).host;
-		const base = protocol + '//' + host;
+		const base = `${protocol }//${ host}`;
 		const $body = ctx.get('DOMTree')
-		let array = [];
+		const array = [];
 
 		//----------------------------------------------------------------------
 		// Helpers
@@ -56,19 +54,19 @@ const mod = {
 		$body.find('a[href]:not([href^="#"])').each((i, item) => {
 			const _href = $(item).attr('href');
 			const urlObject = url.parse(_href);
-			let href = urlObject.protocol + '//' + urlObject.host + urlObject.path
+			let href = `${urlObject.protocol }//${ urlObject.host }${urlObject.path}`
 			href = parseSrc(href);
 			if( array.indexOf(href) < 0 ) {
 				array.push(href);
 			}
 		})
 
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			const total = array.length;
 			let count = 0;
-			let output = {
+			const output = {
 				success : [],
-				fail : []
+				fail    : []
 			};
 
 			array.forEach((href) => {
@@ -86,11 +84,11 @@ const mod = {
 						if( output.fail.length ) {
 							mod.failed = true
 							const links = output.fail.map((link) => {
-								return '- ' + link
+								return `- ${ link}`
 							}).join('\r\n')
 							const compiled = _.template(mod.messaging.fail)
 							mod.messaging.fail = compiled({
-								links : links
+								links
 							})
 						}
 						resolve(mod);

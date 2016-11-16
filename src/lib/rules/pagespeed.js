@@ -3,7 +3,7 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+const mod = {
 	id   : 'pagespeed',
 	name : 'PageSpeed',
 	docs : {
@@ -15,9 +15,9 @@ module.exports = {
 		fail     : '',
 		howtofix : ''
 	},
-	context      : 'WordPress',
+	context : 'WordPress',
 	// triggerEvent : 'change:siteurl',
-	output       : {
+	output  : {
 		type  : '',
 		value : ''
 	},
@@ -36,10 +36,7 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		if( true ) {
-			return true;
-		}
-		return false;
+		return mod
 	}
 	// test() {
 	// 	const json = site.toJSON();
@@ -73,3 +70,5 @@ module.exports = {
 	// 	});
 	// }
 };
+
+module.exports = mod

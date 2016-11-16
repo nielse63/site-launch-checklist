@@ -25,8 +25,8 @@ const mod = {
 			'\t<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">'
 		].join('\r\n')
 	},
-	context      : 'HTML',
-	output       : {
+	context : 'HTML',
+	output  : {
 		type  : 'object',
 		value : {}
 	},
@@ -35,37 +35,37 @@ const mod = {
 
 		// variables should be defined here
 		const $body = ctx.get('DOMTree')
-		let attributes = {
+		const attributes = {
 			iOS : {
 				selectors : ['[rel="apple-touch-icon"][sizes="180x180"]'],
-				example : '<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">',
-				found : true,
-				message : 'Missing iOS Apple touch icon'
+				example   : '<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">',
+				found     : true,
+				message   : 'Missing iOS Apple touch icon'
 			},
 			Desktop : {
 				selectors : [
-				'[rel="icon"][sizes="32x32"]',
-				'[rel="icon"][sizes="16x16"]',
+					'[rel="icon"][sizes="32x32"]',
+					'[rel="icon"][sizes="16x16"]'
 				],
 				example : '<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">\r\n<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">',
-				found : true,
+				found   : true,
 				message : 'One, or both, of the favicon declarations weren\'t found'
 			},
 			Android : {
 				selectors : [
-				'[rel="manifest"]',
-				'[name="theme-color"]',
+					'[rel="manifest"]',
+					'[name="theme-color"]'
 				],
 				example : '<link rel="manifest" href="/manifest.json">\r\n<meta name="theme-color" content="#ffffff">',
-				found : true,
+				found   : true,
 				message : 'The site\'s manifest.json file and/or theme color were not found'
 			},
 			Safari : {
 				selectors : ['[rel="mask-icon"]'],
-				example : '<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">',
-				found : true,
-				message : 'The Safari mask icon, used on the tabs of the browser, wasn\'t declared'
-			},
+				example   : '<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">',
+				found     : true,
+				message   : 'The Safari mask icon, used on the tabs of the browser, wasn\'t declared'
+			}
 		}
 
 		//----------------------------------------------------------------------
@@ -79,9 +79,9 @@ const mod = {
 		//----------------------------------------------------------------------
 
 		const keys = Object.keys(attributes)
-		let messages = []
+		const messages = []
 		keys.forEach((key) => {
-			let info = attributes[key]
+			const info = attributes[key]
 			const selectors = info.selectors
 
 			// find elements
@@ -92,7 +92,7 @@ const mod = {
 			})
 
 			if( ! info.found ) {
-				messages.push(' - ' + info.message)
+				messages.push(` - ${ info.message}`)
 			}
 
 			// set back on object

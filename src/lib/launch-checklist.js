@@ -138,16 +138,43 @@ function runTestsForContext(ctx) {
 	})
 }
 
-// function updateContext() {
-// 	const tmpContext = {};
-// 	Rules.models.forEach((rule) => {
-// 		const ctx = rule.get('context');
-// 		if( ! tmpContext.hasOwnProperty(ctx) ) {
-// 			tmpContext[ctx] = models[ctx];
-// 		}
-// 	});
-// 	contexts = tmpContext;
-// }
+function runServerRules() {
+	return new Promise((resolve, reject) => {
+		getServerData().then((_serverData) => {
+			const serverData = _.extend(_serverData, settings);
+			contexts.Server.set(serverData);
+
+			// run server tests
+			runTestsForContext('Server').then(() => {
+				utils.success('Done with server tests')
+
+				resolve()
+			}, (err) => {
+				reject(err);
+			});
+
+		}, (err) => {
+			reject(err);
+		});
+	})
+}
+
+function runHTMLTests() {
+	return new Promise((resolve, reject) => {
+		getHtmlData( settings ).then(() => {
+			runTestsForContext('HTML').then(() => {
+				utils.success('Done with HTML tests')
+
+				resolve()
+			}, (err) => {
+				reject(err);
+			})
+
+		}, (err) => {
+			reject(err);
+		})
+	})
+}
 
 module.exports = exports = function(options) {
 	const settings = _.extend(defaults, options);
@@ -162,34 +189,9 @@ module.exports = exports = function(options) {
 	// import all rules
 	importRules();
 
-	// get server data
-	getServerData().then((_serverData) => {
-		const serverData = _.extend(_serverData, settings);
-		contexts.Server.set(serverData);
-
-		// run server tests
-		runTestsForContext('Server').then(() => {
-
-			// get html
-			getHtmlData( settings ).then(() => {
-				console.log('done getting html')
-				runTestsForContext('HTML').then(() => {
-					console.log('done')
-				}, (err) => {
-					utils.error(err);
-				})
-
-			}, (err) => {
-				utils.error(err);
-			})
-
-		}, (err) => {
-			utils.error(err);
-		});
-
-	}, (err) => {
-		utils.error(err);
-	});
+	// chain tests on promises
+	runServerRules()
+		.then(runHTMLTests)
 
 	// // create test queue
 	// const queue = runTests();

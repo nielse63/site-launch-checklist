@@ -3,7 +3,7 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+const mod = {
 	id   : 'robotstxt',
 	name : 'Robots.txt',
 	docs : {
@@ -15,9 +15,9 @@ module.exports = {
 		fail     : '',
 		howtofix : ''
 	},
-	context      : 'WordPress',
+	context : 'WordPress',
 	// triggerEvent : 'change:siteurl',
-	output       : {
+	output  : {
 		type  : '',
 		value : ''
 	},
@@ -36,10 +36,7 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		if( true ) {
-			return true;
-		}
-		return false;
+		return mod
 	}
 	// test() {
 	// 	const get = url.resolve(json.site.siteurl, 'robots.txt');
@@ -64,3 +61,5 @@ module.exports = {
 	// 	}
 	// }
 };
+
+module.exports = mod

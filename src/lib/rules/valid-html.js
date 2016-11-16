@@ -17,8 +17,8 @@ const mod = {
 		fail     : 'The HTML failed to validate. See the results for more info.',
 		howtofix : 'To see how your HTML is validated, please visit http://validator.w3.org/nu/about.html'
 	},
-	context      : 'HTML',
-	output       : {
+	context : 'HTML',
+	output  : {
 		type  : 'object',
 		value : {}
 	},
@@ -29,7 +29,7 @@ const mod = {
 		const html = ctx.get('HTML')
 		const url = ctx.get('url')
 		const options = {
-			url: url,
+			url,
 			data : html
 		};
 
@@ -48,7 +48,7 @@ const mod = {
 				}),
 				other : array.filter((object) => {
 					return object.type !== 'error' && object.subType !== 'warning';
-				}),
+				})
 			};
 		}
 
@@ -57,11 +57,11 @@ const mod = {
 		//----------------------------------------------------------------------
 
 		return new Promise((resolve, reject) => {
-			validator(options, function (err, _data) {
+			validator(options, (err, _data) => {
 				if (err) {
 					reject( err )
 				}
-				const json =  JSON.parse( _data );
+				const json = JSON.parse( _data );
 				const data = filterResults( json.messages );
 
 				mod.output.value = data;
@@ -69,7 +69,7 @@ const mod = {
 					mod.failed = true
 				}
 				if( data.warning.length ) {
-					mod.messages.success = mod.messages.success.replace('.', ', but there were a few warnings. See the data below for more details.')
+					mod.messaging.success = mod.messaging.success.replace('.', ', but there were a few warnings. See the data below for more details.')
 				}
 
 				resolve( mod );

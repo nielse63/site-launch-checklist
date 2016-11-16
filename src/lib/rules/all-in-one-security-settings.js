@@ -3,7 +3,7 @@
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+const mod = {
 	id   : 'all-in-one-security-settings',
 	name : 'All in One Security Settings',
 	docs : {
@@ -15,9 +15,9 @@ module.exports = {
 		fail     : '',
 		howtofix : ''
 	},
-	context      : 'WordPress',
+	context : 'WordPress',
 	// triggerEvent : 'change:plugins',
-	output       : {
+	output  : {
 		type  : '',
 		value : ''
 	},
@@ -36,10 +36,7 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		if( true ) {
-			return true;
-		}
-		return false;
+		return mod
 	}
 	// test() {
 	// 	const cmd = [
@@ -102,3 +99,5 @@ module.exports = {
 	// 	}
 	// }
 };
+
+module.exports = mod;

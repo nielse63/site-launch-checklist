@@ -1,6 +1,4 @@
 
-const request = require('request');
-const shelljs = require('shelljs');
 const _ = require('lodash');
 const utils = require('../utils');
 
@@ -16,47 +14,46 @@ const mod = {
 		category    : 'Security'
 	},
 	messaging : {
-		success  : 'A request to the site\'s url responded with all the recommended headers, and didn\'t respond with any insecure headers.',
-		fail     : {
-			main : 'The headers returned by a ping to the site',
+		success : 'A request to the site\'s url responded with all the recommended headers, and didn\'t respond with any insecure headers.',
+		fail    : {
+			main         : 'The headers returned by a ping to the site',
 			shouldntHave : [
-			'responded with the following insecure headers:',
-			'<% _.forEach(contains, function(header) { %>\t- "<%- header %>"<% }); %>'
+				'responded with the following insecure headers:',
+				'<% _.forEach(contains, function(header) { %>\t- "<%- header %>"<% }); %>'
 			].join('\r\n'),
 			conjunction : '\nand',
-			shouldHave : [
-			'was missing the following header values:',
-			'<% _.forEach(missing, function(header) { %>\t- "<%- header %>"<% }); %>'
-			].join('\r\n'),
+			shouldHave  : [
+				'was missing the following header values:',
+				'<% _.forEach(missing, function(header) { %>\t- "<%- header %>"<% }); %>'
+			].join('\r\n')
 		},
 		howtofix : [
-		'To learn more about how to set up a secure server environment and fix the current issues, visit the following resources:',
-		'\t' + '- https://geekflare.com/apache-web-server-hardening-security/#44-X-XSS-Protection',
-		'\t' + '- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options',
-		'\t' + '- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server',
-		'\t' + '- http://wordpress.stackexchange.com/a/76092',
-		'\t' + '- http://www.ducea.com/2006/06/16/apache-tips-tricks-hide-php-version-x-powered-by/',
+			'To learn more about how to set up a secure server environment and fix the current issues, visit the following resources:',
+			'\t- https://geekflare.com/apache-web-server-hardening-security/#44-X-XSS-Protection',
+			'\t- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options',
+			'\t- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server',
+			'\t- http://wordpress.stackexchange.com/a/76092',
+			'\t- http://www.ducea.com/2006/06/16/apache-tips-tricks-hide-php-version-x-powered-by/'
 		].join('\r\n')
 	},
-	context      : 'Server',
-	output       : {
+	context : 'Server',
+	output  : {
 		type  : 'object',
 		value : ''
 	},
 	failed : false,
 	test(ctx) {
-		// console.log(ctx);
 
 		// variables should be defined here
 		const shouldntHave = [
-		'server',
-		'x-pingback',
-		'x-powered-by'
+			'server',
+			'x-pingback',
+			'x-powered-by'
 		];
 
 		const shouldHave = [
-		'X-XSS-Protection',
-		'X-Frame-Options'
+			'X-XSS-Protection',
+			'X-Frame-Options'
 		];
 
 		//----------------------------------------------------------------------
@@ -68,7 +65,7 @@ const mod = {
 		function headersToObject(headers) {
 			const string = headers.trim()
 			const array = string.split(/\r|\n/)
-			let output = {}
+			const output = {}
 			array.forEach((line) => {
 				if( line.indexOf(':') < 0 ) {
 					return;
@@ -103,7 +100,7 @@ const mod = {
 		}
 
 		function formatFailedMessage(output) {
-			let message = mod.messaging.fail
+			const message = mod.messaging.fail
 			if( ! output.contains.length ) {
 				delete message.shouldntHave
 				delete message.conjunction
@@ -113,14 +110,14 @@ const mod = {
 				delete message.conjunction
 			}
 
-			const string = Object.keys(message).map((key) => {
+			const string = `${Object.keys(message).map((key) => {
 				return message[key];
-			}).join(' ') + '.';
+			}).join(' ') }.`;
 
 			const compiled = _.template( string )
 			return compiled({
 				contains : output.contains,
-				missing : output.missing,
+				missing  : output.missing
 			});
 		}
 
@@ -132,9 +129,9 @@ const mod = {
 			utils.getHeaders(ctx.get('url')).then((_headers) => {
 				const headers = _headers.trim();
 				const headerObject = headersToObject(headers);
-				let output = {
+				const output = {
 					contains : findShouldntHave( headerObject ),
-					missing : findShouldHave( headerObject ),
+					missing  : findShouldHave( headerObject )
 				}
 
 				mod.failed = didFail( output )
@@ -143,7 +140,6 @@ const mod = {
 					mod.messaging.fail = formatFailedMessage( output );
 				}
 				mod.output.value = headers
-				// console.log(mod);
 
 				resolve(mod)
 			}, (err) => {

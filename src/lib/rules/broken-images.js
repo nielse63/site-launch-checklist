@@ -1,6 +1,4 @@
 
-const async = require('async');
-const request = require('request');
 const url = require('url');
 const $ = require('cheerio');
 const utils = require('../utils');
@@ -22,8 +20,8 @@ const mod = {
 		fail     : 'Broken images here found on the homepage: <%= images %>',
 		howtofix : ''
 	},
-	context      : 'HTML',
-	output       : {
+	context : 'HTML',
+	output  : {
 		type  : 'object',
 		value : ''
 	},
@@ -33,10 +31,8 @@ const mod = {
 		// variables should be defined here
 		const pageURL = ctx.get('url')
 		const protocol = url.parse(pageURL).protocol;
-		const host = url.parse(pageURL).host;
-		const base = protocol + '//' + host;
 		const $body = ctx.get('DOMTree')
-		let array = [];
+		const array = [];
 
 		//----------------------------------------------------------------------
 		// Helpers
@@ -46,7 +42,7 @@ const mod = {
 			src = src.split('?')[0];
 			if( src.indexOf('//') === 0 ) {
 				src = src.replace(/\/\//, '');
-				src = protocol + '//' + src;
+				src = `${protocol }//${ src}`;
 			}
 			return src;
 		}
@@ -58,19 +54,19 @@ const mod = {
 		$body.find('img[src]').each((i, item) => {
 			const _src = $(item).attr('src');
 			const urlObject = url.parse(_src);
-			let src = urlObject.protocol + '//' + urlObject.host + urlObject.path
+			let src = `${urlObject.protocol }//${ urlObject.host }${urlObject.path}`
 			src = parseSrc(src);
 			if( array.indexOf(src) < 0 ) {
 				array.push(src);
 			}
 		})
 
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			const total = array.length;
 			let count = 0;
-			let output = {
+			const output = {
 				success : [],
-				fail : []
+				fail    : []
 			};
 
 			array.forEach((src) => {
@@ -88,11 +84,11 @@ const mod = {
 						if( output.fail.length ) {
 							mod.failed = true
 							const images = output.fail.map((link) => {
-								return '- ' + link
+								return `- ${ link}`
 							}).join('\r\n')
 							const compiled = _.template(mod.messaging.fail)
 							mod.messaging.fail = compiled({
-								images : images
+								images
 							})
 						}
 						resolve(mod);

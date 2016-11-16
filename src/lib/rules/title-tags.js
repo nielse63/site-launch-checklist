@@ -1,5 +1,5 @@
 
-var $ = require('cheerio')
+const $ = require('cheerio')
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -17,8 +17,8 @@ const mod = {
 		fail     : '<a> tags were found without the [title] attribute',
 		howtofix : ''
 	},
-	context      : 'HTML',
-	output       : {
+	context : 'HTML',
+	output  : {
 		type  : 'array',
 		value : ''
 	},
@@ -27,7 +27,7 @@ const mod = {
 
 		// variables should be defined here
 		const $body = ctx.get('DOMTree')
-		var output = [];
+		const output = [];
 
 		//----------------------------------------------------------------------
 		// Helpers

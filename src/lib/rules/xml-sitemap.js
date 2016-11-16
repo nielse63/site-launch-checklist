@@ -1,6 +1,6 @@
 
-var url = require('url');
-var request = require('request');
+const url = require('url');
+const request = require('request');
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -18,20 +18,20 @@ module.exports = {
 		fail     : 'Unable not find a valid xml sitemap',
 		howtofix : ''
 	},
-	context      : 'WordPress',
+	context : 'WordPress',
 	// triggerEvent : 'change:siteurl',
-	output       : {
+	output  : {
 		type  : '',
 		value : ''
 	},
 	failed : false,
 	test(ctx) {
 
-		var urls = {
-			home : ctx.get('siteurl'),
+		const urls = {
+			home : ctx.get('siteurl')
 		};
-		var urlObject = url.parse(urls.home);
-		urls.sitemap = urlObject.hostname + '/sitemap.xml';
+		const urlObject = url.parse(urls.home);
+		urls.sitemap = `${urlObject.hostname }/sitemap.xml`;
 
 		return new Promise((resolve, reject) => {
 			request.get(urls.sitemap, (err, res, body) => {

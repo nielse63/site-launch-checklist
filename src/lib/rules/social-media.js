@@ -18,8 +18,8 @@ const mod = {
 		fail     : 'Some social media links are pointing to the incorrect URL.',
 		howtofix : ''
 	},
-	context      : 'HTML',
-	output       : {
+	context : 'HTML',
+	output  : {
 		type  : 'object',
 		value : {}
 	},
@@ -35,7 +35,7 @@ const mod = {
 			'linkedin.com'
 		];
 		const selector = links.map((link) => {
-			return 'a[href*="' + link + '"]'
+			return `a[href*="${ link }"]`
 		}).join(', ')
 		const $body = ctx.get('DOMTree')
 
@@ -51,8 +51,8 @@ const mod = {
 
 		let tmpArray = [];
 		$body.find(selector).each((i, item) => {
-			var href = $(item).attr('href');
-			var matches = links.filter((link) => {
+			const href = $(item).attr('href');
+			const matches = links.filter((link) => {
 				return href.indexOf( link ) > -1;
 			})
 			if( matches.length ) {

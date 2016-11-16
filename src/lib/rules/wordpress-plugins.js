@@ -15,9 +15,9 @@ module.exports = {
 		fail     : '',
 		howtofix : ''
 	},
-	context      : 'WordPress',
+	context : 'WordPress',
 	// triggerEvent : 'change:plugins',
-	output       : {
+	output  : {
 		type  : '',
 		value : ''
 	},

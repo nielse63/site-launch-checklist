@@ -17,8 +17,8 @@ const mod = {
 		fail     : '',
 		howtofix : ''
 	},
-	context      : 'HTML',
-	output       : {
+	context : 'HTML',
+	output  : {
 		type  : 'array',
 		value : []
 	},
@@ -39,7 +39,7 @@ const mod = {
 		// Public
 		//----------------------------------------------------------------------
 
-		let output = []
+		const output = []
 		$tags.each((i, item) => {
 			output.push( $.html(item).trim() )
 		})
