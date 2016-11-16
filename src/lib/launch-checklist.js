@@ -92,14 +92,14 @@ function importRules() {
 function runTestsForContext(ctx) {
 	const rules = collections[ctx];
 	const context = contexts[ctx];
-	let count = rules.length;
+	const count = rules.length;
 	let i = 0;
 
 	return new Promise((resolve) => {
 
 		function callback(data) {
-			console.log(data);
-			console.log('*'.repeat(50));
+			// console.log(data);
+			// console.log('*'.repeat(50));
 			i++;
 			rules.forEach((_rule) => {
 				if( _rule.id === data.id ) {
@@ -113,12 +113,12 @@ function runTestsForContext(ctx) {
 			}
 		}
 
-		const ignore = ['valid-html', 'title-tags']
+		// const ignore = ['valid-html']
 		rules.forEach((rule) => {
-			if(ignore.indexOf(rule.id) > -1) {
-				count--
-				return
-			}
+			// if(ignore.indexOf(rule.id) > -1) {
+			// 	count--
+			// 	return
+			// }
 			utils.info(rule.id)
 			const test = rule.get('test')
 			let result = test(context);

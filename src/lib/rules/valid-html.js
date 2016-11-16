@@ -1,11 +1,11 @@
 
-var validator = require('html-validator')
+const validator = require('html-validator')
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+const mod = {
 	id   : 'valid-html',
 	name : 'Valid HTML',
 	docs : {
@@ -14,14 +14,13 @@ module.exports = {
 	},
 	messaging : {
 		success  : 'Your HTML is valid.',
-		fail     : 'The HTML provided failed to validate. See the results for more info.',
-		howtofix : ''
+		fail     : 'The HTML failed to validate. See the results for more info.',
+		howtofix : 'To see how your HTML is validated, please visit http://validator.w3.org/nu/about.html'
 	},
 	context      : 'HTML',
-	// triggerEvent : 'change:DOMTree',
 	output       : {
-		type  : '',
-		value : ''
+		type  : 'object',
+		value : {}
 	},
 	failed : false,
 	test(ctx) {
@@ -29,8 +28,7 @@ module.exports = {
 		// variables should be defined here
 		const html = ctx.get('HTML')
 		const url = ctx.get('url')
-
-		var options = {
+		const options = {
 			url: url,
 			data : html
 		};
@@ -59,20 +57,25 @@ module.exports = {
 		//----------------------------------------------------------------------
 
 		return new Promise((resolve, reject) => {
-			// console.log(options)
-			// resolve('done')
-			validator(options, function (err, data) {
+			validator(options, function (err, _data) {
 				if (err) {
 					reject( err )
 				}
-				var json =  JSON.parse( data );
-				var data = filterResults( json.messages );
+				const json =  JSON.parse( _data );
+				const data = filterResults( json.messages );
 
-				// if( data.error.length ) {
-				// 	return reject( data );
-				// }
-				resolve( data );
+				mod.output.value = data;
+				if( data.error.length ) {
+					mod.failed = true
+				}
+				if( data.warning.length ) {
+					mod.messages.success = mod.messages.success.replace('.', ', but there were a few warnings. See the data below for more details.')
+				}
+
+				resolve( mod );
 			})
 		})
 	}
-};
+}
+
+module.exports = mod;

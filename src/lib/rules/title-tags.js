@@ -5,7 +5,7 @@ var $ = require('cheerio')
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+const mod = {
 	id   : 'title-tags',
 	name : 'Title Tags',
 	docs : {
@@ -18,9 +18,8 @@ module.exports = {
 		howtofix : ''
 	},
 	context      : 'HTML',
-	// triggerEvent : 'change:DOMTree',
 	output       : {
-		type  : '',
+		type  : 'array',
 		value : ''
 	},
 	failed : false,
@@ -29,9 +28,6 @@ module.exports = {
 		// variables should be defined here
 		const $body = ctx.get('DOMTree')
 		var output = [];
-		$body.find('a:not([title])').each((i, item) => {
-			output.push( $.html(item).trim() );
-		})
 
 		//----------------------------------------------------------------------
 		// Helpers
@@ -43,9 +39,15 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		if( ! output.length ) {
-			return true;
-		}
-		return output;
+		$body.find('a:not([title])').each((i, item) => {
+			output.push( $.html(item).trim() );
+		})
+
+		mod.output.value = output
+		mod.failed = !! output.length
+
+		return mod
 	}
-};
+}
+
+module.exports = mod

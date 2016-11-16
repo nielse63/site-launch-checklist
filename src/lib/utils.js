@@ -21,7 +21,7 @@ const colors = {
 
 const getHeaders = function(url) {
 	return new Promise((resolve, reject) => {
-		shelljs.exec(`curl -I ${ url}`, {
+		shelljs.exec(`curl -I --no-keepalive ${ url}`, {
 			async  : true,
 			silent : true
 		}, (err, res) => {
