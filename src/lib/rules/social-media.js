@@ -19,12 +19,12 @@ module.exports = {
 		howtofix : ''
 	},
 	context      : 'HTML',
-	triggerEvent : 'change:DOMTree',
+	// triggerEvent : 'change:DOMTree',
 	output       : {
 		type  : '',
 		value : ''
 	},
-	test(model) {
+	test(ctx) {
 
 		// variables should be defined here
 		const links = [
@@ -34,7 +34,7 @@ module.exports = {
 			'youtube.com',
 			'linkedin.com'
 		];
-		const $body = model.get('DOMTree')
+		const $body = ctx.get('DOMTree')
 		var tmpArray = [];
 		$body.find('a[href]').each((i, item) => {
 			var href = $(item).attr('href');

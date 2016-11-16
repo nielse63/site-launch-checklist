@@ -8,12 +8,12 @@ const $ = require('cheerio');
 
 module.exports = exports = BackBone.Model.extend({
 	defaults : {
-		page_url : '',
+		// page_url : '',
 		docroot : '',
 		DOMTree  : null
 	},
 	getDOMTree() {
-		utils.info('updated docroot on html');
+		// utils.info('updated docroot on html');
 		// if( ! url ) {
 		// 	return;
 		// }

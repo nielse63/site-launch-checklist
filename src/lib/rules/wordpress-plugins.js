@@ -16,15 +16,15 @@ module.exports = {
 		howtofix : ''
 	},
 	context      : 'WordPress',
-	triggerEvent : 'change:plugins',
+	// triggerEvent : 'change:plugins',
 	output       : {
 		type  : '',
 		value : ''
 	},
-	test(model) {
+	test(ctx) {
 
 		// variables should be defined here
-		const plugins = model.get('plugins')
+		const plugins = ctx.get('plugins')
 
 		//----------------------------------------------------------------------
 		// Helpers

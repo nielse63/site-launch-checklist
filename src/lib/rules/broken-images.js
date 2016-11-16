@@ -21,17 +21,17 @@ module.exports = {
 		howtofix : ''
 	},
 	context      : 'HTML',
-	triggerEvent : 'change:DOMTree',
+	// triggerEvent : 'change:DOMTree',
 	output       : {
 		type  : '',
 		value : ''
 	},
-	test(model) {
+	test(ctx) {
 
 		// variables should be defined here
-		const pageURL = model.get('page_url')
+		const pageURL = ctx.get('url')
 		const protocol = url.parse(pageURL).protocol;
-		const $body = model.get('DOMTree')
+		const $body = ctx.get('DOMTree')
 		var array = [];
 		$body.find('img[src]').each((i, item) => {
 			array.push( $(item).attr('src') );

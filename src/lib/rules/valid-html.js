@@ -18,16 +18,16 @@ module.exports = {
 		howtofix : ''
 	},
 	context      : 'HTML',
-	triggerEvent : 'change:DOMTree',
+	// triggerEvent : 'change:DOMTree',
 	output       : {
 		type  : '',
 		value : ''
 	},
-	test(model) {
+	test(ctx) {
 
 		// variables should be defined here
-		const html = model.get('HTML')
-		const url = model.get('page_url')
+		const html = ctx.get('HTML')
+		const url = ctx.get('url')
 
 		var options = {
 			url: url,
@@ -58,6 +58,8 @@ module.exports = {
 		//----------------------------------------------------------------------
 
 		return new Promise((resolve, reject) => {
+			// console.log(options)
+			// resolve('done')
 			validator(options, function (err, data) {
 				if (err) {
 					reject( err )
@@ -65,9 +67,9 @@ module.exports = {
 				var json =  JSON.parse( data );
 				var data = filterResults( json.messages );
 
-				if( data.error.length ) {
-					return reject( data );
-				}
+				// if( data.error.length ) {
+				// 	return reject( data );
+				// }
 				resolve( data );
 			})
 		})

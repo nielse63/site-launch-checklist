@@ -52,19 +52,19 @@ function getServerData() {
 }
 
 function getHtmlData(settings) {
-	contexts.HTML = new models.HTML();
+	if( typeof contexts.HTML.set !== 'function' ) {
+		contexts.HTML = new models.HTML();
+	}
 
 	return new Promise(resolve => {
-		if( ! settings.url ) {
-			return resolve()
-		}
 
 		contexts.HTML.once('change:DOMTree', () => {
 			resolve();
 		})
-		contexts.HTML.set({
-			docroot : settings.docroot
-		});
+		// contexts.HTML.set({
+		// 	docroot : settings.docroot
+		// });
+		contexts.HTML.set(settings);
 	})
 }
 
@@ -89,64 +89,23 @@ function importRules(settings) {
 	});
 }
 
-// function runTests() {
-// 	return async.queue((_rule, callback) => {
-// 		const name = _rule.get('name');
-// 		const test = _rule.get('test');
-// 		if( ! test || typeof test !== 'function' ) {
-// 			return callback('Test is not a function');
-// 		}
-// 		const p = test(_rule.get('model'));
-// 		const messaging = _rule.get('messaging');
-
-// 		// if the test returned an undefined value
-// 		if( typeof p === 'undefined' ) {
-// 			return callback(`${name }: The test return value was undefined. Please validate the rule' test function.`);
-// 		}
-
-// 		// if the test is synchronous and the value is negative
-// 		if( ! p ) {
-// 			return callback(`${name }: ${ messaging.fail}`);
-// 		}
-
-// 		// if the test returns a promise object
-// 		if( {}.toString.call(p) === '[object Promise]' ) {
-// 			return p.then(() => {
-// 				callback(null, `${name }: ${ messaging.success}`);
-// 			}, (err) => {
-// 				if( err && err.error && err.error.length ) {
-// 					return callback(`${name }: ${ messaging.fail } (${ err.error.length } errors found)`);
-// 				}
-// 				callback(`${name }: ${ messaging.fail}`);
-// 			})
-// 		}
-
-// 		// we can assume that in the remaining cases the test passed
-// 		callback(null, `${name }: ${ messaging.success}`);
-// 	}, 20);
-// }
-
 function runTestsForContext(ctx) {
 	const rules = collections[ctx];
-	// console.log(rules);
 	const context = contexts[ctx];
-	const count = rules.length;
+	let count = rules.length;
 	let i = 0;
 
 	return new Promise((resolve) => {
 
 		function callback(data) {
+			console.log(data);
+			console.log('*'.repeat(50));
 			i++;
-			// const value = rule.output.value
-			// console.log(rule);
-			// const ruleId = rule.id;
 			rules.forEach((_rule) => {
 				if( _rule.id === data.id ) {
 					_rule.set( data )
 				}
-				// utils.info(id + ' ' + ruleId);
 			})
-			// context[ctx]
 			if( i === count ) {
 				setTimeout(function() {
 					resolve();
@@ -154,17 +113,21 @@ function runTestsForContext(ctx) {
 			}
 		}
 
+		const ignore = ['valid-html', 'title-tags', 'social-media', 'meta-tags', 'favicons', 'broken-images', 'alt-tags']
 		rules.forEach((rule) => {
+			if(ignore.indexOf(rule.id) > -1) {
+				count--
+				return
+			}
+			utils.info(rule.id)
 			const test = rule.get('test')
 			let result = test(context);
 			let tmp = result;
 			if( ! utils.isPromise(result) ) {
 				result = new Promise((_resolve) => {
-					// if( tmp ) {
-					// 	return _resolve()
-					// }
-					// _reject('Failed');
 					_resolve(rule)
+				}, (err) => {
+					utils.error(err)
 				});
 			}
 			result.then(callback)
@@ -209,7 +172,13 @@ module.exports = exports = function(options) {
 
 			// get html
 			getHtmlData( settings ).then(() => {
-				console.log('done')
+				console.log('done getting html')
+				runTestsForContext('HTML').then(() => {
+					console.log('done')
+				}, (err) => {
+					utils.error(err);
+				})
+
 			}, (err) => {
 				utils.error(err);
 			})
@@ -217,6 +186,7 @@ module.exports = exports = function(options) {
 		}, (err) => {
 			utils.error(err);
 		});
+
 	}, (err) => {
 		utils.error(err);
 	});

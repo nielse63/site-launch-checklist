@@ -16,12 +16,12 @@ module.exports = {
 		howtofix : ''
 	},
 	context      : 'WordPress',
-	triggerEvent : 'change:siteurl',
+	// triggerEvent : 'change:siteurl',
 	output       : {
 		type  : '',
 		value : ''
 	},
-	test(model) {
+	test(ctx) {
 
 		// variables should be defined here
 
@@ -35,7 +35,7 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
-		if( model ) {
+		if( true ) {
 			return true;
 		}
 		return false;

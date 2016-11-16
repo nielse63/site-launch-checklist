@@ -19,6 +19,20 @@ const colors = {
 	lightGray  : clc.xterm( 250 )
 };
 
+const getHeaders = function(url) {
+	return new Promise((resolve, reject) => {
+		shelljs.exec('curl -I ' + url, {
+			async : true,
+			silent : true
+		}, (err, res, body) => {
+			if( err ) {
+				return reject(err);
+			}
+			resolve(res.trim());
+		});
+	});
+}
+
 module.exports.fail = function ( msg ) {
 	console.log( colors.red( msg ) );
 	console.log( colors.red( '== Exiting ==' ) );
@@ -82,16 +96,26 @@ exports.isPromise = function(object) {
 	return {}.toString.call(object) === '[object Promise]';
 };
 
-exports.getHeaders = function(url) {
+exports.getHeaders = getHeaders
+
+exports.getHTTPCode = function(url) {
 	return new Promise((resolve, reject) => {
-		shelljs.exec('curl -I ' + url, {
-			async : true,
-			silent : true
-		}, (err, res, body) => {
-			if( err ) {
-				return reject(err);
-			}
-			resolve(res);
-		});
+		getHeaders(url).then((headers) => {
+			const lines = headers.split(/\r|\n/).map((line) => {
+				return line.trim()
+			})
+			const firstLine = lines[0]
+			const parts = firstLine.split(' ')
+			parts.shift()
+			const code = parts.shift()
+			const message = parts.join(' ')
+			resolve({
+				url : url,
+				code : code,
+				message : message
+			})
+		}, (err) => {
+			reject(err);
+		})
 	});
 }

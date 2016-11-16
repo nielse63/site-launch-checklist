@@ -19,15 +19,15 @@ module.exports = {
 		howtofix : ''
 	},
 	context      : 'WordPress',
-	triggerEvent : 'change:siteurl',
+	// triggerEvent : 'change:siteurl',
 	output       : {
 		type  : '',
 		value : ''
 	},
-	test(model) {
+	test(ctx) {
 
 		var urls = {
-			home : model.get('siteurl'),
+			home : ctx.get('siteurl'),
 		};
 		var urlObject = url.parse(urls.home);
 		urls.sitemap = urlObject.hostname + '/sitemap.xml';

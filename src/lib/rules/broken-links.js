@@ -3,12 +3,14 @@ var async = require('async');
 var request = require('request');
 var url = require('url');
 var $ = require('cheerio');
+var utils = require('../utils');
+var _ = require('lodash');
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+const mod = {
 	id   : 'broken-links',
 	name : 'Broken Links',
 	docs : {
@@ -17,45 +19,31 @@ module.exports = {
 	},
 	messaging : {
 		success  : 'No broken links were found',
-		fail     : 'Several broken links were found on the site',
+		fail     : 'Broken links here found on the homepage: <%= links %>',
 		howtofix : ''
 	},
 	context      : 'HTML',
-	triggerEvent : 'change:DOMTree',
 	output       : {
-		type  : '',
+		type  : 'object',
 		value : ''
 	},
-	test(model) {
+	failed : false,
+	test(ctx) {
 
 		// variables should be defined here
-		const pageURL = model.get('page_url')
+		const pageURL = ctx.get('url')
 		const protocol = url.parse(pageURL).protocol;
-		const hostname = url.parse(pageURL).hostname;
-		const base = protocol + '//' + hostname;
-		const $body = model.get('DOMTree')
-		var array = [];
-		$body.find('a[href]:not([href^="#"])').each((i, item) => {
-			array.push( $(item).attr('href') );
-		})
-
-		var queue = async.queue((src, callback) => {
-			request.get(src, (err, res, body) => {
-				if( err ) {
-					return callback(err, src);
-				}
-				callback(null, src);
-			});
-		}, 20);
-
-		// variables should be defined here
+		const host = url.parse(pageURL).host;
+		const base = protocol + '//' + host;
+		const $body = ctx.get('DOMTree')
+		let array = [];
 
 		//----------------------------------------------------------------------
 		// Helpers
 		//----------------------------------------------------------------------
 
 		function parseSrc(src) {
-			if( src.indexOf('/') === 0 ) {
+			if( src[0] === '/' && src[1] !== '/' ) {
 				src = url.resolve(base, src);
 			}
 			return src;
@@ -65,6 +53,16 @@ module.exports = {
 		// Public
 		//----------------------------------------------------------------------
 
+		$body.find('a[href]:not([href^="#"])').each((i, item) => {
+			const _href = $(item).attr('href');
+			const urlObject = url.parse(_href);
+			let href = urlObject.protocol + '//' + urlObject.host + urlObject.path
+			href = parseSrc(href);
+			if( array.indexOf(href) < 0 ) {
+				array.push(href);
+			}
+		})
+
 		return new Promise((resolve, reject) => {
 			var total = array.length;
 			var count = 0;
@@ -73,22 +71,34 @@ module.exports = {
 				fail : []
 			};
 
-			array.forEach((src) => {
-				src = parseSrc(src);
-				queue.push(src, (err, data) => {
-					count++;
+			array.forEach((href) => {
+				utils.getHTTPCode(href).then((res) => {
+					if( res.code > 199 && res.code < 400 ) {
+						output.success.push(res)
+					} else {
+						output.fail.push(res)
+					}
 
-					var method = err ? output.fail : output.success;
-					method.push( src );
+					count++
 
 					if( count === total ) {
+						mod.output.value = output
 						if( output.fail.length ) {
-							return reject( output );
+							mod.failed = true
+							const links = output.fail.map((link) => {
+								return '- ' + link
+							}).join('\r\n')
+							const compiled = _.template(mod.messaging.fail)
+							mod.messaging.fail = compiled({
+								links : links
+							})
 						}
-						resolve( output );
+						resolve(mod);
 					}
 				})
 			});
 		});
 	}
 };
+
+module.exports = mod

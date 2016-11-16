@@ -18,15 +18,15 @@ module.exports = {
 		howtofix : ''
 	},
 	context      : 'HTML',
-	triggerEvent : 'change:DOMTree',
+	// triggerEvent : 'change:DOMTree',
 	output       : {
 		type  : '',
 		value : ''
 	},
-	test(model) {
+	test(ctx) {
 
 		// variables should be defined here
-		const $body = model.get('DOMTree')
+		const $body = ctx.get('DOMTree')
 		var output = [];
 		$body.find('img:not([alt])').each((i, item) => {
 			output.push( $.html(item).trim() );

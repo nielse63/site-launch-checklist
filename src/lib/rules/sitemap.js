@@ -20,19 +20,15 @@ module.exports = {
 		howtofix : ''
 	},
 	context      : 'WordPress',
-	triggerEvent : 'change:siteurl',
+	// triggerEvent : 'change:siteurl',
 	output       : {
 		type  : '',
 		value : ''
 	},
-	test(model) {
-		// model = model || this;
-		// console.log(model);
-
+	test(ctx) {
 		let urls = {
-			home : model.get('siteurl'),
+			home : ctx.get('siteurl'),
 		};
-		// console.log(urls);
 		const urlObject = url.parse(urls.home);
 		urls.sitemap = urlObject.protocol + '//' + urlObject.host + '/sitemap.xml';
 
