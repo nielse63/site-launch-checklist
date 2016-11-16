@@ -16,7 +16,6 @@ const mod = {
 		howtofix : ''
 	},
 	context : 'WordPress',
-	// triggerEvent : 'change:plugins',
 	output  : {
 		type  : '',
 		value : ''

@@ -5,7 +5,6 @@ const defaults = require('./config').defaults;
 const _ = require('lodash');
 const os = require('os');
 const shelljs = require('shelljs');
-// const async = require('async');
 const utils = require('./utils');
 
 // collections
@@ -20,6 +19,7 @@ const models = require('./models');
 // vars
 const contexts = {};
 const collections = {};
+const globals = {};
 
 function getServerData() {
 	return new Promise((resolve, reject) => {
@@ -61,9 +61,6 @@ function getHtmlData(settings) {
 		contexts.HTML.once('change:DOMTree', () => {
 			resolve();
 		})
-		// contexts.HTML.set({
-		// 	docroot : settings.docroot
-		// });
 		contexts.HTML.set(settings);
 	})
 }
@@ -92,7 +89,7 @@ function importRules() {
 function runTestsForContext(ctx) {
 	const rules = collections[ctx];
 	const context = contexts[ctx];
-	const count = rules.length;
+	let count = rules.length;
 	let i = 0;
 
 	return new Promise((resolve) => {
@@ -113,12 +110,12 @@ function runTestsForContext(ctx) {
 			}
 		}
 
-		// const ignore = ['valid-html']
+		const ignore = ['xml-sitemap', 'wordpress-plugins', 'robotstxt', 'pagespeed', 'all-in-one-security-settings']
 		rules.forEach((rule) => {
-			// if(ignore.indexOf(rule.id) > -1) {
-			// 	count--
-			// 	return
-			// }
+			if(ignore.indexOf(rule.id) > -1) {
+				count--
+				return
+			}
 			utils.info(rule.id)
 			const test = rule.get('test')
 			let result = test(context);
@@ -141,7 +138,7 @@ function runTestsForContext(ctx) {
 function runServerRules() {
 	return new Promise((resolve, reject) => {
 		getServerData().then((_serverData) => {
-			const serverData = _.extend(_serverData, settings);
+			const serverData = _.extend(_serverData, globals.settings);
 			contexts.Server.set(serverData);
 
 			// run server tests
@@ -161,7 +158,7 @@ function runServerRules() {
 
 function runHTMLTests() {
 	return new Promise((resolve, reject) => {
-		getHtmlData( settings ).then(() => {
+		getHtmlData( globals.settings ).then(() => {
 			runTestsForContext('HTML').then(() => {
 				utils.success('Done with HTML tests')
 
@@ -176,6 +173,22 @@ function runHTMLTests() {
 	})
 }
 
+function runWordPressTests() {
+
+	return new Promise((resolve, reject) => {
+		// contexts.WordPress.once('change:docroot', () => {
+		runTestsForContext('WordPress').then(() => {
+			utils.success('Done with WordPress tests')
+
+			resolve()
+		}, (err) => {
+			reject(err);
+		})
+		// })
+		// contexts.WordPress.set(globals.settings)
+	})
+}
+
 module.exports = exports = function(options) {
 	const settings = _.extend(defaults, options);
 	if( ! settings.docroot ) {
@@ -183,15 +196,25 @@ module.exports = exports = function(options) {
 		return;
 	}
 
+	// cache settings
+	globals.settings = settings
+
 	// update paths
 	paths.update(settings.docroot)
 
 	// import all rules
 	importRules();
 
+	// update the wordpress model early to get a jump gathering data
+	if( typeof contexts.WordPress.set !== 'function' ) {
+		contexts.WordPress = new models.WordPress();
+	}
+	contexts.WordPress.set(settings)
+
 	// chain tests on promises
 	runServerRules()
 		.then(runHTMLTests)
+		.then(runWordPressTests)
 
 	// // create test queue
 	// const queue = runTests();
@@ -252,6 +275,5 @@ module.exports = exports = function(options) {
 	// // get html
 	// getHtmlData(settings);
 
-	// return api;
-	return {};
-};
+	return {}
+}

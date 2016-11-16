@@ -1,114 +1,70 @@
 
 const BackBone = require('backbone');
-// const config = require('../config');
-const async = require('async');
-const WP = require('wp-cli');
 const utils = require('../utils');
-const _ = require('lodash');
-
-let globalQueue;
-function getQueue() {
-	return globalQueue;
-}
+const path = require('path')
+const shelljs = require('shelljs')
 
 const WordPress = BackBone.Model.extend({
 
 	defaults : {
-		url             : '',
-		cwd             : '',
-		docroot         : '',
-		'wp-config'     : '',
-		blogname        : '',
-		blogdescription : '',
-		siteurl         : '',
-		home            : '',
-		admin_email     : '',
-		template        : '',
-		options         : ['blogname', 'blogdescription', 'siteurl', 'home', 'admin_email', 'template'],
-		plugins         : [],
-		cli             : null,
-		working         : false,
-		installed       : false
+		url     : '',
+		cwd     : '',
+		docroot : ''
 	},
 
-	execWPCli(cmd, option, args) {
-		const queue = getQueue();
-		const wp = this.get('cli');
-		if( ! queue ) {
-			globalQueue = async.queue((object, callback) => {
-				object = _.extend({
-					cmd    : '',
-					option : '',
-					args   : ''
-				}, object);
-				wp[object.cmd][object.option](object.args, (err, data) => {
-					if( err ) {
-						return callback(err, data);
-					}
-					callback(null, data);
-				})
-			}, 20);
-			globalQueue.drain = function(err) {
-				if( err ) {
-					utils.error(err);
-				}
-			};
-			this.set('queue', globalQueue);
-		}
-		this.pushWorker(cmd, option, args);
-	},
+	getSiteData() {
+		const _self = this
+		const docroot = path.resolve( _self.get('docroot') )
+		const aboutFile = path.join( _self.get('cwd'), 'bin', 'commands', 'about.php' )
+		const configFile = path.join( docroot, 'wp-config.php' )
 
-	pushWorker(cmd, option, args) {
-		const queue = getQueue();
-		if( ! queue ) {
-			return this.execWPCli(cmd, option, args);
-		}
-		queue.push({
-			cmd    : cmd || '',
-			option : option || '',
-			args   : args || ''
-		}, (err, data) => {
-			if( err ) {
-				return utils.error(err);
+		shelljs.exec(`php -f ${ aboutFile } config=${ configFile}`, {
+			async  : true,
+			silent : true
+		}, (code, stdout, stderr) => {
+			if( code ) {
+				return utils.error(`${code }: ${ stderr}`)
 			}
-			const isOption = cmd === 'option';
-			let key = isOption ? args : 'plugins';
-			this.set(key, data);
-			if( isOption ) {
-				key = `site option (${ key })`
-			}
-			utils.success(`Finished getting ${ key }: ${ typeof data === 'string' ? data : `${data.length } plugins found`}`);
-		});
-	},
-
-	getIsInstalled() {
-		WP.discover({
-			path : this.get('docroot')
-		}, (wp) => {
-			this.set('cli', wp);
-		});
-	},
-
-	getSiteOptions() {
-		utils.info('Getting WordPress site options');
-		this.get('options').forEach((key) => {
-			this.pushWorker( 'option', 'get', key );
+			let json = {}
+			try {
+				json = JSON.parse(stdout)
+			} catch(e) {}
+			_self.set({
+				options : json
+			})
 		})
 	},
 
 	getPlugins() {
-		utils.info('Getting WordPress pluginss');
-		this.pushWorker( 'plugin', 'list' );
+		const _self = this
+		const docroot = path.resolve( _self.get('docroot') )
+		const cmdFile = path.join( _self.get('cwd'), 'bin', 'commands', 'plugins.php' )
+		const configFile = path.join( docroot, 'wp-config.php' )
+
+		shelljs.exec(`php -f ${ cmdFile } config=${ configFile}`, {
+			async  : true,
+			silent : true
+		}, (code, stdout, stderr) => {
+			if( code ) {
+				return utils.error(`${code }: ${ stderr}`)
+			}
+			let json = {}
+			try {
+				json = JSON.parse(stdout)
+			} catch(e) {}
+			_self.set({
+				plugins : json
+			})
+		})
 	},
 
-	didGetCLI() {
-		this.getSiteOptions();
-		this.getPlugins();
+	onInit() {
+		this.getSiteData()
+		this.getPlugins()
 	},
 
 	initialize() {
-		this.getIsInstalled();
-		this.on('change:cli', this.didGetCLI);
+		this.on('change:docroot', this.onInit);
 	}
 });
 

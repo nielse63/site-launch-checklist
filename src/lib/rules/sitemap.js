@@ -1,11 +1,13 @@
 
+const shelljs = require('shelljs');
 const url = require('url');
+const utils = require('../utils');
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-module.exports = {
+const mod = {
 	id   : 'sitemap',
 	name : 'Sitemap',
 	docs : {
@@ -24,37 +26,11 @@ module.exports = {
 	},
 	failed : false,
 	test(ctx) {
-		const urls = {
-			home : ctx.get('siteurl')
-		};
-		const urlObject = url.parse(urls.home);
-		urls.sitemap = `${urlObject.protocol }//${ urlObject.host }/sitemap.xml`;
-
-		return new Promise((resolve) => {
-			// shelljs.exec('curl -I ' + urls.sitemap, {
-			// 	async : true,
-			// 	silent : true
-			// }, (err, res, body) => {
-			// 	if( err ) {
-			// 		return reject(err);
-			// 	}
-			// 	console.log(res);
-			// 	resolve('howdy');
-			// });
-			console.log(`curl -I ${ urls.sitemap}`);
-			resolve('howdy');
-			// request.get(urls.sitemap, (err, res, body) => {
-			// 	console.log(err);
-			// 	if( err || res.statusCode !== 200 ) {
-			// 		reject(err || res);
-			// 	}
-			// 	// console.log(body);
-			// });
-		}, (err) => {
-			console.log(`=> ERROR: ${ err}`)
-		});
 
 		// variables should be defined here
+		const siteurl = ctx.get('url');
+		const urlObject = url.parse(siteurl);
+		const sitemap = `${urlObject.protocol }//${ urlObject.host }/sitemap.xml`;
 
 		//----------------------------------------------------------------------
 		// Helpers
@@ -65,5 +41,21 @@ module.exports = {
 		//----------------------------------------------------------------------
 		// Public
 		//----------------------------------------------------------------------
+
+		return new Promise((resolve, reject) => {
+			shelljs.exec(`curl -I --no-keepalive ${ sitemap}`, {
+				async  : true,
+				silent : true
+			}, (code, stdout, stderr) => {
+				if( code ) {
+					return reject(`${code }: ${ stderr}`);
+				}
+				resolve(mod);
+			});
+		}, (err) => {
+			utils.error(err)
+		});
 	}
 };
+
+module.exports = mod
