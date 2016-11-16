@@ -33,15 +33,6 @@ const mod = {
 	failed : false,
 	test(ctx) {
 
-		/*
-		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-		<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-		<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
-		<link rel="manifest" href="/manifest.json">
-		<meta name="theme-color" content="#ffffff">
-		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-		*/
-
 		// variables should be defined here
 		const $body = ctx.get('DOMTree')
 		let attributes = {

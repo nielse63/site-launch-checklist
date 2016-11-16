@@ -5,7 +5,7 @@ const defaults = require('./config').defaults;
 const _ = require('lodash');
 const os = require('os');
 const shelljs = require('shelljs');
-const async = require('async');
+// const async = require('async');
 const utils = require('./utils');
 
 // collections
@@ -15,11 +15,11 @@ const Rules = require('./collections/rules');
 const models = require('./models');
 
 // reporters
-const reporters = require('./reporters/table');
+// const reporters = require('./reporters/table');
 
 // vars
-let contexts = {};
-let collections = {};
+const contexts = {};
+const collections = {};
 
 function getServerData() {
 	return new Promise((resolve, reject) => {
@@ -56,7 +56,7 @@ function getHtmlData(settings) {
 		contexts.HTML = new models.HTML();
 	}
 
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 
 		contexts.HTML.once('change:DOMTree', () => {
 			resolve();
@@ -68,7 +68,7 @@ function getHtmlData(settings) {
 	})
 }
 
-function importRules(settings) {
+function importRules() {
 	const rules = loadRules();
 	Object.keys( rules ).forEach((ruleId) => {
 		const rulePath = rules[ruleId];
@@ -107,13 +107,13 @@ function runTestsForContext(ctx) {
 				}
 			})
 			if( i === count ) {
-				setTimeout(function() {
+				setTimeout(() => {
 					resolve();
 				}, 0)
 			}
 		}
 
-		const ignore = ['valid-html', 'title-tags', 'social-media', 'meta-tags']
+		const ignore = ['valid-html', 'title-tags', 'social-media']
 		rules.forEach((rule) => {
 			if(ignore.indexOf(rule.id) > -1) {
 				count--
@@ -122,7 +122,7 @@ function runTestsForContext(ctx) {
 			utils.info(rule.id)
 			const test = rule.get('test')
 			let result = test(context);
-			let tmp = result;
+			const tmp = result;
 			if( ! utils.isPromise(result) ) {
 				result = new Promise((_resolve) => {
 					_resolve(tmp)
@@ -138,16 +138,16 @@ function runTestsForContext(ctx) {
 	})
 }
 
-function updateContext() {
-	const tmpContext = {};
-	Rules.models.forEach((rule) => {
-		const ctx = rule.get('context');
-		if( ! tmpContext.hasOwnProperty(ctx) ) {
-			tmpContext[ctx] = models[ctx];
-		}
-	});
-	contexts = tmpContext;
-}
+// function updateContext() {
+// 	const tmpContext = {};
+// 	Rules.models.forEach((rule) => {
+// 		const ctx = rule.get('context');
+// 		if( ! tmpContext.hasOwnProperty(ctx) ) {
+// 			tmpContext[ctx] = models[ctx];
+// 		}
+// 	});
+// 	contexts = tmpContext;
+// }
 
 module.exports = exports = function(options) {
 	const settings = _.extend(defaults, options);
@@ -160,11 +160,11 @@ module.exports = exports = function(options) {
 	paths.update(settings.docroot)
 
 	// import all rules
-	importRules(settings);
+	importRules();
 
 	// get server data
-	getServerData().then(_serverData => {
-		let serverData = _.extend(_serverData, settings);
+	getServerData().then((_serverData) => {
+		const serverData = _.extend(_serverData, settings);
 		contexts.Server.set(serverData);
 
 		// run server tests

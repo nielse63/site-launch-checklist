@@ -21,10 +21,10 @@ const colors = {
 
 const getHeaders = function(url) {
 	return new Promise((resolve, reject) => {
-		shelljs.exec('curl -I ' + url, {
-			async : true,
+		shelljs.exec(`curl -I ${ url}`, {
+			async  : true,
 			silent : true
-		}, (err, res, body) => {
+		}, (err, res) => {
 			if( err ) {
 				return reject(err);
 			}
@@ -110,9 +110,9 @@ exports.getHTTPCode = function(url) {
 			const code = parts.shift()
 			const message = parts.join(' ')
 			resolve({
-				url : url,
-				code : code,
-				message : message
+				url,
+				code,
+				message
 			})
 		}, (err) => {
 			reject(err);

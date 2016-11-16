@@ -27,7 +27,6 @@ const mod = {
 	test(ctx) {
 
 		// variables should be defined here
-		// mod.output.value = [];
 		const $body = ctx.get('DOMTree')
 
 		//----------------------------------------------------------------------
