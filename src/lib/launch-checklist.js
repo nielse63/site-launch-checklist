@@ -6,6 +6,19 @@ const _ = require('lodash');
 const os = require('os');
 const shelljs = require('shelljs');
 const utils = require('./utils');
+const async = require('async')
+const clc = require('cli-color');
+const Table = require('cli-table');
+
+const colors = {
+	green      : clc.xterm( 112 ),
+	blue       : clc.xterm( 68 ),
+	red        : clc.xterm( 1 ),
+};
+let time = {
+	start : 0,
+	end : 0
+}
 
 // collections
 const Rules = require('./collections/rules');
@@ -89,28 +102,17 @@ function importRules() {
 function runTestsForContext(ctx) {
 	const rules = collections[ctx];
 	const context = contexts[ctx];
-	let count = rules.length;
-	let i = 0;
+	const count = rules.length
+	let i = 0
 
 	return new Promise((resolve) => {
 
-		function callback(data) {
-			// console.log(data);
-			// console.log('*'.repeat(50));
-			i++;
-			rules.forEach((_rule) => {
-				if( _rule.id === data.id ) {
-					_rule.set( data )
-				}
-			})
-			if( i === count ) {
-				setTimeout(() => {
-					resolve();
-				}, 0)
-			}
-		}
+		const q = async.queue((rule, callback) => {
 
-		rules.forEach((rule) => {
+			// before each test begins
+			process.stdout.write( colors.blue('- Checking ' + rule.get('name') ) )
+
+			// run test
 			const test = rule.get('test')
 			let result = test(context);
 			const tmp = result;
@@ -122,6 +124,21 @@ function runTestsForContext(ctx) {
 				});
 			}
 			result.then(callback)
+		});
+
+		// assign a callback
+		q.drain = function() {
+			resolve();
+		};
+
+		rules.forEach((rule) => {
+			q.push(rule, (data) => {
+				process.stdout.clearLine()
+				process.stdout.cursorTo(0)
+				process.stdout.write( colors.green('✓ Checking ' + rule.get('name') ) + '\r\n' )
+
+				rule.set(data)
+			});
 		})
 
 	}, (err) => {
@@ -131,13 +148,14 @@ function runTestsForContext(ctx) {
 
 function runServerRules() {
 	return new Promise((resolve, reject) => {
+		// utils.prompt('Starting server tests')
+
 		getServerData().then((_serverData) => {
 			const serverData = _.extend(_serverData, globals.settings);
 			contexts.Server.set(serverData);
 
 			// run server tests
 			runTestsForContext('Server').then(() => {
-				utils.success('Done with server tests')
 
 				resolve()
 			}, (err) => {
@@ -152,9 +170,10 @@ function runServerRules() {
 
 function runHTMLTests() {
 	return new Promise((resolve, reject) => {
+		// utils.prompt('Starting HTML tests')
+
 		getHtmlData( globals.settings ).then(() => {
 			runTestsForContext('HTML').then(() => {
-				utils.success('Done with HTML tests')
 
 				resolve()
 			}, (err) => {
@@ -168,10 +187,10 @@ function runHTMLTests() {
 }
 
 function runWordPressTests() {
-
 	return new Promise((resolve, reject) => {
+		// utils.prompt('Starting WordPress tests')
+
 		runTestsForContext('WordPress').then(() => {
-			utils.success('Done with WordPress tests')
 
 			resolve()
 		}, (err) => {
@@ -181,7 +200,62 @@ function runWordPressTests() {
 }
 
 function done() {
-	console.log(collections)
+	time.end = Date.now()
+	const diff = (time.end - time.start) * 10
+	const duration = utils.millisecondsToStr(diff)
+
+	process.stdout.write('\r\n')
+	process.stdout.write( colors.blue('='.repeat(30)) + '\r\n' )
+	process.stdout.write( colors.blue('  Completed all tests in ' + duration) + '\r\n' )
+	process.stdout.write('\r\n')
+	process.stdout.write( colors.blue('  Results:') + '\r\n' )
+	process.stdout.write( colors.blue('='.repeat(30)) + '\r\n' )
+
+	// let tableOptions = {
+	// 	style: {
+	// 		'padding-left': 3,
+	// 		'padding-right': 3,
+	// 		head: ['green'],
+	// 		border: ['white'],
+	// 	},
+	// 	head : ['Category', 'Name', 'Results']
+	// }
+	const keys = Object.keys(collections)
+	let rules = keys.map((key) => {
+		return collections[key]
+	})
+	rules = _.flatten(rules)
+
+	let grouped = utils.groupBy(rules, (rule) => {
+		return rule.get('docs').category;
+	});
+	grouped = _.flatten(grouped)
+
+	// get categories (table head)
+	// const categories = rules.map((rule) => {
+	// 	return rule.get('docs').category
+	// })
+	// tableOptions.head = [...new Set(categories)];
+	// console.log(categories);
+
+	// print table
+	const table = new Table({
+		style: {
+			head: ['green'],
+			border: ['white'],
+		},
+		head : ['Category', 'Name', 'Passed']
+	})
+	grouped.forEach((rule) => {
+		const category = rule.get('docs').category
+		const name = rule.get('name')
+		const passed = ! rule.get('failed')
+		const color = passed ? colors.green : colors.red
+		const symbol = colors[color]( passed ? '✓' : '✗' )
+		table.push([category, name, String(passed)])
+	})
+	process.stdout.write( table.toString() + '\r\n' )
+
 }
 
 module.exports = exports = function(options) {
@@ -190,6 +264,9 @@ module.exports = exports = function(options) {
 		utils.fail('no doc root provided. Exiting.');
 		return;
 	}
+
+	// start timer
+	time.start = Date.now()
 
 	// cache settings
 	globals.settings = settings

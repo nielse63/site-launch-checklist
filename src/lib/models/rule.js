@@ -14,8 +14,6 @@ const Rule = BackBone.Model.extend({
 		messaging : {
 			success  : 'The test passed successfully',
 			fail     : 'The test failed',
-			// warning  : 'A warning was thrown',
-			// error    : 'An error was thrown',
 			howtofix : 'Visit https://github.com/nielse63/launch-checklist for more information.'
 		},
 		context : '',
@@ -24,14 +22,9 @@ const Rule = BackBone.Model.extend({
 			value : ''
 		},
 		// working : false,
-		results : null,
-		test(input, callback) {
-			if( ! input ) {
-				return callback('No data input to test', null, input);
-			}
-
-			const dataOut = Object.create(input);
-			return callback(null, dataOut, input);
+		// results : null,
+		test(ctx) {
+			return ctx
 		}
 	},
 
