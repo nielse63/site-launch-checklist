@@ -1,4 +1,6 @@
 
+const shelljs = require('shelljs')
+
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
@@ -17,15 +19,17 @@ const mod = {
 	},
 	context : 'WordPress',
 	output  : {
-		type  : '',
-		value : ''
+		type  : 'object',
+		value : {}
 	},
 	failed : false,
 	test(ctx) {
 
 		// variables should be defined here
 		const options = ctx.get('options')
-		console.log(options)
+		const url = encodeURIComponent( options.site.siteurl )
+		const strategy = 'desktop';
+		const get = `https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=${ url }&screenshot=false&strategy=${ strategy }&key=AIzaSyBwB5pCLn_6i0QtDqqly_CmrO-Oe42daTg`
 
 		//----------------------------------------------------------------------
 		// Helpers
@@ -37,39 +41,37 @@ const mod = {
 		// Public
 		//----------------------------------------------------------------------
 
-		return mod
+		return new Promise((resolve) => {
+			shelljs.exec('curl ' + get, {
+				async : true,
+				silent : true
+			}, (code, stdout, stderr) => {
+				let json = {}
+				try {
+					json = JSON.parse(stdout)
+				} catch(e) {
+					return reject('Unable to parse response')
+				}
+
+				// set output
+				mod.output.value = json
+
+				// handle errors
+				if( json.error ) {
+					mod.failed = true
+					mod.output.value = json.error.message
+					return resolve(mod)
+				}
+
+				const score = output.ruleGroups.SPEED.score
+				if( score < 85 ) {
+					mod.failed = true
+				}
+
+				resolve(mod)
+			})
+		})
 	}
-	// test() {
-	// 	const json = site.toJSON();
-
-	// 	if( json.env.ip_address === '127.0.0.1' ) {
-	// 		utils.warn('!! Cannot check page speed of a local server.');
-	// 		return false;
-	// 	}
-
-	// 	const url = encodeURIComponent( json.site.siteurl );
-	// 	const strategy = 'desktop';
-	// 	const get = `https://www.googleapis.com/pagespeedonline/v2/runPagespeed?url=${ url }&screenshot=false&strategy=${ strategy }&key=AIzaSyBwB5pCLn_6i0QtDqqly_CmrO-Oe42daTg`;
-	// 	return new Promise((resolve, reject) => {
-	// 		curl.request(get, (err, stdout) => {
-	// 			if( err ) {
-	// 				return reject(err);
-	// 			}
-
-	// 			const output = JSON.parse(stdout);
-	// 			if( output.error ) {
-	// 				return reject( output.error.message );
-	// 			}
-
-	// 			const score = output.ruleGroups.SPEED.score;
-	// 			if( score < 85 ) {
-	// 				return reject( output );
-	// 			}
-
-	// 			resolve( output );
-	// 		});
-	// 	});
-	// }
 };
 
 module.exports = mod

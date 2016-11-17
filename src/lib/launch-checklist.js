@@ -110,13 +110,7 @@ function runTestsForContext(ctx) {
 			}
 		}
 
-		// const ignore = ['all-in-one-security-settings']
 		rules.forEach((rule) => {
-			// if(ignore.indexOf(rule.id) > -1) {
-			// 	count--
-			// 	return
-			// }
-			// utils.info(rule.id)
 			const test = rule.get('test')
 			let result = test(context);
 			const tmp = result;
@@ -186,6 +180,10 @@ function runWordPressTests() {
 	})
 }
 
+function done() {
+	console.log(collections)
+}
+
 module.exports = exports = function(options) {
 	const settings = _.extend(defaults, options);
 	if( ! settings.docroot ) {
@@ -212,4 +210,5 @@ module.exports = exports = function(options) {
 	runServerRules()
 		.then(runHTMLTests)
 		.then(runWordPressTests)
+		.then(done)
 }
