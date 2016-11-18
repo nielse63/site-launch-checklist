@@ -4,9 +4,32 @@ engines:
     enabled: true
     config:
       languages:
-      - ruby
       - javascript
-      - python
+      - php
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  phpmd:
+    enabled: true
+ratings:
+  paths:
+  - "**.inc"
+  - "**.js"
+  - "**.jsx"
+  - "**.module"
+  - "**.php"
+  - "**.py"
+  - "**.rb"
+exclude_paths:
+- test/
+---
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
       - php
   nodesecurity:
     enabled: true
