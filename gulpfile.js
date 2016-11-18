@@ -69,6 +69,12 @@ gulp.task('template', ['images', 'sass', 'babel:reporters'], () => {
 });
 
 // Watch files for changes & reload
+gulp.task('watch:src', (done) => {
+	gulp.watch(['src/lib/**/*.js'], ['lib:babel']);
+	gulp.watch(['src/test/*.test.js'], ['tests:babel']);
+});
+
+// Watch files for changes & reload
 gulp.task('watch', (done) => {
 	gulp.watch(['src/lib/**/*.js'], ['lib:babel']);
 	// gulp.watch(['tasks/**/*.js', 'gulpfile.js'], ['internal:babel']);
