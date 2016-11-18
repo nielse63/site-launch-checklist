@@ -66,7 +66,7 @@
   "scripts": {
     "build": "gulp lib",
     "codeclimate": "export $(cat ./.env-global | xargs) && ./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
-    "cover": "./node_modules/.bin/istanbul cover --report lcov _mocha",
+    "cover": "./node_modules/.bin/istanbul cover -x 'src/**/*.js' --report lcov _mocha",
     "install_wp": "sh ./test/pre-test.sh",
     "test": "npm run build && gulp tests && ./node_modules/.bin/mocha test/*.test.js",
     "lint:lib": "./node_modules/.bin/eslint src/lib/**/* --fix",

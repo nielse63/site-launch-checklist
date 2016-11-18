@@ -194,7 +194,7 @@ function done(reporter, outputFile) {
 
 	const output = reporters[reporter](collections)
 	if( outputFile ) {
-		utils.info('Saving output to file: ' + outputFile)
+		utils.info(`Saving output to file: ${ outputFile}`)
 		return utils.writeFile(outputFile, output)
 	}
 	process.stdout.write( `${output }\n` )

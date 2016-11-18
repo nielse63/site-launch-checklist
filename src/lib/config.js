@@ -34,5 +34,5 @@ module.exports.defaults = {
 	docroot     : getDocRoot(),
 	'wp-config' : getWPConfig( getDocRoot() ),
 	reporter    : 'table',
-	output      : null,
+	output      : null
 };
