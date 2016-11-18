@@ -4,7 +4,7 @@ const _ = require('lodash')
 
 module.exports = function(collections) {
 	const keys = Object.keys(collections)
-	let output = {}
+	const output = {}
 	let rules = keys.map((key) => {
 		return collections[key]
 	})
@@ -27,7 +27,7 @@ module.exports = function(collections) {
 		output[category].push({
 			name,
 			passed : String(passed),
-			message,
+			message
 		})
 	})
 

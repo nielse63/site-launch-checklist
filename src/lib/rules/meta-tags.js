@@ -48,9 +48,9 @@ const mod = {
 		const maxlen = 75
 		mod.messaging.success = compiled({
 			tags : tags.map((_tag) => {
-				const tag = '  ' + _tag
+				const tag = `  ${ _tag}`
 				if( tag.length > maxlen ) {
-					return tag.substring(0, maxlen) + '...'
+					return `${tag.substring(0, maxlen) }...`
 				}
 				return tag
 			}).join('\n')

@@ -18,9 +18,9 @@ module.exports = function(collections) {
 
 	// set up table
 	const table = new Table({
-		style: {
-			head: ['green'],
-			border: ['white'],
+		style : {
+			head   : ['green'],
+			border : ['white']
 		},
 		head : ['Category', 'Name', 'Passed', 'Message']
 	})
@@ -38,5 +38,5 @@ module.exports = function(collections) {
 	})
 
 	// print table
-	return '\n' + table.toString()
+	return `\n${ table.toString()}`
 }

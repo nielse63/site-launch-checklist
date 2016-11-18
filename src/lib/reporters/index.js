@@ -6,5 +6,5 @@ const html = require('./html')
 module.exports = {
 	table,
 	json,
-	html,
+	html
 }

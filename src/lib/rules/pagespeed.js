@@ -73,13 +73,13 @@ const mod = {
 				if( score < 85 ) {
 					const compiled = _.template( mod.messaging.fail )
 					mod.messaging.fail = compiled({
-						score : score
+						score
 					})
 					mod.failed = true
 				} else {
 					const compiled = _.template( mod.messaging.success )
 					mod.messaging.success = compiled({
-						score : score
+						score
 					})
 				}
 
