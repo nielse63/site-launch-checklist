@@ -1,33 +1,31 @@
+'use strict';
 
-const gulp = require('gulp');
-const runSequence = require('run-sequence');
-const utils = require('./utils');
+var gulp = require('gulp');
+var runSequence = require('run-sequence');
+var utils = require('./utils');
 
-const inDir = 'src/test/*.test.js';
-const outDir = './test';
+var inDir = 'src/test/*.test.js';
+var outDir = './test';
 
-gulp.task('tests:clean', () => {
+gulp.task('tests:clean', function () {
 	return utils.clean('./test/*.test.js');
 });
 
-gulp.task('tests:babel', () => {
+gulp.task('tests:babel', function () {
 	return utils.babel(inDir, outDir);
 });
 
-gulp.task('tests:eslint', () => {
-	return utils.eslint( inDir );
+gulp.task('tests:eslint', function () {
+	return utils.eslint(inDir);
 });
 
-gulp.task('tests', (done) => {
-	runSequence(
-		'tests:clean',
-		// 'tests:eslint',
-		'tests:babel',
-		done
-	);
+gulp.task('tests', function (done) {
+	runSequence('tests:clean',
+	// 'tests:eslint',
+	'tests:babel', done);
 });
 
 // Watch files for changes & reload
-gulp.task('watch:tests', () => {
+gulp.task('watch:tests', function () {
 	gulp.watch([inDir], ['tests:babel']);
 });

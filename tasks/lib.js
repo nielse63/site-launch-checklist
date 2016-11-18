@@ -1,39 +1,31 @@
+'use strict';
 
-const gulp = require('gulp');
-const runSequence = require('run-sequence');
-const utils = require('./utils');
+var gulp = require('gulp');
+var runSequence = require('run-sequence');
+var utils = require('./utils');
 
-const inDir = 'src/**/*.js';
-const outDir = './';
+var inDir = 'src/**/*.js';
+var outDir = './';
 
-gulp.task('lib:clean', () => {
+gulp.task('lib:clean', function () {
 	return utils.clean('./lib');
 });
 
-gulp.task('lib:babel', () => {
-	var babelIn = [
-		'!src/reporters/**/*',
-		'!src/templates/**/*',
-		'!src/reporters/**/*',
-	];
-	babelIn.push(inDir)
+gulp.task('lib:babel', function () {
+	var babelIn = ['!src/reporters/**/*', '!src/templates/**/*', '!src/reporters/**/*'];
+	babelIn.push(inDir);
 	return utils.babel(babelIn, outDir);
 });
 
-gulp.task('lib:eslint', () => {
-	return utils.eslint( inDir );
+gulp.task('lib:eslint', function () {
+	return utils.eslint(inDir);
 });
 
-gulp.task('lib', (done) => {
-	runSequence(
-		'lib:clean',
-		'lib:eslint',
-		'lib:babel',
-		done
-	);
+gulp.task('lib', function (done) {
+	runSequence('lib:clean', 'lib:eslint', 'lib:babel', done);
 });
 
 // Watch files for changes & reload
-gulp.task('watch:lib', () => {
+gulp.task('watch:lib', function () {
 	gulp.watch([inDir], ['lib:babel']);
 });

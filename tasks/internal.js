@@ -1,26 +1,21 @@
+'use strict';
 
-const gulp = require('gulp');
-const runSequence = require('run-sequence');
-const utils = require('./utils');
+var gulp = require('gulp');
+var runSequence = require('run-sequence');
+var utils = require('./utils');
 
 // vars
-const inDir = [
-	'tasks/**/*.js',
-	'gulpfile.js'
-];
+var inDir = ['tasks/**/*.js', 'gulpfile.js'];
 
-gulp.task('internal:eslint', () => {
-	return utils.eslint( inDir );
+gulp.task('internal:eslint', function () {
+	return utils.eslint(inDir);
 });
 
-gulp.task('internal', (done) => {
-	runSequence(
-		'internal:eslint',
-		done
-	);
+gulp.task('internal', function (done) {
+	runSequence('internal:eslint', done);
 });
 
 // Watch files for changes & reload
-gulp.task('watch:internal', () => {
+gulp.task('watch:internal', function () {
 	gulp.watch([inDir], ['internal:eslint']);
 });

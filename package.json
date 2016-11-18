@@ -61,7 +61,7 @@
   },
   "main": "lib/main.js",
   "scripts": {
-    "build": "gulp lib",
+    "build": "gulp babel:tasks && gulp lib",
     "codeclimate": "export $(cat ./.env-global | xargs) && ./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
     "cover": "./node_modules/.bin/istanbul cover -x 'src/**/*.js' --report lcov _mocha",
     "install_wp": "sh ./test/pre-test.sh",

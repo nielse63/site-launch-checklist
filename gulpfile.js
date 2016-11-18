@@ -13,7 +13,15 @@ const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
 
-require('require-dir')('tasks');
+require('require-dir')('./tasks');
+
+gulp.task('babel:tasks', () => {
+	return gulp.src([
+		'tasks/*.js',
+	])
+	.pipe(babel())
+	.pipe(gulp.dest('tasks'));
+});
 
 gulp.task('babel', () => {
 	return gulp.src([
