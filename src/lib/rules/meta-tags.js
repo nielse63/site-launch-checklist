@@ -1,5 +1,6 @@
 
-const $ = require('cheerio');
+const $ = require('cheerio')
+const _ = require('lodash')
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -13,7 +14,7 @@ const mod = {
 		category    : 'SEO'
 	},
 	messaging : {
-		success  : '',
+		success  : 'Your site has the following meta tags:\n\n<%= tags %>',
 		fail     : '',
 		howtofix : ''
 	},
@@ -39,11 +40,22 @@ const mod = {
 		// Public
 		//----------------------------------------------------------------------
 
-		const output = []
+		const tags = []
 		$tags.each((i, item) => {
-			output.push( $.html(item).trim() )
+			tags.push( $.html(item).trim() )
 		})
-		mod.output.value = output
+		const compiled = _.template(mod.messaging.success)
+		const maxlen = 75
+		mod.messaging.success = compiled({
+			tags : tags.map((_tag) => {
+				const tag = '  ' + _tag
+				if( tag.length > maxlen ) {
+					return tag.substring(0, maxlen) + '...'
+				}
+				return tag
+			}).join('\n')
+		})
+		mod.output.value = tags
 
 		return mod;
 	}

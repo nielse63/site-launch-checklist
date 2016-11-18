@@ -15,8 +15,8 @@ const mod = {
 		category    : 'SEO'
 	},
 	messaging : {
-		success  : '',
-		fail     : '',
+		success  : 'Robots.txt file found successfully',
+		fail     : 'No robots.txt file was found',
 		howtofix : ''
 	},
 	context : 'WordPress',
@@ -38,7 +38,7 @@ const mod = {
 
 		// any helper functions should go here or else delete this section
 		function getFileContent() {
-			return new Promise((resolve) => {
+			return new Promise((resolve, reject) => {
 				shelljs.exec(`curl --no-keepalive ${ targetUrl}`, {
 					async  : true,
 					silent : true
@@ -55,7 +55,7 @@ const mod = {
 		// Public
 		//----------------------------------------------------------------------
 
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			utils.getHTTPCode(targetUrl).then((data) => {
 				if( data.code > 199 && data.code < 400 ) {
 					return getFileContent().then((content) => {

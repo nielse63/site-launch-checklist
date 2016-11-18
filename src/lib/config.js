@@ -1,8 +1,4 @@
 
-require('dotenv').config({
-	silent : true
-});
-
 const path = require('path');
 const fs = require('fs');
 const currentDir = process.env.CWD || process.cwd();
@@ -27,16 +23,15 @@ function getDocRoot(dir) {
 		}
 		pathArray.pop();
 	});
-
 	return cwd;
 }
 
 module.exports.getWPConfig = getWPConfig;
 module.exports.getDocRoot = getDocRoot;
-
 module.exports.defaults = {
 	url         : '',
 	cwd         : currentDir,
 	docroot     : getDocRoot(),
-	'wp-config' : getWPConfig( getDocRoot() )
+	'wp-config' : getWPConfig( getDocRoot() ),
+	reporter    : 'table',
 };

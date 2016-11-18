@@ -67,7 +67,7 @@ const mod = {
 			const output = {
 				success : [],
 				fail    : []
-			};
+			}
 
 			array.forEach((href) => {
 				utils.getHTTPCode(href).then((res) => {
@@ -91,12 +91,13 @@ const mod = {
 								links
 							})
 						}
-						resolve(mod);
+						// resolve(mod);
 					}
 				})
-			});
-		});
+			})
+			resolve(mod)
+		})
 	}
-};
+}
 
 module.exports = mod

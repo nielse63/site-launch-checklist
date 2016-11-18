@@ -1,5 +1,6 @@
 
 const shelljs = require('shelljs')
+const _ = require('lodash')
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -13,8 +14,8 @@ const mod = {
 		category    : 'Performance'
 	},
 	messaging : {
-		success  : '',
-		fail     : '',
+		success  : 'The Google PageSpeed Score was above <%= score %>',
+		fail     : 'The Google PageSpeed Score (<%= score %>) is below the requirement',
 		howtofix : ''
 	},
 	context : 'WordPress',
@@ -41,11 +42,11 @@ const mod = {
 		// Public
 		//----------------------------------------------------------------------
 
-		return new Promise((resolve) => {
-			shelljs.exec('curl ' + get, {
-				async : true,
+		return new Promise((resolve, reject) => {
+			shelljs.exec(`curl ${ get}`, {
+				async  : true,
 				silent : true
-			}, (code, stdout, stderr) => {
+			}, (code, stdout) => {
 				let json = {}
 				try {
 					json = JSON.parse(stdout)
@@ -60,12 +61,26 @@ const mod = {
 				if( json.error ) {
 					mod.failed = true
 					mod.output.value = json.error.message
+					const compiled = _.template( 'Unable to evalute performance:\n  - <%= reason %>' )
+					mod.messaging.fail = compiled({
+						reason : mod.output.value
+					})
 					return resolve(mod)
 				}
 
-				const score = output.ruleGroups.SPEED.score
+				const score = json.ruleGroups.SPEED.score
+
 				if( score < 85 ) {
+					const compiled = _.template( mod.messaging.fail )
+					mod.messaging.fail = compiled({
+						score : score
+					})
 					mod.failed = true
+				} else {
+					const compiled = _.template( mod.messaging.success )
+					mod.messaging.success = compiled({
+						score : score
+					})
 				}
 
 				resolve(mod)

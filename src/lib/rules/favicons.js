@@ -14,7 +14,7 @@ const mod = {
 	},
 	messaging : {
 		success  : 'All the correct favicons were found',
-		fail     : 'Unable to meet all the favicon requirements:\r\n<%= messages %>',
+		fail     : 'Unable to meet all the favicon requirements:\n<%= messages %>',
 		howtofix : [
 			'The ideal favicon package would look something like this:',
 			'\t<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">',
@@ -23,7 +23,7 @@ const mod = {
 			'\t<link rel="manifest" href="/manifest.json">',
 			'\t<meta name="theme-color" content="#ffffff">',
 			'\t<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">'
-		].join('\r\n')
+		].join('\n')
 	},
 	context : 'HTML',
 	output  : {
@@ -47,7 +47,7 @@ const mod = {
 					'[rel="icon"][sizes="32x32"]',
 					'[rel="icon"][sizes="16x16"]'
 				],
-				example : '<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">\r\n<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">',
+				example : '<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">\n<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">',
 				found   : true,
 				message : 'One, or both, of the favicon declarations weren\'t found'
 			},
@@ -56,7 +56,7 @@ const mod = {
 					'[rel="manifest"]',
 					'[name="theme-color"]'
 				],
-				example : '<link rel="manifest" href="/manifest.json">\r\n<meta name="theme-color" content="#ffffff">',
+				example : '<link rel="manifest" href="/manifest.json">\n<meta name="theme-color" content="#ffffff">',
 				found   : true,
 				message : 'The site\'s manifest.json file and/or theme color were not found'
 			},
@@ -105,7 +105,7 @@ const mod = {
 		if( messages.length ) {
 			const compiled = _.template( mod.messaging.fail )
 			mod.messaging.fail = compiled({
-				messages : messages.join('\r\n')
+				messages : messages.join('\n')
 			})
 			mod.failed = true
 		}

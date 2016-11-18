@@ -125,9 +125,6 @@ exports.getHTTPCode = function(url) {
 }
 
 exports.millisecondsToStr = function(milliseconds) {
-    // TIP: to find current time in milliseconds, use:
-    // var  current_time_milliseconds = new Date().getTime();
-
     function numberEnding (number) {
         return (number > 1) ? 's' : '';
     }
@@ -137,7 +134,6 @@ exports.millisecondsToStr = function(milliseconds) {
     if (years) {
         return years + ' year' + numberEnding(years);
     }
-    //TODO: Months! Maybe weeks?
     var days = Math.floor((temp %= 31536000) / 86400);
     if (days) {
         return days + ' day' + numberEnding(days);

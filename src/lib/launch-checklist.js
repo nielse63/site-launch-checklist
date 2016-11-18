@@ -8,31 +8,19 @@ const shelljs = require('shelljs');
 const utils = require('./utils');
 const async = require('async')
 const clc = require('cli-color');
-const Table = require('cli-table');
-
-const colors = {
-	green      : clc.xterm( 112 ),
-	blue       : clc.xterm( 68 ),
-	red        : clc.xterm( 1 ),
-};
-let time = {
-	start : 0,
-	end : 0
-}
-
-// collections
+const colors = require('./constants').colors
 const Rules = require('./collections/rules');
-
-// models
 const models = require('./models');
-
-// reporters
-// const reporters = require('./reporters/table');
+const reporters = require('./reporters');
 
 // vars
 const contexts = {};
 const collections = {};
 const globals = {};
+const time = {
+	start : 0,
+	end : 0
+}
 
 function getServerData() {
 	return new Promise((resolve, reject) => {
@@ -148,7 +136,6 @@ function runTestsForContext(ctx) {
 
 function runServerRules() {
 	return new Promise((resolve, reject) => {
-		// utils.prompt('Starting server tests')
 
 		getServerData().then((_serverData) => {
 			const serverData = _.extend(_serverData, globals.settings);
@@ -170,25 +157,25 @@ function runServerRules() {
 
 function runHTMLTests() {
 	return new Promise((resolve, reject) => {
-		// utils.prompt('Starting HTML tests')
 
 		getHtmlData( globals.settings ).then(() => {
 			runTestsForContext('HTML').then(() => {
 
 				resolve()
 			}, (err) => {
-				reject(err);
+				utils.error(err);
 			})
 
 		}, (err) => {
-			reject(err);
+			utils.error(err);
 		})
+	}, (err) => {
+		utils.error(err);
 	})
 }
 
 function runWordPressTests() {
 	return new Promise((resolve, reject) => {
-		// utils.prompt('Starting WordPress tests')
 
 		runTestsForContext('WordPress').then(() => {
 
@@ -199,63 +186,18 @@ function runWordPressTests() {
 	})
 }
 
-function done() {
+function done(reporter) {
 	time.end = Date.now()
 	const diff = (time.end - time.start) * 10
 	const duration = utils.millisecondsToStr(diff)
+	const string = '- Completed all tests in ' + duration
+	const repeat = string.length + 2
 
-	process.stdout.write('\r\n')
-	process.stdout.write( colors.blue('='.repeat(30)) + '\r\n' )
-	process.stdout.write( colors.blue('  Completed all tests in ' + duration) + '\r\n' )
-	process.stdout.write('\r\n')
-	process.stdout.write( colors.blue('  Results:') + '\r\n' )
-	process.stdout.write( colors.blue('='.repeat(30)) + '\r\n' )
+	process.stdout.write( colors.blue(string) + '\r\n' )
+	process.stdout.write( colors.blue('='.repeat(repeat)) + '\r\n' )
 
-	// let tableOptions = {
-	// 	style: {
-	// 		'padding-left': 3,
-	// 		'padding-right': 3,
-	// 		head: ['green'],
-	// 		border: ['white'],
-	// 	},
-	// 	head : ['Category', 'Name', 'Results']
-	// }
-	const keys = Object.keys(collections)
-	let rules = keys.map((key) => {
-		return collections[key]
-	})
-	rules = _.flatten(rules)
-
-	let grouped = utils.groupBy(rules, (rule) => {
-		return rule.get('docs').category;
-	});
-	grouped = _.flatten(grouped)
-
-	// get categories (table head)
-	// const categories = rules.map((rule) => {
-	// 	return rule.get('docs').category
-	// })
-	// tableOptions.head = [...new Set(categories)];
-	// console.log(categories);
-
-	// print table
-	const table = new Table({
-		style: {
-			head: ['green'],
-			border: ['white'],
-		},
-		head : ['Category', 'Name', 'Passed']
-	})
-	grouped.forEach((rule) => {
-		const category = rule.get('docs').category
-		const name = rule.get('name')
-		const passed = ! rule.get('failed')
-		const color = passed ? colors.green : colors.red
-		const symbol = colors[color]( passed ? '✓' : '✗' )
-		table.push([category, name, String(passed)])
-	})
-	process.stdout.write( table.toString() + '\r\n' )
-
+	const output = reporters[reporter](collections)
+	process.stdout.write( output + '\n' )
 }
 
 module.exports = exports = function(options) {
@@ -287,5 +229,5 @@ module.exports = exports = function(options) {
 	runServerRules()
 		.then(runHTMLTests)
 		.then(runWordPressTests)
-		.then(done)
+		.then(done.bind(null, settings.reporter))
 }

@@ -14,8 +14,8 @@ const mod = {
 		category    : 'General'
 	},
 	messaging : {
-		success  : 'All social media links are valid',
-		fail     : 'Some social media links are pointing to the incorrect URL.',
+		success  : 'All social media links seem valid',
+		fail     : 'Some social media links are pointing to the incorrect URL',
 		howtofix : ''
 	},
 	context : 'HTML',

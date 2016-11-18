@@ -19,13 +19,13 @@ const mod = {
 			main         : 'The headers returned by a ping to the site',
 			shouldntHave : [
 				'responded with the following insecure headers:',
-				'<% _.forEach(contains, function(header) { %>\t- "<%- header %>"<% }); %>'
-			].join('\r\n'),
-			conjunction : '\nand',
+				'<% _.forEach(contains, function(header) { %>  - "<%- header %>"\n<% }); %>'
+			].join('\n').trim(),
+			conjunction : 'and ',
 			shouldHave  : [
 				'was missing the following header values:',
-				'<% _.forEach(missing, function(header) { %>\t- "<%- header %>"<% }); %>'
-			].join('\r\n')
+				'<% _.forEach(missing, function(header) { %>  - "<%- header %>"\n<% }); %>'
+			].join('\n').trim()
 		},
 		howtofix : [
 			'To learn more about how to set up a secure server environment and fix the current issues, visit the following resources:',
@@ -34,7 +34,7 @@ const mod = {
 			'\t- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server',
 			'\t- http://wordpress.stackexchange.com/a/76092',
 			'\t- http://www.ducea.com/2006/06/16/apache-tips-tricks-hide-php-version-x-powered-by/'
-		].join('\r\n')
+		].join('\n').trim()
 	},
 	context : 'Server',
 	output  : {
@@ -112,7 +112,7 @@ const mod = {
 
 			const string = `${Object.keys(message).map((key) => {
 				return message[key];
-			}).join(' ') }.`;
+			}).join('') }`
 
 			const compiled = _.template( string )
 			return compiled({

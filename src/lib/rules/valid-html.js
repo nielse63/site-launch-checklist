@@ -1,5 +1,6 @@
 
 const validator = require('html-validator')
+const utils = require('../utils')
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -59,7 +60,7 @@ const mod = {
 		return new Promise((resolve, reject) => {
 			validator(options, (err, _data) => {
 				if (err) {
-					reject( err )
+					return reject( err )
 				}
 				const json = JSON.parse( _data );
 				const data = filterResults( json.messages );
@@ -69,11 +70,13 @@ const mod = {
 					mod.failed = true
 				}
 				if( data.warning.length ) {
-					mod.messaging.success = mod.messaging.success.replace('.', ', but there were a few warnings. See the data below for more details.')
+					mod.messaging.success = mod.messaging.success.replace('.', ', but there were a few warnings.\nVisit https://html5.validator.nu/ for details.')
 				}
 
 				resolve( mod );
 			})
+		}, (err) => {
+			utils.error(err)
 		})
 	}
 }

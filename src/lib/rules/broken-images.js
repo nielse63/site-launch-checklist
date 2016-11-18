@@ -10,7 +10,7 @@ const _ = require('lodash');
 
 const mod = {
 	id   : 'broken-images',
-	name : 'Broken Links',
+	name : 'Broken Images',
 	docs : {
 		description : 'Searches the homepage for broken images',
 		category    : 'General'

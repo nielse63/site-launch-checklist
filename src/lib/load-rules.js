@@ -3,10 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const paths = require('./paths');
 
-module.exports = function(rulesDir) {
-	if ( ! rulesDir ) {
-		rulesDir = paths.rules;
-	}
+module.exports = function(rulesDir = paths.rules) {
 
 	const rules = Object.create(null);
 	fs.readdirSync(rulesDir).forEach((file) => {

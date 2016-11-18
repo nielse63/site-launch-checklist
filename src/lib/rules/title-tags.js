@@ -1,5 +1,6 @@
 
 const $ = require('cheerio')
+const _ = require('lodash')
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -14,7 +15,7 @@ const mod = {
 	},
 	messaging : {
 		success  : 'All your <a> tags include the [title] attribute',
-		fail     : '<a> tags were found without the [title] attribute',
+		fail     : '<%= count %> <a> tags were found without the [title] attribute',
 		howtofix : ''
 	},
 	context : 'HTML',
@@ -45,6 +46,12 @@ const mod = {
 
 		mod.output.value = output
 		mod.failed = !! output.length
+		if(mod.failed) {
+			const compiled = _.template(mod.messaging.fail)
+			mod.messaging.fail = compiled({
+				count : output.length
+			})
+		}
 
 		return mod
 	}
