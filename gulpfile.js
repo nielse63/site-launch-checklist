@@ -13,6 +13,8 @@ const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
 
+require('require-dir')('tasks');
+
 gulp.task('babel', () => {
 	return gulp.src([
 		'src/**/*.js',
@@ -79,6 +81,3 @@ gulp.task('watch', (done) => {
 	gulp.watch(['src/lib/**/*.js'], ['lib:babel']);
 	// gulp.watch(['tasks/**/*.js', 'gulpfile.js'], ['internal:babel']);
 });
-
-// Load custom tasks from the `tasks` directory
-try { require('require-dir')('tasks'); } catch (err) { console.error(err); }

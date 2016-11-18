@@ -29,10 +29,7 @@
     "inquirer": "1.2.2",
     "lodash": "4.16.4",
     "mkdirp": "0.5.1",
-    "open": "0.0.5",
-    "request": "2.75.0",
-    "shelljs": "0.7.4",
-    "wp-cli": "0.0.5"
+    "shelljs": "0.7.4"
   },
   "devDependencies": {
     "babel-core": "6.18.0",
