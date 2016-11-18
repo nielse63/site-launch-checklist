@@ -3,8 +3,6 @@ const path = require( 'path' );
 const checklist = require('../');
 const expect = require( 'chai' ).expect;
 
-const docroot = path.resolve(__dirname, 'sample');
-
 describe('Main Module', () => {
 
 	it('should load as a module', (done) => {

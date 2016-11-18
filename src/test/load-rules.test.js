@@ -1,5 +1,4 @@
 
-const path = require( 'path' );
 const expect = require( 'chai' ).expect;
 const loadRules = require('../lib/load-rules');
 

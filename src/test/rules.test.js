@@ -6,15 +6,13 @@ const rulesDir = path.resolve(__dirname, '..', 'lib', 'rules');
 const ruleFiles = fs.readdirSync(rulesDir)
 
 describe('Rules Module', () => {
-	// console.log(ruleFiles)
 
 	ruleFiles.map((file) => {
 		const ruleFile = path.join( rulesDir, file )
-		console.log(ruleFile)
-	})
 
-	// it('should load as a module', (done) => {
-	// 	expect(utils).to.exist;
-	// 	done();
-	// });
+		it(`should load ${ file.replace(/.js$/, '') } as a module`, (done) => {
+			expect(file).to.exist;
+			done();
+		});
+	})
 });

@@ -67,10 +67,11 @@
     "build": "gulp lib",
     "codeclimate": "export $(cat ./.env-global | xargs) && ./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
     "cover": "./node_modules/.bin/istanbul cover --report lcov _mocha",
-    "pretest": "sh ./test/pre-test.sh",
+    "install_wp": "sh ./test/pre-test.sh",
     "test": "npm run build && gulp tests && ./node_modules/.bin/mocha test/*.test.js",
-    "lint": "./node_modules/.bin/eslint src/lib/**/* --fix --quiet",
-    "lint:test": "./node_modules/.bin/eslint test/*.js --env mocha --fix"
+    "lint:lib": "./node_modules/.bin/eslint src/lib/**/* --fix",
+    "lint:test": "./node_modules/.bin/eslint src/lib/test/*.js --env mocha --fix",
+    "lint": "npm run lint:lib; npm run lint:test"
   },
   "engines": {
     "node": ">=0.12"

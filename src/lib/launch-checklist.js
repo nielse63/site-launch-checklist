@@ -19,12 +19,12 @@ const collections = {};
 const globals = {};
 const time = {
 	start : 0,
-	end : 0
+	end   : 0
 }
 
 function getServerData() {
 	return new Promise((resolve, reject) => {
-		if( typeof contexts.Server.set !== 'function' ) {
+		if( contexts.Server.hasOwnProperty('set') && typeof contexts.Server.set !== 'function' ) {
 			contexts.Server = new models.Server();
 		}
 		contexts.Server.set({
@@ -91,14 +91,14 @@ function runTestsForContext(ctx) {
 	const rules = collections[ctx];
 	const context = contexts[ctx];
 	const count = rules.length
-	let i = 0
+	const i = 0
 
 	return new Promise((resolve) => {
 
 		const q = async.queue((rule, callback) => {
 
 			// before each test begins
-			process.stdout.write( colors.blue('- Checking ' + rule.get('name') ) )
+			process.stdout.write( colors.blue(`- Checking ${ rule.get('name')}` ) )
 
 			// run test
 			const test = rule.get('test')
@@ -123,7 +123,7 @@ function runTestsForContext(ctx) {
 			q.push(rule, (data) => {
 				process.stdout.clearLine()
 				process.stdout.cursorTo(0)
-				process.stdout.write( colors.green('✓ Checking ' + rule.get('name') ) + '\r\n' )
+				process.stdout.write( `${colors.green(`✓ Checking ${ rule.get('name')}` ) }\r\n` )
 
 				rule.set(data)
 			});
@@ -190,14 +190,14 @@ function done(reporter) {
 	time.end = Date.now()
 	const diff = (time.end - time.start) * 10
 	const duration = utils.millisecondsToStr(diff)
-	const string = '- Completed all tests in ' + duration
+	const string = `- Completed all tests in ${ duration}`
 	const repeat = string.length + 2
 
-	process.stdout.write( colors.blue(string) + '\r\n' )
-	process.stdout.write( colors.blue('='.repeat(repeat)) + '\r\n' )
+	process.stdout.write( `${colors.blue(string) }\r\n` )
+	process.stdout.write( `${colors.blue('='.repeat(repeat)) }\r\n` )
 
 	const output = reporters[reporter](collections)
-	process.stdout.write( output + '\n' )
+	process.stdout.write( `${output }\n` )
 }
 
 module.exports = exports = function(options) {

@@ -18,7 +18,7 @@ describe('Config Module', () => {
 		done();
 	});
 
-	it('getWPConfig should return string', function (done) {
+	it('getWPConfig should return string', (done) => {
 		const returned = config.getWPConfig(process.cwd())
 		expect(typeof(returned)).to.equal('string');
 		done();
@@ -30,7 +30,7 @@ describe('Config Module', () => {
 		done();
 	});
 
-	it('getDocRoot should return string', function (done) {
+	it('getDocRoot should return string', (done) => {
 		const returned = config.getDocRoot(process.cwd())
 		expect(typeof(returned)).to.equal('string');
 		done();

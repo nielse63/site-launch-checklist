@@ -33,5 +33,5 @@ module.exports.defaults = {
 	cwd         : currentDir,
 	docroot     : getDocRoot(),
 	'wp-config' : getWPConfig( getDocRoot() ),
-	reporter    : 'table',
+	reporter    : 'table'
 };
