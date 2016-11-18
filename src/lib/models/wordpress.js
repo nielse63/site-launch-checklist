@@ -14,34 +14,22 @@ const WordPress = BackBone.Model.extend({
 		plugins : []
 	},
 
-	getSiteData() {
-		const _self = this
-		const docroot = path.resolve( _self.get('docroot') )
-		const aboutFile = path.join( _self.get('cwd'), 'bin', 'commands', 'about.php' )
-		const configFile = path.join( docroot, 'wp-config.php' )
-
-		shelljs.exec(`php -f ${ aboutFile } config=${ configFile}`, {
-			async  : true,
-			silent : true
-		}, (code, stdout, stderr) => {
-			if( code ) {
-				return utils.error(`${code }: ${ stderr}`)
-			}
-			let json = {}
-			try {
-				json = JSON.parse(stdout)
-			} catch(e) {}
-			_self.set({
-				options : json
-			})
-		})
+	getDocroot() {
+		return path.resolve( _self.get('docroot') )
 	},
 
-	getPlugins() {
+	getPhpFile(filename) {
+		return path.join( this.get('cwd'), 'bin', 'commands', filename )
+	},
+
+	getWpConfig(filename) {
+		return path.join( getDocroot(), 'wp-config.php' )
+	},
+
+	getSiteData() {
 		const _self = this
-		const docroot = path.resolve( _self.get('docroot') )
-		const cmdFile = path.join( _self.get('cwd'), 'bin', 'commands', 'plugins.php' )
-		const configFile = path.join( docroot, 'wp-config.php' )
+		const cmdFile = getPhpFile( 'about.php' )
+		const configFile = getWpConfig()
 
 		shelljs.exec(`php -f ${ cmdFile } config=${ configFile}`, {
 			async  : true,
@@ -53,7 +41,35 @@ const WordPress = BackBone.Model.extend({
 			let json = {}
 			try {
 				json = JSON.parse(stdout)
-			} catch(e) {}
+			} catch(e) {
+				utils.warn(e)
+			}
+
+			// set value
+			_self.set({
+				options : json
+			})
+		})
+	},
+
+	getPlugins() {
+		const _self = this
+		const cmdFile = getPhpFile( 'plugins.php' )
+		const configFile = getWpConfig()
+
+		shelljs.exec(`php -f ${ cmdFile } config=${ configFile}`, {
+			async  : true,
+			silent : true
+		}, (code, stdout, stderr) => {
+			if( code ) {
+				return utils.error(`${code }: ${ stderr}`)
+			}
+			let json = {}
+			try {
+				json = JSON.parse(stdout)
+			} catch(e) {
+				utils.warn(e)
+			}
 			_self.set({
 				plugins : json
 			})

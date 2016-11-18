@@ -14,6 +14,10 @@ function createRuleArray(property) {
 	var output = [];
 	var object = constants[property];
 	for (var key in object) {
+		if (!object.hasOwnProperty(key)) {
+			continue;
+		}
+
 		output.push(object[key]);
 	}
 	return output;

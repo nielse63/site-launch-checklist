@@ -16,9 +16,9 @@ ratings:
   paths:
   - "src/lib/**/*.js"
   - "src/templates/**/*.js"
-  - "src/test/**/*.js"
   - "bin/**/*.php"
 exclude_paths:
 - test/
 - src/docs/
+- src/test/
 - tasks/
