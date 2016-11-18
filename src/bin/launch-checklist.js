@@ -13,6 +13,10 @@ function createRuleArray(property) {
 	const output = [];
 	const object = constants[property];
 	for(const key in object) {
+		if( ! object.hasOwnProperty(key) ) {
+			continue;
+		}
+
 		output.push(object[key]);
 	}
 	return output
