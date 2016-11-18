@@ -1,5 +1,4 @@
 
-const path = require( 'path' );
 const checklist = require('../');
 const expect = require( 'chai' ).expect;
 

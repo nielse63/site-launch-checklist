@@ -1,9 +1,6 @@
 
-const path = require( 'path' );
 const config = require('../lib/config');
 const expect = require( 'chai' ).expect;
-
-const docroot = path.resolve(__dirname, 'sample');
 
 describe('Config Module', () => {
 

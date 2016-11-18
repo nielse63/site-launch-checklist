@@ -7,7 +7,6 @@ const os = require('os');
 const shelljs = require('shelljs');
 const utils = require('./utils');
 const async = require('async')
-const clc = require('cli-color');
 const colors = require('./constants').colors
 const Rules = require('./collections/rules');
 const models = require('./models');
@@ -24,7 +23,7 @@ const time = {
 
 function getServerData() {
 	return new Promise((resolve, reject) => {
-		if( contexts.Server.hasOwnProperty('set') && typeof contexts.Server.set !== 'function' ) {
+		if( typeof contexts.Server.set !== 'function' ) {
 			contexts.Server = new models.Server();
 		}
 		contexts.Server.set({
@@ -90,11 +89,8 @@ function importRules() {
 function runTestsForContext(ctx) {
 	const rules = collections[ctx];
 	const context = contexts[ctx];
-	const count = rules.length
-	const i = 0
 
 	return new Promise((resolve) => {
-
 		const q = async.queue((rule, callback) => {
 
 			// before each test begins
@@ -156,7 +152,7 @@ function runServerRules() {
 }
 
 function runHTMLTests() {
-	return new Promise((resolve, reject) => {
+	return new Promise((resolve) => {
 
 		getHtmlData( globals.settings ).then(() => {
 			runTestsForContext('HTML').then(() => {
@@ -186,7 +182,7 @@ function runWordPressTests() {
 	})
 }
 
-function done(reporter) {
+function done(reporter, outputFile) {
 	time.end = Date.now()
 	const diff = (time.end - time.start) * 10
 	const duration = utils.millisecondsToStr(diff)
@@ -197,6 +193,10 @@ function done(reporter) {
 	process.stdout.write( `${colors.blue('='.repeat(repeat)) }\r\n` )
 
 	const output = reporters[reporter](collections)
+	if( outputFile ) {
+		utils.info('Saving output to file: ' + outputFile)
+		return utils.writeFile(outputFile, output)
+	}
 	process.stdout.write( `${output }\n` )
 }
 
@@ -229,5 +229,5 @@ module.exports = exports = function(options) {
 	runServerRules()
 		.then(runHTMLTests)
 		.then(runWordPressTests)
-		.then(done.bind(null, settings.reporter))
+		.then(done.bind(null, settings.reporter, settings.output))
 }

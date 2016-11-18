@@ -96,10 +96,5 @@ $WP core install \
 	--admin_password="$ADMIN_PASS" \
 	--admin_email="$ADMIN_EMAIL"
 
-# install plugins
-$WP plugin install all-in-one-wp-security-and-firewall
-$WP plugin install w3-total-cache
-$WP plugin activate --all
-
 # create server
 $PHP -S $SITE_URL -t $DOC_ROOT
