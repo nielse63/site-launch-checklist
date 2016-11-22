@@ -5,14 +5,17 @@ import launchChecklist from './';
 
 var cli = meow([
   'Usage',
-  '  $ launch-checklist [input]',
+  '  $ launch-checklist <input>',
   '',
   'Options',
-  '  --foo  Lorem ipsum. [Default: false]',
+  '  -u, --url  URL to test',
   '',
   'Examples',
-  '  $ launch-checklist',
-  '  unicorns',
-  '  $ launch-checklist rainbows',
-  '  unicorns & rainbows'
-]);
+  '  $ launch-checklist --url http://google.com'
+], {
+  alias: {
+    u: 'url'
+  }
+});
+
+launchChecklist(cli.flags);
