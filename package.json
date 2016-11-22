@@ -59,7 +59,6 @@
     "broken-link-checker": "^0.7.3",
     "cheerio": "^0.22.0",
     "cli-color": "^1.1.0",
-    "css-validator": "^0.5.3",
     "html-validator": "^2.0.4",
     "lodash": "^4.17.2",
     "meow": "^3.7.0",
