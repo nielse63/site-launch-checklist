@@ -59,11 +59,12 @@
     "broken-link-checker": "^0.7.3",
     "cheerio": "^0.22.0",
     "cli-color": "^1.1.0",
+    "css-validator": "^0.5.3",
     "html-validator": "^2.0.4",
     "lodash": "^4.17.2",
     "meow": "^3.7.0",
-    "psi": "^2.0.4",
     "urlcache": "^0.6.0",
+    "validator": "^6.1.0",
     "w3c-css": "^2.0.0"
   },
   "license": "Apache-2.0"
