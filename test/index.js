@@ -38,43 +38,53 @@ describe('launch-checklist', function () {
     assert(hasKey, 'Module does not have key output')
   })
 
-  it('results.output should have key `security`', function () {
-    const hasKey = {}.hasOwnProperty.call(results.output, 'security');
-    assert(hasKey, 'Module does not have key security')
+  it('results.output should have key `Security`', function () {
+    const hasKey = {}.hasOwnProperty.call(results.output, 'Security');
+    assert(hasKey, 'Module does not have key Security')
   })
 
-  it('results.output should have key `seo`', function () {
-    const hasKey = {}.hasOwnProperty.call(results.output, 'seo');
-    assert(hasKey, 'Module does not have key seo')
+  it('results.output should have key `SEO`', function () {
+    const hasKey = {}.hasOwnProperty.call(results.output, 'SEO');
+    assert(hasKey, 'Module does not have key SEO')
   })
 
-  it('results.output should have key `performance`', function () {
-    const hasKey = {}.hasOwnProperty.call(results.output, 'performance');
-    assert(hasKey, 'Module does not have key performance')
+  it('results.output should have key `Performance`', function () {
+    const hasKey = {}.hasOwnProperty.call(results.output, 'Performance');
+    assert(hasKey, 'Module does not have key Performance')
   })
 
-  it('results.output should have key `analytics`', function () {
-    const hasKey = {}.hasOwnProperty.call(results.output, 'analytics');
-    assert(hasKey, 'Module does not have key analytics')
+  it('results.output should have key `Analytics`', function () {
+    const hasKey = {}.hasOwnProperty.call(results.output, 'Analytics');
+    assert(hasKey, 'Module does not have key Analytics')
   })
 
-  it('results.output should have key `html-validation`', function () {
-    const hasKey = {}.hasOwnProperty.call(results.output, 'html-validation');
-    assert(hasKey, 'Module does not have key html-validation')
+  it('results.output should have key `HTML Validation`', function () {
+    const hasKey = {}.hasOwnProperty.call(results.output, 'HTML Validation');
+    assert(hasKey, 'Module does not have key HTML Validation')
   })
 
-  it('results.output should have key `css-validation`', function () {
-    const hasKey = {}.hasOwnProperty.call(results.output, 'css-validation');
-    assert(hasKey, 'Module does not have key css-validation')
+  it('results.output should have key `CSS Validation`', function () {
+    const hasKey = {}.hasOwnProperty.call(results.output, 'CSS Validation');
+    assert(hasKey, 'Module does not have key CSS Validation')
   })
 
-  it('results.output should have key `mobile`', function () {
-    const hasKey = {}.hasOwnProperty.call(results.output, 'mobile');
-    assert(hasKey, 'Module does not have key mobile')
+  it('results.output should have key `Mobile`', function () {
+    const hasKey = {}.hasOwnProperty.call(results.output, 'Mobile');
+    assert(hasKey, 'Module does not have key Mobile')
   })
 
-  it('results.output should have key `accessibility`', function () {
-    const hasKey = {}.hasOwnProperty.call(results.output, 'accessibility');
-    assert(hasKey, 'Module does not have key accessibility')
+  it('results.output should have key `Accessibility`', function () {
+    const hasKey = {}.hasOwnProperty.call(results.output, 'Accessibility');
+    assert(hasKey, 'Module does not have key Accessibility')
+  })
+
+  it('results.output should have key `Favicons`', function () {
+    const hasKey = {}.hasOwnProperty.call(results.output, 'Favicons');
+    assert(hasKey, 'Module does not have key Favicons')
+  })
+
+  it('results.output should have key `Broken Links`', function () {
+    const hasKey = {}.hasOwnProperty.call(results.output, 'Broken Links');
+    assert(hasKey, 'Module does not have key Broken Links')
   })
 });
