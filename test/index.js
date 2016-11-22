@@ -10,7 +10,9 @@ describe('launch-checklist', function () {
     launchChecklist({
       url : 'https://cliquestudios.com/'
     }, function(err, data) {
-      // console.log(data)
+      if(err) {
+        return console.trace(err);
+      }
       results = data
       done()
     });
