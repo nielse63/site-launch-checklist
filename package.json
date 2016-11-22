@@ -65,8 +65,7 @@
     "meow": "^3.7.0",
     "urlcache": "^0.6.0",
     "validator": "^6.1.0",
-    "w3c-css": "^2.0.0",
-    "wordwrap": "^1.0.0"
+    "w3c-css": "^2.0.0"
   },
   "license": "Apache-2.0"
 }
