@@ -67,7 +67,7 @@ launchChecklist({
 
 Default: `null`
 
-A valid URL string to run the checklist against. **This option is required** and the URL must be publically available in order for all tests to work. If the URL references a local or protected server, the tests will not execute.
+A valid URL string to run the checklist against. **This option is required** and the URL must be publicly available in order for all tests to work. If the URL references a local or protected server, the tests will not execute.
 
 #### format
 
@@ -109,7 +109,7 @@ If the response headers do not include the `Valid` keys or do include the `Inval
 
 ### SEO
 
-Looks for various metadata elements found in the `<head>` of the page. In order for the test to pass, the given URL must include:
+Looks for various meta data elements found in the `<head>` of the page. In order for the test to pass, the given URL must include:
 
 * A document title
 * A meta description
@@ -137,7 +137,7 @@ Any suggestions provided by Google on how to improve your score will be included
 
 ### Analytics
 
-Looks for a valid Google Tag Manager reference within the sourcecode of the given URL. If none is found, the test will fail.
+Looks for a valid Google Tag Manager reference within the source code of the given URL. If none is found, the test will fail.
 
 #### Resources:
 
@@ -157,7 +157,7 @@ If any errors are returned, the test will fail and details about each error will
 
 ### CSS Validation
 
-Retreives the styles used on the URL provided and validates the CSS against the W3C's CSS Validator - [Jigsaw](https://jigsaw.w3.org/css-validator/). The style is run against the current CSS3 spec.
+Retrieves the styles used on the URL provided and validates the CSS against the W3C's CSS Validator - [Jigsaw](https://jigsaw.w3.org/css-validator/). The style is run against the current CSS3 spec.
 
 If any errors are returned, the test will fail and details about each error will be returned in the output and displayed in the console.
 
@@ -179,9 +179,9 @@ Any suggestion for improvement with regards to both speed and usability will be 
 
 ### Accessibility
 
-Ensures that the URL given is in compliance with the WCAG 2.0 Accessibiility Guidelines. Having a compliant site means that your content is more accessible for people with disabilities, including blindness and low vision, deafness and hearing loss, learning disabilities, cognitive limitations, limited movement, speech disabilities, photosensitivity, etc.
+Ensures that the URL given is in compliance with the WCAG 2.0 Accessibility Guidelines. Having a compliant site means that your content is more accessible for people with disabilities, including blindness and low vision, deafness and hearing loss, learning disabilities, cognitive limitations, limited movement, speech disabilities, photosensitivity, etc.
 
-This test uses the HTML CodeSniffer tool to evaluate the markup and determine complaince. Any sugguestions for improvement will be included in the output and displayed in the console.
+This test uses the HTML CodeSniffer tool to evaluate the markup and determine compliance. Any suggestions for improvement will be included in the output and displayed in the console.
 
 #### Resources:
 
