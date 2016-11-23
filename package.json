@@ -1,79 +1,71 @@
 {
   "name": "launch-checklist",
-  "version": "0.0.1",
-  "description": "Executes tests against the Clique Studios launch checklist",
-  "homepage": "http://github.com/nielse63/launch-checklist",
-  "keywords": [
-    "site-launch",
-    "launch-checklist"
+  "version": "0.0.0",
+  "description": "Automated launch checklist tests",
+  "homepage": "https://github.com/nielse63/launch-checklist",
+  "author": {
+    "name": "Erik Nielsen",
+    "email": "erik@312development.com",
+    "url": "https://312development.com"
+  },
+  "files": [
+    "dist"
   ],
-  "author": "Erik Nielsen <erik@312development.com>",
-  "contributors": [],
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/nielse63/launch-checklist"
+  "main": "dist/index.js",
+  "keywords": [
+    "site launch",
+    "checklist"
+  ],
+  "devDependencies": {
+    "babel-core": "^6.11.4",
+    "babel-eslint": "^6.1.2",
+    "babel-preset-es2015": "6.9.0",
+    "babel-register": "^6.9.0",
+    "del": "^2.0.2",
+    "dotenv": "^2.0.0",
+    "eslint": "^3.1.1",
+    "eslint-config-xo-space": "^0.15.0",
+    "eslint-plugin-babel": "^3.3.0",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-coveralls": "^0.1.0",
+    "gulp-eslint": "^3.0.1",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-istanbul": "^1.0.0",
+    "gulp-line-ending-corrector": "^1.0.1",
+    "gulp-mocha": "^3.0.1",
+    "gulp-nsp": "^2.1.0",
+    "gulp-plumber": "^1.0.0",
+    "isparta": "^4.0.0"
   },
-  "bugs": {
-    "mail": "erik@312development.com",
-    "url": "http://github.com/nielse63/launch-checklist/issues"
+  "eslintConfig": {
+    "extends": "xo-space",
+    "env": {
+      "mocha": true,
+      "node": true
+    },
+    "rules": {
+      "no-return-assign": "off"
+    }
   },
+  "repository": "nielse63/launch-checklist",
+  "scripts": {
+    "prepublish": "gulp prepublish",
+    "test": "gulp"
+  },
+  "bin": "dist/cli.js",
   "dependencies": {
     "async": "^2.1.2",
-    "backbone": "1.3.3",
-    "cheerio": "0.22.0",
-    "cli-color": "1.1.0",
-    "cli-table": "0.3.1",
-    "commander": "2.9.0",
-    "html": "^1.0.0",
-    "html-validator": "2.0.2",
-    "inquirer": "1.2.2",
-    "lodash": "4.16.4",
-    "mkdirp": "0.5.1",
-    "shelljs": "0.7.4"
+    "broken-link-checker": "^0.7.3",
+    "cheerio": "^0.22.0",
+    "cli-color": "^1.1.0",
+    "cli-table": "^0.3.1",
+    "html-validator": "^2.0.4",
+    "lodash": "^4.17.2",
+    "meow": "^3.7.0",
+    "urlcache": "^0.6.0",
+    "validator": "^6.1.0",
+    "w3c-css": "^2.0.0"
   },
-  "devDependencies": {
-    "babel-core": "6.18.0",
-    "babel-preset-es2015": "6.18.0",
-    "babel-register": "6.18.0",
-    "chai": "3.5.0",
-    "codeclimate-test-reporter": "0.4.0",
-    "del": "2.2.2",
-    "eslint": "^3.10.2",
-    "gulp": "3.9.1",
-    "gulp-babel": "6.1.2",
-    "gulp-concat": "2.6.0",
-    "gulp-mustache": "2.3.0",
-    "gulp-newer": "1.3.0",
-    "gulp-plumber": "1.1.0",
-    "gulp-rename": "1.2.2",
-    "gulp-sass": "2.3.2",
-    "gulp-sourcemaps": "2.2.0",
-    "gulp-uglify": "2.0.0",
-    "istanbul": "0.4.5",
-    "mkdirp": "0.5.1",
-    "mocha": "3.1.2",
-    "require-dir": "0.3.1",
-    "run-sequence": "^1.0.1"
-  },
-  "main": "lib/main.js",
-  "scripts": {
-    "build": "gulp babel:tasks && gulp lib",
-    "codeclimate": "export $(cat ./.env-global | xargs) && ./node_modules/.bin/codeclimate-test-reporter < coverage/lcov.info",
-    "cover": "./node_modules/.bin/istanbul cover -x 'src/**/*.js' --report lcov _mocha",
-    "install_wp": "sh ./test/pre-test.sh",
-    "test": "npm run build && gulp tests && ./node_modules/.bin/mocha test/*.test.js",
-    "lint:lib": "./node_modules/.bin/eslint src/lib/**/* --fix",
-    "lint:test": "./node_modules/.bin/eslint src/lib/test/*.js --env mocha --fix",
-    "lint": "npm run lint:lib; npm run lint:test"
-  },
-  "engines": {
-    "node": ">=0.12"
-  },
-  "license": "MIT",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://github.com//nielse63/launch-checklist/raw/master/LICENSE"
-    }
-  ]
+  "license": "Apache-2.0"
 }
