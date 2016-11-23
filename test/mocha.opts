@@ -3,4 +3,4 @@
 --check-leaks
 --prof
 --require assert
---timeout 5000
+--timeout 0

@@ -29,7 +29,7 @@ gulp.task('nsp', function (cb) {
 });
 
 gulp.task('pre-test', function () {
-  return gulp.src('lib/**/*.js')
+  return gulp.src(['lib/**/*.js', '!lib/cli.js'])
     .pipe(excludeGitignore())
     .pipe(istanbul({
       includeUntested: true,
@@ -41,7 +41,8 @@ gulp.task('pre-test', function () {
 gulp.task('test', ['pre-test'], function (cb) {
   var mochaErr;
 
-  gulp.src('test/*.js')
+  gulp.src('test/**/*.js')
+  // gulp.src('test/cli.js')
     .pipe(plumber())
     .pipe(mocha({reporter: 'spec'}))
     .on('error', function (err) {
@@ -69,7 +70,7 @@ gulp.task('line-ending-corrector', function () {
   return gulp.src('lib/cli.js')
     .pipe(excludeGitignore())
     .pipe(lec())
-    .pipe(gulp.dest('.'));
+    .pipe(gulp.dest('./lib'));
 });
 
 gulp.task('babel', ['clean'], function () {
