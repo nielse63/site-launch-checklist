@@ -4,12 +4,11 @@ module.exports = {
         "node": true,
         "mocha": true
     },
-    "extends": "standard",
+    "extends": "airbnb",
     "parserOptions": {
         "sourceType": "module"
     },
-    "plugins": [
-        "standard",
-        "promise"
-    ],
+    "rules": {
+      "semi": ["error", "never"]
+    }
 };

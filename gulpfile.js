@@ -20,7 +20,7 @@ gulp.task('static', function () {
   return gulp.src('**/*.js')
     .pipe(excludeGitignore())
     .pipe(eslint({
-      fix: true,
+      // fix: true,
       configFile: '.eslintrc.js',
     }))
     .pipe(eslint.format())
