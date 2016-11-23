@@ -1,15 +1,14 @@
 import assert from 'assert'
 import launchChecklist from '../lib'
 
+let results
+
 describe('launch-checklist', function () {
   this.timeout(0)
-
-  let results
 
   before((done) => {
     launchChecklist({
       url: 'https://cliquestudios.com/',
-      // url : 'http://localhost:8080/',
     }, (err, data) => {
       if (err) {
         throw new Error(err)

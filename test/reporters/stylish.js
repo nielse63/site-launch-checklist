@@ -8,10 +8,6 @@ describe('reporters/stylish', function () {
     assert(_.isFunction(stylish), 'stylish is not a plain object')
   })
 
-  it('stylish should accept plain object', function () {
-    assert.equal(stylish({output : {}}), undefined)
-  })
-
   it('stylish should throw error', function () {
     assert.throws(
       stylish,
@@ -38,17 +34,6 @@ describe('reporters/stylish', function () {
         })
       },
       /Output value is not a JavaScript object/
-    )
-  })
-
-  it('stylish should throw error', function () {
-    assert.throws(
-      function() {
-        stylish({
-          settings :''
-        })
-      },
-      /Settings value is not a JavaScript object/
     )
   })
 })

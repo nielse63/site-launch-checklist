@@ -33,10 +33,12 @@ gulp.task('pre-test', function () {
 gulp.task('test', ['pre-test'], function (cb) {
   var mochaErr;
 
-  gulp.src('test/**/*.js')
-  // gulp.src('test/cli.js')
+  gulp.src([
+      'test/**/*.js',
+      // '!test/reporters/json.js',
+    ])
     .pipe(plumber())
-    .pipe(mocha({reporter: 'spec'}))
+    .pipe(mocha())
     .on('error', function (err) {
       mochaErr = err;
     })
