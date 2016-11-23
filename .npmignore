@@ -2,4 +2,3 @@ test/
 .travis.yml
 .editorconfig
 .codeclimate.yml
-bin/pre-test
