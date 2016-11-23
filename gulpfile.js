@@ -16,17 +16,6 @@ var isparta = require('isparta');
 // when they're loaded
 require('babel-register');
 
-gulp.task('static', function () {
-  return gulp.src('**/*.js')
-    .pipe(excludeGitignore())
-    .pipe(eslint({
-      // fix: true,
-      configFile: '.eslintrc.js',
-    }))
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
-});
-
 gulp.task('nsp', function (cb) {
   nsp({package: path.resolve('package.json')}, cb);
 });
@@ -87,4 +76,4 @@ gulp.task('clean', function () {
 });
 
 gulp.task('prepublish', ['nsp', 'line-ending-corrector', 'babel']);
-gulp.task('default', ['static', 'test', 'coveralls']);
+gulp.task('default', ['test', 'coveralls']);

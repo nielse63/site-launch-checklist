@@ -1,145 +1,122 @@
 import assert from 'assert'
+import _ from 'lodash'
 import * as utils from '../lib/utils'
 
-function _hasKey (object, key) {
-  return {}.hasOwnProperty.call(object, key)
-}
-
-describe('utils', function () {
-  describe('#hasKey', function () {
+describe('utils', () => {
+  describe('#hasKey', () => {
     const tmp = {
       key: 'value',
-      'key-one': 'value'
+      'key-one': 'value',
     }
 
-    it('utils should have `hasKey`', function () {
-      assert(_hasKey(utils, 'hasKey'), 'Utils is missing `hasKey`')
+    it('utils should have `hasKey`', () => {
+      assert(_.has(utils, 'hasKey'), 'Utils is missing `hasKey`')
     })
 
-    it('hasKey should be function', function () {
+    it('hasKey should be function', () => {
       assert(typeof utils.hasKey === 'function', 'utils.hasKey is not a function')
     })
 
-    it('hasKey should return true', function () {
+    it('hasKey should return true', () => {
       assert(utils.hasKey(tmp, 'key'))
     })
 
-    it('hasKey should return true', function () {
+    it('hasKey should return true', () => {
       assert(utils.hasKey(tmp, 'key-one'))
     })
 
-    it('hasKey should return false', function () {
+    it('hasKey should return false', () => {
       assert.equal(utils.hasKey(tmp, 'wrong'), false)
     })
 
-    it('hasKey should return false', function () {
+    it('hasKey should return false', () => {
       assert.equal(utils.hasKey(tmp, 'toString'), false)
     })
 
-    it('hasKey should return true', function () {
+    it('hasKey should return true', () => {
       tmp.toString = 'something'
       assert(utils.hasKey(tmp, 'toString'))
     })
   })
 
-  describe('#isLocalhost', function () {
-    it('utils should have `isLocalhost`', function () {
-      assert(_hasKey(utils, 'isLocalhost'), 'Utils is missing `isLocalhost`')
+  describe('#isLocalhost', () => {
+    it('utils should have `isLocalhost`', () => {
+      assert(_.has(utils, 'isLocalhost'), 'Utils is missing `isLocalhost`')
     })
 
-    it('isLocalhost should be function', function () {
+    it('isLocalhost should be function', () => {
       assert(typeof utils.isLocalhost === 'function', 'utils.isLocalhost is not a function')
     })
 
-    it('isLocalhost should return true', function () {
+    it('isLocalhost should return true', () => {
       assert(utils.isLocalhost('http://localhost:8080'))
     })
 
-    it('isLocalhost should return false', function () {
+    it('isLocalhost should return false', () => {
       assert.equal(utils.isLocalhost('http://google.com'), false)
     })
   })
 
-  describe('#addProtocol', function () {
-    it('utils should have `addProtocol`', function () {
-      assert(_hasKey(utils, 'addProtocol'), 'Utils is missing `addProtocol`')
+  describe('#addProtocol', () => {
+    it('utils should have `addProtocol`', () => {
+      assert(_.has(utils, 'addProtocol'), 'Utils is missing `addProtocol`')
     })
 
-    it('addProtocol should be function', function () {
+    it('addProtocol should be function', () => {
       assert(typeof utils.addProtocol === 'function', 'utils.addProtocol is not a function')
     })
 
-    it('addProtocol should keep protocol', function () {
+    it('addProtocol should keep protocol', () => {
       const actual = utils.addProtocol('http://localhost:8080')
       const expected = 'http://localhost:8080'
       assert.equal(actual, expected)
     })
 
-    it('addProtocol should add protocol', function () {
+    it('addProtocol should add protocol', () => {
       const actual = utils.addProtocol('localhost:8080')
       const expected = 'http://localhost:8080'
       assert.equal(actual, expected)
     })
 
-    it('addProtocol should add protocol', function () {
+    it('addProtocol should add protocol', () => {
       const actual = utils.addProtocol('something.com')
       const expected = 'http://something.com'
       assert.equal(actual, expected)
     })
 
-    it('addProtocol should add protocol', function () {
+    it('addProtocol should add protocol', () => {
       const actual = utils.addProtocol('//something.com')
       const expected = 'http://something.com'
       assert.equal(actual, expected)
     })
   })
 
-  describe('#cleanURL', function () {
-    it('utils should have `cleanURL`', function () {
-      assert(_hasKey(utils, 'cleanURL'), 'Utils is missing `cleanURL`')
+  describe('#cleanURL', () => {
+    it('utils should have `cleanURL`', () => {
+      assert(_.has(utils, 'cleanURL'), 'Utils is missing `cleanURL`')
     })
 
-    it('cleanURL should be function', function () {
+    it('cleanURL should be function', () => {
       assert(typeof utils.cleanURL === 'function', 'utils.cleanURL is not a function')
     })
 
-    it('cleanURL should pass', function () {
+    it('cleanURL should pass', () => {
       const actual = utils.cleanURL('localhost:8080')
       const expected = 'http://localhost:8080'
       assert.equal(actual, expected)
     })
 
-    it('cleanURL should pass', function () {
+    it('cleanURL should pass', () => {
       const actual = utils.cleanURL('http://localhost')
       const expected = 'http://localhost'
       assert.equal(actual, expected)
     })
 
-    it('cleanURL should throw error', function () {
+    it('cleanURL should throw error', () => {
       assert.throws(
         utils.cleanURL,
-        /No URL provided\./
+        /No URL provided\./,
       )
     })
-
-    // it('cleanURL should throw error', function () {
-    //   assert.throws(
-    //     () => {
-    //       utils.cleanURL.bind(null, 1)
-    //     },
-    //     /^Invalid URL/
-    //   )
-    // })
   })
-
- //  describe('#wordWrap', function() {
-
- //    it('cleanURL should pass', function () {
- //      const actual = utils.wordWrap(` - This element's text is placed on a background image. Ensure the contrast ratio between the text and all covered parts of the image are at least 4.5:1.
- // - Context: This element's text is placed on a background image. Ensure the contrast ratio between the text and all covered parts of the image are at least 4.5:1.`)
- //      // const expected = 'http://localhost:8080'
- //      console.log(actual)
- //      assert(true)
- //    })
- //  })
 })
