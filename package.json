@@ -38,13 +38,6 @@
     "gulp-plumber": "^1.0.0",
     "isparta": "^4.0.0"
   },
-  "eslintConfig": {
-    "extends": "xo-space",
-    "env": {
-      "mocha": true,
-      "node": true
-    }
-  },
   "repository": "nielse63/launch-checklist",
   "scripts": {
     "prepublish": "gulp prepublish",
