@@ -8,8 +8,7 @@ describe('launch-checklist', function () {
 
   before(function(done) {
     launchChecklist({
-      url : 'https://cliquestudios.com/'
-      // url : 'http://localhost:8080/'
+      url : 'https://cliquestudios.com/',
     }, function(err, data) {
       if(err) {
         throw new Error(err)
