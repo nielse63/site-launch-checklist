@@ -43,9 +43,6 @@
     "env": {
       "mocha": true,
       "node": true
-    },
-    "rules": {
-      "no-return-assign": "off"
     }
   },
   "repository": "nielse63/launch-checklist",
