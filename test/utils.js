@@ -12,6 +12,7 @@ describe('utils', function () {
       key : 'value',
       'key-one' : 'value'
     };
+
     it('utils should have `hasKey`', function () {
       assert(_hasKey(utils, 'hasKey'), 'Utils is missing `hasKey`')
     })
