@@ -4,16 +4,45 @@
 ## Installation
 
 ```sh
-$ npm install --save launch-checklist
+$ npm install -g launch-checklist
 ```
 
-## Usage
+## CLI
+
+```sh
+$ launch-checklist --url http://website.com --format json
+```
+
+## Programmatic Usage
 
 ```js
-var launchChecklist = require('launch-checklist');
+const launchChecklist = require('launch-checklist');
 
-launchChecklist('Rainbow');
+launchChecklist({
+  url: 'http://website.com',
+  format: 'json'
+}, (err, data) => {
+  // ...
+});
 ```
+
+## API
+
+### options [:Object]
+#### options.url [:String] default: null
+The URL to test
+
+#### options.format [:String](table|json) default: 'table'
+The output format of returned data
+
+### callback [:Function(error, data)]
+Callback function executed after all tests have been executed. Returns two paramters:
+- error [:null|:String]: Null if the module didn't experience an error; String if there was an error
+- data [:Object]: A plain object containing the options used and results of each test run
+
+## Checklist Tests
+Given a valid URL, Launch Checklist runs a series of tests to check the "launch readiness" of a site. These tests are based on the latest best practices to ensure a smooth an successful site launch. These include:
+
 ## License
 
 Apache-2.0 © [Erik Nielsen](https://312development.com)
