@@ -1,6 +1,6 @@
-import assert from 'assert';
-import launchChecklist from '../../lib';
+// import assert from 'assert';
+// import launchChecklist from '../../lib';
 
-describe('reporters', function () {
-  // ...
-})
+// describe('reporters', function () {
+//   // ...
+// })
