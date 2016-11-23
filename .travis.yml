@@ -2,12 +2,10 @@
 sudo: false
 language: node_js
 node_js:
-  - "6"
-  - "5"
-  - "4"
+  - v7
+  - v6
+  - v5
+  - v4
 addons:
   code_climate:
     repo_token: aa305c42ae223fab11cc52ac1d57536e438c09de9cbd03d3a6c8dbdeec1ffc23
-branches:
-  except:
-  - /^feature*$/
