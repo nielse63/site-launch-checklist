@@ -131,4 +131,15 @@ describe('utils', function () {
     //   )
     // })
   })
+
+ //  describe('#wordWrap', function() {
+
+ //    it('cleanURL should pass', function () {
+ //      const actual = utils.wordWrap(` - This element's text is placed on a background image. Ensure the contrast ratio between the text and all covered parts of the image are at least 4.5:1.
+ // - Context: This element's text is placed on a background image. Ensure the contrast ratio between the text and all covered parts of the image are at least 4.5:1.`)
+ //      // const expected = 'http://localhost:8080'
+ //      console.log(actual)
+ //      assert(true)
+ //    })
+ //  })
 });
