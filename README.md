@@ -1,5 +1,24 @@
 # launch-checklist 
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+[![NPM version][npm-image]][npm-url] 
+[![Build Status][travis-image]][travis-url] 
+[![Dependency status][david-dm-image]][david-dm-url] 
+[![Dev Dependency status][david-dm-dev-image]][david-dm-dev-url] 
+[![Coverage Status][coveralls-image]][coveralls-url]
+[![Code Climate][codeclimate-image]][codeclimate-url]
+
+[npm-url]: https://npmjs.org/package/launch-checklist
+[npm-image]: http://img.shields.io/npm/v/launch-checklist.svg
+[travis-url]: https://travis-ci.org/nielse63/launch-checklist
+[travis-image]: http://img.shields.io/travis/nielse63/launch-checklist.svg
+[david-dm-url]:https://david-dm.org/nielse63/launch-checklist
+[david-dm-image]:https://david-dm.org/nielse63/launch-checklist.svg
+[david-dm-dev-url]:https://david-dm.org/nielse63/launch-checklist#info=devDependencies
+[david-dm-dev-image]:https://david-dm.org/nielse63/launch-checklist/dev-status.svg
+[coveralls-url]:https://coveralls.io/r/nielse63/launch-checklist
+[coveralls-image]:https://coveralls.io/repos/nielse63/launch-checklist/badge.png
+[codeclimate-url]:https://codeclimate.com/github/nielse63/launch-checklist
+[codeclimate-image]:https://codeclimate.com/github/nielse63/launch-checklist/badges/gpa.svg
+
 > Automated launch checklist tests
 <hr>
 
@@ -230,13 +249,3 @@ This test evaluates all clickable links on the given URL and checks for invalid 
 ## License
 
 Apache-2.0 © [Erik Nielsen](https://312development.com)
-
-
-[npm-image]: https://badge.fury.io/js/launch-checklist.svg
-[npm-url]: https://npmjs.org/package/launch-checklist
-[travis-image]: https://travis-ci.org/nielse63/launch-checklist.svg?branch=master
-[travis-url]: https://travis-ci.org/nielse63/launch-checklist
-[daviddm-image]: https://david-dm.org/nielse63/launch-checklist.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/nielse63/launch-checklist
-[coveralls-image]: https://coveralls.io/repos/nielse63/launch-checklist/badge.svg
-[coveralls-url]: https://coveralls.io/r/nielse63/launch-checklist
