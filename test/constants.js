@@ -3,7 +3,6 @@ import _ from 'lodash'
 import * as constants from '../lib/constants'
 
 describe('constants', function () {
-
   it('constants should be an object', function () {
     assert(_.isPlainObject(constants), 'constants is not a plain object')
   })

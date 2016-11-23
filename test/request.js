@@ -4,7 +4,6 @@ import _ from 'lodash'
 import * as request from '../lib/request'
 
 describe('request', function () {
-
   it('request.default should be an function', function () {
     assert(_.isFunction(request.default), 'request.default is not a function')
   })
