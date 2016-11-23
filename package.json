@@ -24,8 +24,11 @@
     "del": "^2.0.2",
     "dotenv": "^2.0.0",
     "eslint": "^3.1.1",
+    "eslint-config-standard": "^6.2.1",
     "eslint-config-xo-space": "^0.15.0",
     "eslint-plugin-babel": "^3.3.0",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.2",
     "gulp-coveralls": "^0.1.0",
@@ -37,13 +40,6 @@
     "gulp-nsp": "^2.1.0",
     "gulp-plumber": "^1.0.0",
     "isparta": "^4.0.0"
-  },
-  "eslintConfig": {
-    "extends": "xo-space",
-    "env": {
-      "mocha": true,
-      "node": true
-    }
   },
   "repository": "nielse63/launch-checklist",
   "scripts": {
@@ -61,10 +57,8 @@
     "lodash": "^4.17.2",
     "meow": "^3.7.0",
     "pa11y": "^4.1.0",
-    "urlcache": "^0.6.0",
     "validator": "^6.1.0",
-    "w3c-css": "^2.0.0",
-    "wordwrap": "^1.0.0"
+    "w3c-css": "^2.0.0"
   },
   "license": "Apache-2.0"
 }

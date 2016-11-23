@@ -1,17 +1,16 @@
-import assert from 'assert';
-import * as utils from '../lib/utils';
+import assert from 'assert'
+import * as utils from '../lib/utils'
 
-function _hasKey(object, key) {
-  return {}.hasOwnProperty.call(object, key);
+function _hasKey (object, key) {
+  return {}.hasOwnProperty.call(object, key)
 }
 
 describe('utils', function () {
-
-  describe('#hasKey', function() {
+  describe('#hasKey', function () {
     const tmp = {
-      key : 'value',
-      'key-one' : 'value'
-    };
+      key: 'value',
+      'key-one': 'value'
+    }
 
     it('utils should have `hasKey`', function () {
       assert(_hasKey(utils, 'hasKey'), 'Utils is missing `hasKey`')
@@ -43,7 +42,7 @@ describe('utils', function () {
     })
   })
 
-  describe('#isLocalhost', function() {
+  describe('#isLocalhost', function () {
     it('utils should have `isLocalhost`', function () {
       assert(_hasKey(utils, 'isLocalhost'), 'Utils is missing `isLocalhost`')
     })
@@ -61,7 +60,7 @@ describe('utils', function () {
     })
   })
 
-  describe('#addProtocol', function() {
+  describe('#addProtocol', function () {
     it('utils should have `addProtocol`', function () {
       assert(_hasKey(utils, 'addProtocol'), 'Utils is missing `addProtocol`')
     })
@@ -95,7 +94,7 @@ describe('utils', function () {
     })
   })
 
-  describe('#cleanURL', function() {
+  describe('#cleanURL', function () {
     it('utils should have `cleanURL`', function () {
       assert(_hasKey(utils, 'cleanURL'), 'Utils is missing `cleanURL`')
     })
@@ -143,4 +142,4 @@ describe('utils', function () {
  //      assert(true)
  //    })
  //  })
-});
+})
