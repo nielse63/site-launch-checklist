@@ -71,11 +71,15 @@ A valid URL string to run the checklist against. **This option is required** and
 
 #### format
 
-Default: `table`
+Default: `stylish`
 
-The output format of the results object. Options currently include `table` and `json` (including more soon).
+The output format of the results object. Options currently include:
 
-### callback
+* `stylish` (default)
+* `table`
+* `json`
+
+### Callback
 
 Callback function after all tests have been executed. This gets two parameters:
 
