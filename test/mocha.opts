@@ -1,5 +1,6 @@
 --reporter dot
 --check-leaks
 --prof
+--delay
 --require should
 --timeout 0

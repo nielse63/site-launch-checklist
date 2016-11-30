@@ -34,12 +34,13 @@ gulp.task('test', ['pre-test'], function (cb) {
   var mochaErr;
 
   gulp.src([
-      'test/**/*.js',
-      // '!test/reporters/json.js',
+      // 'test/**/*.js',
+      'test/index.js'
     ])
     .pipe(plumber())
     .pipe(mocha())
     .on('error', function (err) {
+      // console.trace(err)
       mochaErr = err;
     })
     .pipe(istanbul.writeReports())
@@ -48,8 +49,23 @@ gulp.task('test', ['pre-test'], function (cb) {
     });
 });
 
+gulp.task('line-ending-corrector', function () {
+  return gulp.src('lib/cli.js')
+    .pipe(excludeGitignore())
+    .pipe(lec())
+    .pipe(gulp.dest('.'));
+});
+
+gulp.task('cli', function () {
+  return gulp.src('lib/cli.js')
+    // .pipe(excludeGitignore())
+    .pipe(babel())
+    .pipe(gulp.dest('./dist'));
+});
+
 gulp.task('watch', function () {
-  gulp.watch(['lib/**/*.js', 'test/**'], ['test']);
+  gulp.watch(['lib/**/*.js', 'test/**'], ['babel']);
+  gulp.watch(['lib/cli.js'], ['cli']);
 });
 
 gulp.task('coveralls', ['test'], function () {
@@ -59,12 +75,6 @@ gulp.task('coveralls', ['test'], function () {
 
   return gulp.src(path.join(__dirname, 'coverage/lcov.info'))
     .pipe(coveralls());
-});
-gulp.task('line-ending-corrector', function () {
-  return gulp.src('lib/cli.js')
-    .pipe(excludeGitignore())
-    .pipe(lec())
-    .pipe(gulp.dest('./lib'));
 });
 
 gulp.task('babel', ['clean'], function () {

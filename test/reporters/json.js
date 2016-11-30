@@ -4,7 +4,7 @@ import json from '../../lib/reporters/json'
 
 describe('reporters/json', function () {
 
-  // before((done) => {
+  // before(function(done) {
   //   done()
   // })
 

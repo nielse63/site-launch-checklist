@@ -16,6 +16,12 @@
     "site launch",
     "checklist"
   ],
+  "scripts": {
+    "prepublish": "gulp prepublish",
+    "pretest": "npm run lint",
+    "test": "NODE_ENV=debug gulp",
+    "lint": "./node_modules/.bin/eslint **/*.js --fix --quiet"
+  },
   "devDependencies": {
     "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
@@ -46,19 +52,16 @@
     "should": "^11.1.1"
   },
   "repository": "nielse63/launch-checklist",
-  "scripts": {
-    "prepublish": "gulp prepublish",
-    "pretest": "npm run lint",
-    "test": "NODE_ENV=test gulp",
-    "lint": "./node_modules/.bin/eslint **/*.js --fix --quiet"
+  "bin": {
+    "launch-checklist": "./dist/cli.js"
   },
-  "bin": "dist/cli.js",
   "dependencies": {
     "async": "^2.1.2",
     "broken-link-checker": "^0.7.3",
     "cheerio": "^0.22.0",
     "cli-color": "^1.1.0",
     "cli-table": "^0.3.1",
+    "commander": "^2.9.0",
     "dotenv": "^2.0.0",
     "html-validator": "^2.0.4",
     "lodash": "^4.17.2",
