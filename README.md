@@ -48,7 +48,7 @@ $ npm install -g launch-checklist
 Then execute the command, providing a valid URL:
 
 ```sh
-$ launch-checklist --url http://website.com
+$ launch-checklist http://website.com
 ```
 
 ## Command Line Interface
@@ -59,11 +59,10 @@ Usage
   $ launch-checklist [options]
 
 Options
-  -u, --url     <string> URL to test - default: null
-  -f, --format  <string> Output format [table|json] - default: table
+  -f, --format  <string> Output format [stylish|table|json] - default: stylish
 
 Examples
-  launch-checklist --url http://google.com --format json
+  launch-checklist --format json http://google.com
 ```
 
 ## Programmatic Usage
@@ -94,9 +93,9 @@ Default: `stylish`
 
 The output format of the results object. Options currently include:
 
-* `stylish` (default)
-* `table`
-* `json`
+* `stylish` (default)![](static/stylish.png) 
+* `table`![](static/table.png) 
+* `json`![](static/json.png) 
 
 ### Callback
 
