@@ -16,17 +16,6 @@ var isparta = require('isparta');
 // when they're loaded
 require('babel-register');
 
-gulp.task('static', function () {
-  return gulp.src('**/*.js')
-    .pipe(excludeGitignore())
-    .pipe(eslint({
-      fix: true,
-      configFile: '.eslintrc.js',
-    }))
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
-});
-
 gulp.task('nsp', function (cb) {
   nsp({package: path.resolve('package.json')}, cb);
 });
@@ -44,11 +33,14 @@ gulp.task('pre-test', function () {
 gulp.task('test', ['pre-test'], function (cb) {
   var mochaErr;
 
-  gulp.src('test/**/*.js')
-  // gulp.src('test/cli.js')
+  gulp.src([
+      // 'test/**/*.js',
+      'test/index.js'
+    ])
     .pipe(plumber())
-    .pipe(mocha({reporter: 'spec'}))
+    .pipe(mocha())
     .on('error', function (err) {
+      // console.trace(err)
       mochaErr = err;
     })
     .pipe(istanbul.writeReports())
@@ -57,8 +49,23 @@ gulp.task('test', ['pre-test'], function (cb) {
     });
 });
 
+gulp.task('line-ending-corrector', function () {
+  return gulp.src('lib/cli.js')
+    .pipe(excludeGitignore())
+    .pipe(lec())
+    .pipe(gulp.dest('.'));
+});
+
+gulp.task('cli', function () {
+  return gulp.src('lib/cli.js')
+    // .pipe(excludeGitignore())
+    .pipe(babel())
+    .pipe(gulp.dest('./dist'));
+});
+
 gulp.task('watch', function () {
-  gulp.watch(['lib/**/*.js', 'test/**'], ['test']);
+  gulp.watch(['lib/**/*.js', 'test/**'], ['babel']);
+  gulp.watch(['lib/cli.js'], ['cli']);
 });
 
 gulp.task('coveralls', ['test'], function () {
@@ -68,12 +75,6 @@ gulp.task('coveralls', ['test'], function () {
 
   return gulp.src(path.join(__dirname, 'coverage/lcov.info'))
     .pipe(coveralls());
-});
-gulp.task('line-ending-corrector', function () {
-  return gulp.src('lib/cli.js')
-    .pipe(excludeGitignore())
-    .pipe(lec())
-    .pipe(gulp.dest('./lib'));
 });
 
 gulp.task('babel', ['clean'], function () {
@@ -87,4 +88,4 @@ gulp.task('clean', function () {
 });
 
 gulp.task('prepublish', ['nsp', 'line-ending-corrector', 'babel']);
-gulp.task('default', ['static', 'test', 'coveralls']);
+gulp.task('default', ['test', 'coveralls']);

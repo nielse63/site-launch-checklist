@@ -1,6 +1,6 @@
-
---reporter spec
+--reporter dot
 --check-leaks
 --prof
---require assert
+--delay
+--require should
 --timeout 0

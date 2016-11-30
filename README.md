@@ -7,17 +7,17 @@
 [![Code Climate][codeclimate-image]][codeclimate-url]
 
 [npm-url]: https://npmjs.org/package/launch-checklist
-[npm-image]: http://img.shields.io/npm/v/launch-checklist.svg
+[npm-image]: http://img.shields.io/npm/v/launch-checklist.svg?branch=master
 [travis-url]: https://travis-ci.org/nielse63/launch-checklist
-[travis-image]: http://img.shields.io/travis/nielse63/launch-checklist.svg
+[travis-image]: https://travis-ci.org/nielse63/launch-checklist.svg?branch=master
 [david-dm-url]:https://david-dm.org/nielse63/launch-checklist
-[david-dm-image]:https://david-dm.org/nielse63/launch-checklist.svg
+[david-dm-image]:https://david-dm.org/nielse63/launch-checklist.svg?branch=master
 [david-dm-dev-url]:https://david-dm.org/nielse63/launch-checklist#info=devDependencies
-[david-dm-dev-image]:https://david-dm.org/nielse63/launch-checklist/dev-status.svg
+[david-dm-dev-image]:https://david-dm.org/nielse63/launch-checklist/dev-status.svg?branch=master
 [coveralls-url]:https://coveralls.io/r/nielse63/launch-checklist
-[coveralls-image]:https://coveralls.io/repos/nielse63/launch-checklist/badge.png
+[coveralls-image]:https://coveralls.io/repos/nielse63/launch-checklist/badge.png?branch=master
 [codeclimate-url]:https://codeclimate.com/github/nielse63/launch-checklist
-[codeclimate-image]:https://codeclimate.com/github/nielse63/launch-checklist/badges/gpa.svg
+[codeclimate-image]:https://codeclimate.com/github/nielse63/launch-checklist/badges/gpa.svg?branch=master
 
 > Automated launch checklist tests
 <hr>

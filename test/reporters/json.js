@@ -4,6 +4,10 @@ import json from '../../lib/reporters/json'
 
 describe('reporters/json', function () {
 
+  // before(function(done) {
+  //   done()
+  // })
+
   it('json should be a function', function () {
     assert(_.isFunction(json), 'json is not a plain object')
   })
@@ -16,7 +20,7 @@ describe('reporters/json', function () {
     assert.throws(
       json,
       /Supplied data is not a JavaScript object/
-    )
+      )
   })
 
   it('json should throw error', function () {
@@ -27,6 +31,6 @@ describe('reporters/json', function () {
         })
       },
       /Object does not have key `output`/
-    )
+      )
   })
 })
