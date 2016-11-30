@@ -3,3 +3,4 @@ coverage
 dist
 .env
 *-v8.log
+npm-debug.log
