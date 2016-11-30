@@ -65,7 +65,6 @@
     "dotenv": "^2.0.0",
     "html-validator": "^2.0.4",
     "lodash": "^4.17.2",
-    "meow": "^3.7.0",
     "pa11y": "^4.1.0",
     "validator": "^6.1.0",
     "w3c-css": "^2.0.0"
