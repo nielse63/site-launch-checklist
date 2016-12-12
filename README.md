@@ -1,8 +1,8 @@
-# launch-checklist 
-[![NPM version][npm-image]][npm-url] 
-[![Build Status][travis-image]][travis-url] 
-[![Dependency status][david-dm-image]][david-dm-url] 
-[![Dev Dependency status][david-dm-dev-image]][david-dm-dev-url] 
+# launch-checklist
+[![NPM version][npm-image]][npm-url]
+[![Build Status][travis-image]][travis-url]
+[![Dependency status][david-dm-image]][david-dm-url]
+[![Dev Dependency status][david-dm-dev-image]][david-dm-dev-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 [![Code Climate][codeclimate-image]][codeclimate-url]
 
