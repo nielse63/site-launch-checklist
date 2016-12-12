@@ -9,38 +9,37 @@ let $
 let output
 const TEST_URL = 'https://cliquestudios.com/'
 
-describe('tests/favicons', function () {
-
-  before(function(done) {
-    https.get(TEST_URL, (res) => {
-      let data = '';
-      res.on('data', (d) => {
+describe('tests/favicons', () => {
+  before(done => {
+    https.get(TEST_URL, res => {
+      let data = ''
+      res.on('data', d => {
         data += d.toString()
-      });
-      res.on('end', (d) => {
+      })
+      res.on('end', () => {
         $ = cheerio.load(data)
         output = favicons($)
         done()
-      });
-    }).on('error', (err) => {
+      })
+    }).on('error', err => {
       console.error(err)
     })
   })
 
-  it('Favicons should throw error', function() {
+  it('Favicons should throw error', () => {
     assert.throws(
       favicons.bind(null),
-      /No cheerio object provided/
+      /No cheerio object provided/,
     )
   })
 
-  it('Favicons should return object', function() {
+  it('Favicons should return object', () => {
     assert(
-      _.isPlainObject(output)
+      _.isPlainObject(output),
     )
   })
 
-  it('Favicons should have desired keys', function() {
+  it('Favicons should have desired keys', () => {
     assert(_.has(output, 'passed'))
     assert(_.has(output, 'info'))
     assert(_.has(output, 'reason'))

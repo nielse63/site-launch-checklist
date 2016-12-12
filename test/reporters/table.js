@@ -3,51 +3,50 @@ import _ from 'lodash'
 import table from '../../lib/reporters/table'
 import sampleData from '../sample-output.json'
 
-describe('reporters/table', function () {
-
-  it('table should be a function', function () {
+describe('reporters/table', () => {
+  it('table should be a function', () => {
     assert(_.isFunction(table), 'table is not a plain object')
   })
 
-  it('table should accept plain object', function () {
+  it('table should accept plain object', () => {
     assert.doesNotThrow(
-      function() {
+      () => {
         table(sampleData)
-      }
+      },
     )
   })
 
-  it('table should throw data.settings type error', function () {
+  it('table should throw data.settings type error', () => {
     assert.throws(
       table.bind(null, {
-        output : {},
-        settings : ''
+        output: {},
+        settings: '',
       }),
-      /Settings value is not a JavaScript object/
+      /Settings value is not a JavaScript object/,
     )
   })
 
-  it('table should throw data.output type error', function () {
+  it('table should throw data.output type error', () => {
     assert.throws(
       table.bind(null, {
-        output : '',
-        settings : {}
+        output: '',
+        settings: {},
       }),
-      /Output value is not a JavaScript object/
+      /Output value is not a JavaScript object/,
     )
   })
 
-  it('table should throw `output` error', function () {
+  it('table should throw `output` error', () => {
     assert.throws(
-      table.bind(null, {key : ''}),
-      /Object does not have key `output`/
+      table.bind(null, { key: '' }),
+      /Object does not have key `output`/,
     )
   })
 
-  it('table should throw `type` error', function () {
+  it('table should throw `type` error', () => {
     assert.throws(
       table.bind(null, ''),
-      /Supplied data is not a JavaScript object/
+      /Supplied data is not a JavaScript object/,
     )
   })
 })
