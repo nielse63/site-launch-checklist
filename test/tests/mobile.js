@@ -7,10 +7,10 @@ import request from '../../lib/request'
 import mobile from '../../lib/tests/mobile'
 
 let output
-const TEST_URL = 'https://cliquestudios.com/'
+const TEST_URL = 'http://www.facebook.com/'
 
 describe('tests/mobile', function () {
-  this.timeout(10000)
+  this.timeout(300000)
 
   before(function(done) {
     mobile(TEST_URL).then(results => {
