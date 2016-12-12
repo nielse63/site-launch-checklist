@@ -7,17 +7,17 @@
 [![Code Climate][codeclimate-image]][codeclimate-url]
 
 [npm-url]: https://npmjs.org/package/launch-checklist
-[npm-image]: http://img.shields.io/npm/v/launch-checklist.svg?branch=master
+[npm-image]: http://img.shields.io/npm/v/launch-checklist.svg
 [travis-url]: https://travis-ci.org/nielse63/launch-checklist
-[travis-image]: https://travis-ci.org/nielse63/launch-checklist.svg?branch=master
+[travis-image]: https://travis-ci.org/nielse63/launch-checklist.svg
 [david-dm-url]:https://david-dm.org/nielse63/launch-checklist
-[david-dm-image]:https://david-dm.org/nielse63/launch-checklist.svg?branch=master
+[david-dm-image]:https://david-dm.org/nielse63/launch-checklist.svg
 [david-dm-dev-url]:https://david-dm.org/nielse63/launch-checklist#info=devDependencies
-[david-dm-dev-image]:https://david-dm.org/nielse63/launch-checklist/dev-status.svg?branch=master
+[david-dm-dev-image]:https://david-dm.org/nielse63/launch-checklist/dev-status.svg
 [coveralls-url]:https://coveralls.io/r/nielse63/launch-checklist
-[coveralls-image]:https://coveralls.io/repos/nielse63/launch-checklist/badge.png?branch=master
+[coveralls-image]:https://coveralls.io/repos/nielse63/launch-checklist/badge.png
 [codeclimate-url]:https://codeclimate.com/github/nielse63/launch-checklist
-[codeclimate-image]:https://codeclimate.com/github/nielse63/launch-checklist/badges/gpa.svg?branch=master
+[codeclimate-image]:https://codeclimate.com/github/nielse63/launch-checklist/badges/gpa.svg
 
 > Automated launch checklist tests
 <hr>
@@ -93,9 +93,9 @@ Default: `stylish`
 
 The output format of the results object. Options currently include:
 
-* `stylish` (default)![](static/stylish.png) 
-* `table`![](static/table.png) 
-* `json`![](static/json.png) 
+* `stylish` (default)![](https://raw.githubusercontent.com/nielse63/launch-checklist/master/static/stylish.png)
+* `table`![](https://raw.githubusercontent.com/nielse63/launch-checklist/master/static/table.png)
+* `json`![](https://raw.githubusercontent.com/nielse63/launch-checklist/master/static/json.png)
 
 ### Callback
 
