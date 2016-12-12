@@ -6,12 +6,12 @@ import launchChecklist from './'
 program
   .arguments('<url>')
   .option('-f, --format <format>', 'output format. options are: stylish (default), table, or json')
-  .action((url) => {
+  .action(url => {
     const format = program.format || 'stylish'
     launchChecklist({
       url,
       format,
-    }, (err) => {
+    }, err => {
       if (err) {
         throw new Error(err)
       }
