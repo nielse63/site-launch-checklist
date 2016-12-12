@@ -35,9 +35,8 @@ gulp.task('test', ['pre-test'], function (cb) {
   var mochaErr;
 
   gulp.src([
-      // 'test/**/*.js',
-      'test/*.js',
-      // 'test/index.js',
+      'test/**/*.js',
+      // 'test/*.js',
     ])
     .pipe(plumber())
     .pipe(mocha())

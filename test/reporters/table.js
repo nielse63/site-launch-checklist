@@ -1,6 +1,7 @@
 import assert from 'assert'
 import _ from 'lodash'
 import table from '../../lib/reporters/table'
+import sampleData from '../sample-output.json'
 
 describe('reporters/table', function () {
 
@@ -9,35 +10,44 @@ describe('reporters/table', function () {
   })
 
   it('table should accept plain object', function () {
-    assert.equal(table({output : {}}), undefined)
-  })
-
-  it('table should throw error', function () {
-    assert.throws(
-      table,
-      /Supplied data is not a JavaScript object/
+    assert.doesNotThrow(
+      function() {
+        table(sampleData)
+      }
     )
   })
 
-  it('table should throw error', function () {
+  it('table should throw data.settings type error', function () {
     assert.throws(
-      function() {
-        table({
-          key : ''
-        })
-      },
+      table.bind(null, {
+        output : {},
+        settings : ''
+      }),
+      /Settings value is not a JavaScript object/
+    )
+  })
+
+  it('table should throw data.output type error', function () {
+    assert.throws(
+      table.bind(null, {
+        output : '',
+        settings : {}
+      }),
+      /Output value is not a JavaScript object/
+    )
+  })
+
+  it('table should throw `output` error', function () {
+    assert.throws(
+      table.bind(null, {key : ''}),
       /Object does not have key `output`/
     )
   })
 
-  it('table should throw error', function () {
+  it('table should throw `type` error', function () {
     assert.throws(
-      function() {
-        table({
-          output :''
-        })
-      },
-      /Output value is not a JavaScript object/
+      table.bind(null, ''),
+      /Supplied data is not a JavaScript object/
     )
   })
 })
