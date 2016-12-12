@@ -18,9 +18,9 @@
   ],
   "scripts": {
     "prepublish": "gulp prepublish",
+    "lint": "./node_modules/.bin/eslint **/*.js --fix --quiet",
     "pretest": "npm run lint",
-    "test": "NODE_ENV=debug gulp",
-    "lint": "./node_modules/.bin/eslint **/*.js --fix --quiet"
+    "test": "NODE_ENV=debug gulp"
   },
   "devDependencies": {
     "babel-core": "^6.11.4",

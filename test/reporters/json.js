@@ -4,10 +4,6 @@ import json from '../../lib/reporters/json'
 
 describe('reporters/json', function () {
 
-  // before(function(done) {
-  //   done()
-  // })
-
   it('json should be a function', function () {
     assert(_.isFunction(json), 'json is not a plain object')
   })

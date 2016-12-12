@@ -1,3 +1,4 @@
+
 var path = require('path');
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
@@ -35,7 +36,7 @@ gulp.task('test', ['pre-test'], function (cb) {
 
   gulp.src([
       // 'test/**/*.js',
-      'test/index.js'
+      'test/*.js',
     ])
     .pipe(plumber())
     .pipe(mocha())
