@@ -4,13 +4,11 @@ import assert from 'assert'
 import should from 'should'
 import launchChecklist from '../lib'
 
-process.env.DEBUG_STOP = false;
-
 const TEST_URL = 'https://google.com/'
 let results
 
 describe('launch-checklist', function () {
-  this.timeout(30000)
+  this.timeout(300000)
 
   before(function(done) {
     launchChecklist({
