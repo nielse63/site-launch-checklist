@@ -11,6 +11,7 @@ module.exports = {
     "rules": {
       "semi": ["error", "never"],
       "no-param-reassign": "warn",
-      "arrow-parens": ["error", "as-needed"]
+      "arrow-parens": ["error", "as-needed"],
+      "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }]
     }
 };

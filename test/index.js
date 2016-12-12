@@ -1,91 +1,151 @@
+
+import _ from 'lodash'
 import assert from 'assert'
 import should from 'should'
 import launchChecklist from '../lib'
 
-describe('launch-checklist', function () {
-  this.timeout(0)
+process.env.DEBUG_STOP = false;
 
-  // before(function(done) {
-  //   launchChecklist({
-  //     url: 'https://google.com/',
-  //   }, function(err, data) {
-  //     if (err) {
-  //       throw new Error(err)
-  //     }
-  //     results = data
-  //     done()
-  //   })
-  // })
+const TEST_URL = 'https://google.com/'
+let results
+
+describe('launch-checklist', function () {
+  this.timeout(30000)
+
+  before(function(done) {
+    launchChecklist({
+      url: TEST_URL,
+    }, function(err, data) {
+      if (err) {
+        throw new Error(err)
+      }
+      results = data
+      done()
+    })
+  })
 
   describe('index', function () {
 
-    it('should be a function', function() {
-      should.equal(typeof launchChecklist, 'function', 'Module is not a function')
+    it('module is a function', function() {
+      assert(_.isFunction(launchChecklist), 'Module is not a function')
     })
 
-    // it('should return an object', function() {
-    //   const type = {}.toString.call(results)
-    //   assert.equal('[object Object]', type, 'Module does not return an object')
-    // })
+    it('module throws error if no options passed', function() {
+      assert.throws(
+        launchChecklist.bind(null, function() {}),
+        /No settings passed to module\. Exiting/,
+      )
+    })
 
-    // it('should have key `settings`', function() {
-    //   const hasKey = {}.hasOwnProperty.call(results, 'settings')
-    //   assert(hasKey, 'Module does not have key settings')
-    // })
+    it('module does not throw error if options object is passed', function() {
+      assert.doesNotThrow(
+        launchChecklist.bind(null, {
+          url : TEST_URL
+        })
+      )
+    })
 
-    // it('should have key `output`', function() {
-    //   const hasKey = {}.hasOwnProperty.call(results, 'output')
-    //   assert(hasKey, 'Module does not have key output')
-    // })
+    it('module does not throw error if options string is passed', function() {
+      assert.doesNotThrow(
+        launchChecklist.bind(null, TEST_URL)
+      )
+    })
 
-    // it('results.output should have key `Security`', function() {
-    //   const hasKey = {}.hasOwnProperty.call(results.output, 'Security')
-    //   assert(hasKey, 'Module does not have key Security')
-    // })
+    it('module accepts a callback', function() {
+      assert.doesNotThrow(
+        launchChecklist.bind(null, TEST_URL, function(err, data) {})
+      )
+    })
 
-    // it('results.output should have key `SEO`', function() {
-    //   const hasKey = {}.hasOwnProperty.call(results.output, 'SEO')
-    //   assert(hasKey, 'Module does not have key SEO')
-    // })
+    it('should return an object', function() {
+      assert(
+        _.isPlainObject(results),
+        'Module does not return an object'
+      )
+    })
 
-    // it('results.output should have key `Performance`', function() {
-    //   const hasKey = {}.hasOwnProperty.call(results.output, 'Performance')
-    //   assert(hasKey, 'Module does not have key Performance')
-    // })
+    it('should have key `settings`', function() {
+      assert(
+        _.has(results, 'settings'),
+        'Module does not have key settings'
+      )
+    })
 
-    // it('results.output should have key `Analytics`', function() {
-    //   const hasKey = {}.hasOwnProperty.call(results.output, 'Analytics')
-    //   assert(hasKey, 'Module does not have key Analytics')
-    // })
+    it('should have key `output`', function() {
+      assert(
+        _.has(results, 'output'),
+        'Module does not have key output'
+      )
+    })
 
-    // it('results.output should have key `HTML Validation`', function() {
-    //   const hasKey = {}.hasOwnProperty.call(results.output, 'HTML Validation')
-    //   assert(hasKey, 'Module does not have key HTML Validation')
-    // })
+    it('results.output should have key `Security`', function() {
+      assert(
+        _.has(results.output, 'Security'),
+        'Module does not have key Security'
+      )
+    })
 
-    // it('results.output should have key `CSS Validation`', function() {
-    //   const hasKey = {}.hasOwnProperty.call(results.output, 'CSS Validation')
-    //   assert(hasKey, 'Module does not have key CSS Validation')
-    // })
+    it('results.output should have key `SEO`', function() {
+      assert(
+        _.has(results.output, 'SEO'),
+        'Module does not have key SEO'
+      )
+    })
 
-    // it('results.output should have key `Mobile`', function() {
-    //   const hasKey = {}.hasOwnProperty.call(results.output, 'Mobile')
-    //   assert(hasKey, 'Module does not have key Mobile')
-    // })
+    it('results.output should have key `Performance`', function() {
+      assert(
+        _.has(results.output, 'Performance'),
+        'Module does not have key Performance'
+      )
+    })
 
-    // it('results.output should have key `Accessibility`', function() {
-    //   const hasKey = {}.hasOwnProperty.call(results.output, 'Accessibility')
-    //   assert(hasKey, 'Module does not have key Accessibility')
-    // })
+    it('results.output should have key `Analytics`', function() {
+      assert(
+        _.has(results.output, 'Analytics'),
+        'Module does not have key Analytics'
+      )
+    })
 
-    // it('results.output should have key `Favicons`', function() {
-    //   const hasKey = {}.hasOwnProperty.call(results.output, 'Favicons')
-    //   assert(hasKey, 'Module does not have key Favicons')
-    // })
+    it('results.output should have key `HTML Validation`', function() {
+      assert(
+        _.has(results.output, 'HTML Validation'),
+        'Module does not have key HTML Validation'
+      )
+    })
 
-    // it('results.output should have key `Broken Links`', function() {
-    //   const hasKey = {}.hasOwnProperty.call(results.output, 'Broken Links')
-    //   assert(hasKey, 'Module does not have key Broken Links')
-    // })
+    it('results.output should have key `CSS Validation`', function() {
+      assert(
+        _.has(results.output, 'CSS Validation'),
+        'Module does not have key CSS Validation'
+      )
+    })
+
+    it('results.output should have key `Mobile`', function() {
+      assert(
+        _.has(results.output, 'Mobile'),
+        'Module does not have key Mobile'
+      )
+    })
+
+    it('results.output should have key `Accessibility`', function() {
+      assert(
+        _.has(results.output, 'Accessibility'),
+        'Module does not have key Accessibility'
+      )
+    })
+
+    it('results.output should have key `Favicons`', function() {
+      assert(
+        _.has(results.output, 'Favicons'),
+        'Module does not have key Favicons'
+      )
+    })
+
+    it('results.output should have key `Broken Links`', function() {
+      assert(
+        _.has(results.output, 'Broken Links'),
+        'Module does not have key Broken Links'
+      )
+    })
   })
 })

@@ -19,7 +19,7 @@
   "scripts": {
     "prepublish": "gulp prepublish",
     "lint": "./node_modules/.bin/eslint **/*.js --fix --quiet",
-    "pretest": "npm run lint",
+    "pretest": "rm npm-debug.log; npm run lint",
     "test": "NODE_ENV=debug gulp"
   },
   "devDependencies": {
