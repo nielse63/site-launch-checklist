@@ -5,8 +5,8 @@ import cssValidation from '../../lib/tests/css-validation'
 let output
 const TEST_URL = 'https://www.facebook.com/'
 
-describe('tests/css-validation', function () {
-  this.timeout(20000)
+describe('tests/css-validation', function test() {
+  this.timeout(0)
 
   before(done => {
     cssValidation(TEST_URL, 200).then(data => {
@@ -27,7 +27,7 @@ describe('tests/css-validation', function () {
     assert(_.has(output, 'reason'))
   })
 
-  it('CSS Validation should catch 400 status', done => {
+  it('CSS Validation should catch 400 status', () => {
     cssValidation(TEST_URL, 404)
       .catch(err => {
         assert.throws(
@@ -36,12 +36,11 @@ describe('tests/css-validation', function () {
           },
           /Cannot validate CSS\./,
         )
-        done()
       },
     )
   })
 
-  it('CSS Validation should fail on invalid urls', done => {
+  it('CSS Validation should fail on invalid urls', () => {
     cssValidation('not_a_url', 200)
       .catch(err => {
         assert.throws(
@@ -50,7 +49,6 @@ describe('tests/css-validation', function () {
           },
           /Invalid server response/,
         )
-        done()
       },
     )
   })

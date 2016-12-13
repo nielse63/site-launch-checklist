@@ -1,4 +1,7 @@
-# launch-checklist
+# Launch Checklist
+
+> Automated launch checklist tests
+
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Dependency status][david-dm-image]][david-dm-url]
@@ -19,44 +22,48 @@
 [codeclimate-url]:https://codeclimate.com/github/nielse63/launch-checklist
 [codeclimate-image]:https://codeclimate.com/github/nielse63/launch-checklist/badges/gpa.svg
 
-> Automated launch checklist tests
-<hr>
-
 Launch Checklist is a tool for automating the various tasks that go into launching a website.
 
 ## Installation
+
 You can install Launch Checklist locally or globally
 
 ### Local Installation and Usage
+
 Install Launch Checklist locally if you'd like to include it as part of your project's build system:
 
 ```sh
-$ npm install --save-dev launch-checklist
+npm install --save-dev launch-checklist
 ```
+
 You can then run Launch Checklist against a URL by referencing the local installation:
 
 ```sh
-$ ./node_modules/.bin/launch-checklist --url http://website.com
+./node_modules/.bin/launch-checklist http://website.com
 ```
 
 ### Global Installation and Usage
+
 Installing Launch Checklist globally allows you to run program directly from the command line without referencing a local directory. To install globally:
 
 ```sh
-$ npm install -g launch-checklist
+npm install -g launch-checklist
 ```
+
 Then execute the command, providing a valid URL:
 
 ```sh
-$ launch-checklist http://website.com
+launch-checklist http://website.com
 ```
 
 ## Command Line Interface
+
 The simplest way to use Launch Checklist is from the command line:
 
+### Usage
+
 ```sh
-Usage
-  $ launch-checklist [options]
+$ launch-checklist [options]
 
 Options
   -f, --format  <string> Output format [stylish|table|json] - default: stylish
@@ -66,6 +73,7 @@ Examples
 ```
 
 ## Programmatic Usage
+
 You can also include Launch Checklist in your project to validate websites using the Node.js API:
 
 ```js

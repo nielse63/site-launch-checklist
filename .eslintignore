@@ -1,2 +1,3 @@
 **/*{.,-}min.js
 dist/**/*.js
+.eslintrc.js

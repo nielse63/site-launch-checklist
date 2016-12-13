@@ -5,8 +5,8 @@ import accessibility from '../../lib/tests/accessibility'
 let output
 const TEST_URL = 'https://cliquestudios.com/'
 
-describe('tests/accessibility', function () {
-  this.timeout(20000)
+describe('tests/accessibility', function test() {
+  this.timeout(0)
 
   before(done => {
     accessibility(TEST_URL).then(results => {
@@ -29,7 +29,7 @@ describe('tests/accessibility', function () {
     assert(_.has(output, 'reason'))
   })
 
-  it('Accessibility should catch invalid urls', done => {
+  it('Accessibility should catch invalid urls', () => {
     accessibility('not_a_url')
       .catch(err => {
         assert.throws(
@@ -38,7 +38,6 @@ describe('tests/accessibility', function () {
           },
           /Error opening url/,
         )
-        done()
       },
     )
   })
