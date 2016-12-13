@@ -14,5 +14,11 @@ module.exports = {
     "arrow-parens": ["error", "as-needed"],
     "consistent-return": "warn",
     "max-statements": ["error", 10],
+    "max-len": ["error", {
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }],
+    "consistent-return": "off",
+    "max-nested-callbacks": ["error", 3],
   }
 };
