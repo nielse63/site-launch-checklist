@@ -18,27 +18,33 @@ describe('reporters/stylish', () => {
 
   it('stylish should throw data.settings type error', () => {
     assert.throws(
-      stylish.bind(null, {
-        output: {},
-        settings: '',
-      }),
+      () => {
+        stylish({
+          output: {},
+          settings: '',
+        })
+      },
       /Settings value is not a JavaScript object/,
     )
   })
 
   it('stylish should throw data.output type error', () => {
     assert.throws(
-      stylish.bind(null, {
-        output: '',
-        settings: {},
-      }),
+      () => {
+        stylish({
+          output: '',
+          settings: {},
+        })
+      },
       /Output value is not a JavaScript object/,
     )
   })
 
   it('stylish should throw `output` error', () => {
     assert.throws(
-      stylish.bind(null, { key: '' }),
+      () => {
+        stylish({})
+      },
       /Object does not have key `output`/,
     )
   })

@@ -18,27 +18,33 @@ describe('reporters/table', () => {
 
   it('table should throw data.settings type error', () => {
     assert.throws(
-      table.bind(null, {
-        output: {},
-        settings: '',
-      }),
+      () => {
+        table({
+          output: {},
+          settings: '',
+        })
+      },
       /Settings value is not a JavaScript object/,
     )
   })
 
   it('table should throw data.output type error', () => {
     assert.throws(
-      table.bind(null, {
-        output: '',
-        settings: {},
-      }),
+      () => {
+        table({
+          output: '',
+          settings: {},
+        })
+      },
       /Output value is not a JavaScript object/,
     )
   })
 
   it('table should throw `output` error', () => {
     assert.throws(
-      table.bind(null, { key: '' }),
+      () => {
+        table({})
+      },
       /Object does not have key `output`/,
     )
   })

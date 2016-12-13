@@ -6,10 +6,10 @@ import tests from '../../lib/tests'
 let output
 const TEST_URL = 'http://www.facebook.com/'
 
-describe('tests', function () {
+describe('tests', () => {
   before(done => {
     request(TEST_URL, (err, data) => {
-      if(err) {
+      if (err) {
         throw new Error(err)
       }
 
@@ -26,7 +26,7 @@ describe('tests', function () {
 
   it('Tests should return an array', () => {
     assert(
-      _.isArray( output )
+      _.isArray(output),
     )
   })
 })

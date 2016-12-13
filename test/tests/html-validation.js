@@ -11,7 +11,7 @@ describe('tests/html-validation', function () {
 
   before(done => {
     request(TEST_URL, (err, data) => {
-      if(err) {
+      if (err) {
         throw new Error(err)
       }
 
