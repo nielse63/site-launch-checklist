@@ -5,7 +5,7 @@ import mobile from '../../lib/tests/mobile'
 let output
 const TEST_URL = 'http://www.facebook.com/'
 
-describe('tests/mobile', function () {
+describe('tests/mobile', function test() {
   this.timeout(0)
 
   before(done => {

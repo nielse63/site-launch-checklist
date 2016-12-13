@@ -5,7 +5,7 @@ import accessibility from '../../lib/tests/accessibility'
 let output
 const TEST_URL = 'https://cliquestudios.com/'
 
-describe('tests/accessibility', function () {
+describe('tests/accessibility', function test() {
   this.timeout(0)
 
   before(done => {

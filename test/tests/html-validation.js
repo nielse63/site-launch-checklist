@@ -6,7 +6,7 @@ import htmlValidation from '../../lib/tests/html-validation'
 let output
 const TEST_URL = 'http://www.facebook.com/'
 
-describe('tests/html-validation', function () {
+describe('tests/html-validation', function test() {
   this.timeout(0)
 
   before(done => {

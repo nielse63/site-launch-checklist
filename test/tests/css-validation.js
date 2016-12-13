@@ -5,7 +5,7 @@ import cssValidation from '../../lib/tests/css-validation'
 let output
 const TEST_URL = 'https://www.facebook.com/'
 
-describe('tests/css-validation', function () {
+describe('tests/css-validation', function test() {
   this.timeout(0)
 
   before(done => {

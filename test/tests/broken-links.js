@@ -6,7 +6,7 @@ import brokenLinks from '../../lib/tests/broken-links'
 let output
 const TEST_URL = 'https://cliquestudios.com/'
 
-describe('tests/broken-links', function () {
+describe('tests/broken-links', function test() {
   this.timeout(0)
 
   before(done => {
