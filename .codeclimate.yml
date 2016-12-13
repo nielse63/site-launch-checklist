@@ -20,4 +20,6 @@ ratings:
   - "lib/**/*"
 exclude_paths:
 - "node_modules/"
+- "static/"
+- "test/"
 - "gulpfile.js"
