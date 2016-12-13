@@ -14,9 +14,9 @@
 [travis-url]: https://travis-ci.org/nielse63/launch-checklist
 [travis-image]: https://img.shields.io/travis/nielse63/launch-checklist/master.svg?style=flat-square
 [david-dm-url]: https://github.com/nielse63/launch-checklist/blob/master/package.json
-[david-dm-image]: https://img.shields.io/david/nielse63/launch-checklist.svg?style=flat-square
+[david-dm-image]: https://img.shields.io/david/nielse63/launch-checklist.svg
 [david-dm-dev-url]: https://github.com/nielse63/launch-checklist/blob/master/package.json
-[david-dm-dev-image]: https://img.shields.io/david/dev/nielse63/launch-checklist.svg?style=flat-square
+[david-dm-dev-image]: https://img.shields.io/david/dev/nielse63/launch-checklist.svg
 [coveralls-url]: https://coveralls.io/github/nielse63/launch-checklist
 [coveralls-image]: https://img.shields.io/coveralls/nielse63/launch-checklist/master.svg?style=flat-square
 [codeclimate-url]: https://codeclimate.com/github/nielse63/launch-checklist
