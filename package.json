@@ -19,9 +19,11 @@
   "scripts": {
     "prepublish": "gulp prepublish",
     "lint:root": "./node_modules/.bin/eslint ./*.js --fix",
-    "lint:lib": "./node_modules/.bin/eslint ./lib/**/*.js --fix",
+    "lint:lib:reporters": "./node_modules/.bin/eslint ./lib/reporters/*.js --fix",
+    "lint:lib:tests": "./node_modules/.bin/eslint ./lib/tests/*.js --fix",
+    "lint:lib": "npm run lint:lib:reporters && npm run lint:lib:tests && ./node_modules/.bin/eslint ./lib/*.js --fix",
     "lint:tests": "./node_modules/.bin/eslint ./test/**/*.js --fix",
-    "lint": "npm run lint:root; npm run lint:lib; npm run lint:tests",
+    "lint": "npm run lint:root && npm run lint:lib && npm run lint:tests",
     "pretest": "npm run lint",
     "test": "NODE_ENV=debug gulp test",
     "posttest": "gulp submit-coverage"

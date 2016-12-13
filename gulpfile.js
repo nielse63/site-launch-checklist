@@ -39,9 +39,8 @@ gulp.task('test', ['pre-test'], cb => {
   .pipe(plumber())
   .pipe(mocha())
   .on('error', err => {
-    if (err) {
-      mochaErr = err
-    }
+    console.error(err)
+    mochaErr = err
   })
   .pipe(istanbul.writeReports())
   .on('end', () => {
@@ -78,7 +77,6 @@ gulp.task('babel', ['clean'], () => gulp.src('lib/**/*.js')
   .pipe(gulp.dest('dist')))
 
 gulp.task('submit-coverage', () => {
-  console.log(process.env.CI)
   if (process.env.CI) {
     return
   }
