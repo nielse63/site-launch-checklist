@@ -6,7 +6,7 @@ let output
 const TEST_URL = 'http://www.facebook.com/'
 
 describe('tests/mobile', function () {
-  this.timeout(300000)
+  this.timeout(0)
 
   before(done => {
     mobile(TEST_URL).then(results => {

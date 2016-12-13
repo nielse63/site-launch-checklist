@@ -6,7 +6,7 @@ let output
 const TEST_URL = 'https://www.facebook.com/'
 
 describe('tests/css-validation', function () {
-  this.timeout(20000)
+  this.timeout(0)
 
   before(done => {
     cssValidation(TEST_URL, 200).then(data => {

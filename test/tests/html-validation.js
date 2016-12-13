@@ -7,7 +7,7 @@ let output
 const TEST_URL = 'http://www.facebook.com/'
 
 describe('tests/html-validation', function () {
-  this.timeout(20000)
+  this.timeout(0)
 
   before(done => {
     request(TEST_URL, (err, data) => {

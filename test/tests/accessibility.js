@@ -6,7 +6,7 @@ let output
 const TEST_URL = 'https://cliquestudios.com/'
 
 describe('tests/accessibility', function () {
-  this.timeout(20000)
+  this.timeout(0)
 
   before(done => {
     accessibility(TEST_URL).then(results => {
