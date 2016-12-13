@@ -27,7 +27,7 @@
     "pretest": "npm run lint",
     "test": "NODE_ENV=debug gulp test",
     "posttest": "gulp submit-coverage",
-    "release": "npm test && npm prepublish && npm version patch && git push --follow-tags && npm publish"
+    "release": "git status && git push && npm test && npm run prepublish && npm version patch && git push --follow-tags && npm publish"
   },
   "devDependencies": {
     "babel-core": "^6.11.4",
