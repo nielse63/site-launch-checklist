@@ -17,6 +17,6 @@ ratings:
   - "**.js"
   - "./*.md"
 exclude_paths:
-- test/
-- node_modules/
-- ./cli.js
+- "test/"
+- "node_modules/"
+- "./cli.js"

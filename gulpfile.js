@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies, consistent-return */
+/* eslint-disable import/no-extraneous-dependencies, no-var */
 
 const path = require('path')
 const gulp = require('gulp')
@@ -31,8 +31,7 @@ gulp.task('pre-test', () => gulp.src(['lib/**/*.js', '!lib/cli.js'])
   .pipe(istanbul.hookRequire()))
 
 gulp.task('test', ['pre-test'], cb => {
-  let mochaErr
-
+  var mochaErr
   gulp.src([
     './test/**/*.js',
     '!**/.*',
@@ -40,7 +39,9 @@ gulp.task('test', ['pre-test'], cb => {
   .pipe(plumber())
   .pipe(mocha())
   .on('error', err => {
-    mochaErr = err
+    if (err) {
+      mochaErr = err
+    }
   })
   .pipe(istanbul.writeReports())
   .on('end', () => {
