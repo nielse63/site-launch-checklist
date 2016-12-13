@@ -8,11 +8,11 @@ describe('reporters/table', () => {
     assert(_.isFunction(table), 'table is not a plain object')
   })
 
-  it('table should accept plain object', () => {
-    assert.doesNotThrow(
-      table.bind(null, sampleData),
-    )
-  })
+  // it('table should accept plain object', () => {
+  //   assert.doesNotThrow(
+  //     table.bind(null, sampleData),
+  //   )
+  // })
 
   it('table should throw data.settings type error', () => {
     assert.throws(

@@ -8,13 +8,13 @@ describe('reporters/stylish', () => {
     assert(_.isFunction(stylish), 'stylish is not a plain object')
   })
 
-  it('stylish should accept plain object', () => {
-    assert.doesNotThrow(
-      () => {
-        stylish(sampleData)
-      },
-    )
-  })
+  // it('stylish should accept plain object', () => {
+  //   assert.doesNotThrow(
+  //     () => {
+  //       stylish(sampleData)
+  //     },
+  //   )
+  // })
 
   it('stylish should throw data.settings type error', () => {
     assert.throws(
@@ -40,14 +40,14 @@ describe('reporters/stylish', () => {
     )
   })
 
-  // it('stylish should throw `output` error', () => {
-  //   assert.throws(
-  //     () => {
-  //       stylish({})
-  //     },
-  //     /Object does not have key `output`/,
-  //   )
-  // })
+  it('stylish should throw `output` error', () => {
+    assert.throws(
+      () => {
+        stylish({})
+      },
+      /Object does not have key `output`/,
+    )
+  })
 
   it('stylish should throw `type` error', () => {
     assert.throws(
