@@ -10,8 +10,11 @@ engines:
     channel: "eslint-3"
   fixme:
     enabled: true
+  markdownlint:
+    enabled: true
 ratings:
   paths:
   - "**.js"
+  - "**.md"
 exclude_paths:
 - test/

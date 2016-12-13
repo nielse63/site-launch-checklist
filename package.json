@@ -23,13 +23,15 @@
     "lint:tests": "./node_modules/.bin/eslint ./test/**/*.js --fix",
     "lint": "npm run lint:root; npm run lint:lib; npm run lint:tests",
     "pretest": "npm run lint",
-    "test": "NODE_ENV=debug gulp test"
+    "test": "NODE_ENV=debug gulp test",
+    "posttest": "CODECLIMATE_REPO_TOKEN=aa305c42ae223fab11cc52ac1d57536e438c09de9cbd03d3a6c8dbdeec1ffc23 ./node_modules/.bin/codeclimate-test-reporter < ./coverage/lcov.info"
   },
   "devDependencies": {
     "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
     "babel-preset-es2015": "6.9.0",
     "babel-register": "^6.9.0",
+    "codeclimate-test-reporter": "^0.4.0",
     "del": "^2.0.2",
     "eslint": "^3.12.1",
     "eslint-config-airbnb": "^13.0.0",
