@@ -18,3 +18,5 @@ ratings:
   - "**.md"
 exclude_paths:
 - test/
+- node_modules/
+- ./cli.js
