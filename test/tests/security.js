@@ -7,7 +7,9 @@ let headers
 let output
 const TEST_URL = 'https://cliquestudios.com/'
 
-describe('tests/security', () => {
+describe('tests/security', function () {
+  this.timeout(0)
+
   before(done => {
     request(TEST_URL, (err, data) => {
       if (err) {
@@ -20,13 +22,13 @@ describe('tests/security', () => {
     })
   })
 
-  it('Security should return object', () => {
+  it('Security should return object', function () {
     assert(
       _.isPlainObject(output),
     )
   })
 
-  it('Security should have desired keys', () => {
+  it('Security should have desired keys', function () {
     assert(_.has(output, 'passed'))
     assert(_.has(output, 'info'))
     assert(_.has(output, 'reason'))

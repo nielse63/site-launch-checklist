@@ -7,7 +7,7 @@ const TEST_URL = 'https://google.com/'
 let results
 
 describe('launch-checklist', function () {
-  this.timeout(300000)
+  this.timeout(0)
 
   before(done => {
     launchChecklist({

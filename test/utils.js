@@ -1,6 +1,7 @@
 import assert from 'assert'
 import _ from 'lodash'
 import * as utils from '../lib/utils'
+import sampleData from '../static/sample-data.json'
 
 const TEST_STRING_INPUT = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt veritatis non unde, eius ducimus numquam, impedit, similique quasi nam ex sit dolor voluptate! Fugiat, architecto!'
 const TEST_STRING_OUTPUT = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt veritatis\nnon unde, eius ducimus numquam, impedit, similique quasi nam ex sit dolor\nvoluptate! Fugiat, architecto!'
@@ -290,6 +291,80 @@ describe('utils', () => {
     it('IN_DEBUG should be true', () => {
       process.env.NODE_ENV = 'debug'
       assert.equal(true, utils.IN_DEBUG)
+    })
+  })
+
+  describe('#killReport', function () {
+    it('utils should have `killReport`', function () {
+      assert(
+        _.has(utils, 'killReport'),
+      )
+    })
+
+    it('killReport should be function', function () {
+      assert(
+        _.isFunction(utils.killReport),
+        'utils.killReport is not a function',
+      )
+    })
+
+    it('killReport should throw data.settings type error', function () {
+      assert.throws(
+        function () {
+          utils.killReport({
+            output: {},
+            settings: '',
+          })
+        },
+        /Settings value is not a JavaScript object/,
+      )
+    })
+
+    it('killReport should throw data.output type error', function () {
+      assert.throws(
+        function () {
+          utils.killReport({
+            output: '',
+            settings: {},
+          })
+        },
+        /Output value is not a JavaScript object/,
+      )
+    })
+
+    it('killReport should throw `output` error', function () {
+      assert.throws(
+        function () {
+          utils.killReport({})
+        },
+        /Object does not have key `output`/,
+      )
+    })
+
+    it('killReport fails on undefined', function () {
+      assert.throws(
+        function () {
+          utils.killReport()
+        },
+        /Supplied data is not a JavaScript object/,
+      )
+    })
+
+    it('killReport fails on string', function () {
+      assert.throws(
+        function () {
+          utils.killReport('')
+        },
+        /Supplied data is not a JavaScript object/,
+      )
+    })
+
+    it('killReport should not throw error', function () {
+      assert.doesNotThrow(
+        function () {
+          utils.killReport(sampleData)
+        },
+      )
     })
   })
 })
