@@ -27,32 +27,28 @@ describe('tests/css-validation', function () {
     assert(_.has(output, 'reason'))
   })
 
-  it('CSS Validation should catch 400 status', done => {
+  it('CSS Validation should catch 400 status', () => {
     cssValidation(TEST_URL, 404)
       .catch(err => {
         assert.throws(
           () => {
             throw new Error(err)
-            done()
           },
           /Cannot validate CSS\./,
         )
-        done()
       },
     )
   })
 
-  it('CSS Validation should fail on invalid urls', done => {
+  it('CSS Validation should fail on invalid urls', () => {
     cssValidation('not_a_url', 200)
       .catch(err => {
         assert.throws(
           () => {
             throw new Error(err)
-            done()
           },
           /Invalid server response/,
         )
-        done()
       },
     )
   })

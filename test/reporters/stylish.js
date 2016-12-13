@@ -1,7 +1,7 @@
 import assert from 'assert'
 import _ from 'lodash'
 import stylish from '../../lib/reporters/stylish'
-import sampleData from '../sample-output.json'
+// import sampleData from '../sample-output.json'
 
 describe('reporters/stylish', () => {
   it('stylish should be a function', () => {

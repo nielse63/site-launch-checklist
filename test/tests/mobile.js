@@ -14,7 +14,6 @@ describe('tests/mobile', function () {
       done()
     }, err => {
       throw new Error(err)
-      done()
     })
   })
 

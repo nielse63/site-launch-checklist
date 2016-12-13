@@ -9,8 +9,8 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
-      "semi": ["error", "never"],
-      "no-param-reassign": "warn",
+      "semi": 0,
+      "no-param-reassign": 1,
       "arrow-parens": ["error", "as-needed"],
       "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }]
     }

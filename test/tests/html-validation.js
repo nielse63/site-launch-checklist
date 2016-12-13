@@ -13,7 +13,6 @@ describe('tests/html-validation', function () {
     request(TEST_URL, (err, data) => {
       if (err) {
         throw new Error(err)
-        done()
       }
 
       htmlValidation(data.body, data.url).then(results => {
@@ -41,17 +40,15 @@ describe('tests/html-validation', function () {
     assert(_.has(output, 'reason'))
   })
 
-  it('HTML Validation should fail on invalid urls', done => {
+  it('HTML Validation should fail on invalid urls', () => {
     htmlValidation('', 'not_a_url')
       .catch(err => {
         assert.throws(
           () => {
             throw new Error(err)
-            done()
           },
           Error,
         )
-        done()
       },
     )
   })

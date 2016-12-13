@@ -11,7 +11,6 @@ describe('tests', () => {
     request(TEST_URL, (err, data) => {
       if (err) {
         throw new Error(err)
-        done()
       }
 
       output = tests(data)

@@ -1,7 +1,7 @@
 import assert from 'assert'
 import _ from 'lodash'
 import table from '../../lib/reporters/table'
-import sampleData from '../sample-output.json'
+// import sampleData from '../sample-output.json'
 
 describe('reporters/table', () => {
   it('table should be a function', () => {

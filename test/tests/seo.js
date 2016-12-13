@@ -13,7 +13,6 @@ describe('tests/seo', () => {
     request(TEST_URL, (err, data) => {
       if (err) {
         throw new Error(err)
-        done()
       }
 
       $ = cheerio.load(data.body)

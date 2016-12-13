@@ -14,7 +14,6 @@ describe('tests/accessibility', function () {
       done()
     }, err => {
       throw new Error(err)
-      done()
     })
   })
 
@@ -30,17 +29,15 @@ describe('tests/accessibility', function () {
     assert(_.has(output, 'reason'))
   })
 
-  it('Accessibility should catch invalid urls', done => {
+  it('Accessibility should catch invalid urls', () => {
     accessibility('not_a_url')
       .catch(err => {
         assert.throws(
           () => {
             throw new Error(err)
-            done()
           },
           /Error opening url/,
         )
-        done()
       },
     )
   })

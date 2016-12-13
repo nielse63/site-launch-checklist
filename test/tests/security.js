@@ -12,7 +12,6 @@ describe('tests/security', () => {
     request(TEST_URL, (err, data) => {
       if (err) {
         throw new Error(err)
-        done()
       }
 
       headers = data.headers
