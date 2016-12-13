@@ -24,7 +24,7 @@
     "lint": "npm run lint:root; npm run lint:lib; npm run lint:tests",
     "pretest": "npm run lint",
     "test": "NODE_ENV=debug gulp test",
-    "posttest": "CODECLIMATE_REPO_TOKEN=aa305c42ae223fab11cc52ac1d57536e438c09de9cbd03d3a6c8dbdeec1ffc23 ./node_modules/.bin/codeclimate-test-reporter < ./coverage/lcov.info"
+    "posttest": "gulp submit-coverage"
   },
   "devDependencies": {
     "babel-core": "^6.11.4",
@@ -51,6 +51,7 @@
     "gulp-nsp": "^2.4.2",
     "gulp-plumber": "^1.0.0",
     "isparta": "^4.0.0",
+    "shelljs": "^0.7.5",
     "should": "^11.1.1"
   },
   "repository": "nielse63/launch-checklist",
