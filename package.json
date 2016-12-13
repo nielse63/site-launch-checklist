@@ -18,9 +18,9 @@
   ],
   "scripts": {
     "prepublish": "gulp prepublish",
-    "lint:root": "./node_modules/.bin/eslint ./*.js --fix --quiet",
-    "lint:lib": "./node_modules/.bin/eslint ./lib/**/*.js --fix --quiet",
-    "lint:tests": "./node_modules/.bin/eslint ./test/**/*.js --fix --quiet",
+    "lint:root": "./node_modules/.bin/eslint ./*.js --fix",
+    "lint:lib": "./node_modules/.bin/eslint ./lib/**/*.js --fix",
+    "lint:tests": "./node_modules/.bin/eslint ./test/**/*.js --fix",
     "lint": "npm run lint:root; npm run lint:lib; npm run lint:tests",
     "pretest": "npm run lint",
     "test": "NODE_ENV=debug gulp"

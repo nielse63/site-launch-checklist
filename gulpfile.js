@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies, consistent-return */
 
 const path = require('path')
 const gulp = require('gulp')
@@ -11,6 +12,7 @@ const lec = require('gulp-line-ending-corrector')
 const babel = require('gulp-babel')
 const del = require('del')
 const isparta = require('isparta')
+// const should = require('should')
 
 // Initialize the babel transpiler so ES2015 files gets compiled
 // when they're loaded
@@ -34,6 +36,8 @@ gulp.task('test', ['pre-test'], cb => {
   gulp.src([
     './test/**/*.js',
     '!./test/index.js',
+    '!./test/**/.*.js',
+    // './test/tests/mobile.js',
   ])
     .pipe(plumber())
     .pipe(mocha())
