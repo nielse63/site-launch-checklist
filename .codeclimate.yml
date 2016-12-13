@@ -17,8 +17,7 @@ engines:
         enabled: false
 ratings:
   paths:
-  - "**.js"
-  - "./*.md"
+  - "lib/**/*"
 exclude_paths:
 - "node_modules/"
 - "gulpfile.js"
