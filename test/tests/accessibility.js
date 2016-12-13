@@ -14,6 +14,7 @@ describe('tests/accessibility', function () {
       done()
     }, err => {
       throw new Error(err)
+      done()
     })
   })
 
@@ -35,6 +36,7 @@ describe('tests/accessibility', function () {
         assert.throws(
           () => {
             throw new Error(err)
+            done()
           },
           /Error opening url/,
         )

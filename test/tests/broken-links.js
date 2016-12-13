@@ -13,6 +13,7 @@ describe('tests/broken-links', function () {
     request(TEST_URL, (err, data) => {
       if (err) {
         throw new Error(err)
+        done()
       }
 
       brokenLinks(data.body, data.url).then(results => {

@@ -13,6 +13,7 @@ describe('tests/html-validation', function () {
     request(TEST_URL, (err, data) => {
       if (err) {
         throw new Error(err)
+        done()
       }
 
       htmlValidation(data.body, data.url).then(results => {
@@ -46,6 +47,7 @@ describe('tests/html-validation', function () {
         assert.throws(
           () => {
             throw new Error(err)
+            done()
           },
           Error,
         )

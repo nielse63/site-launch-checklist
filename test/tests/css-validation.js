@@ -33,6 +33,7 @@ describe('tests/css-validation', function () {
         assert.throws(
           () => {
             throw new Error(err)
+            done()
           },
           /Cannot validate CSS\./,
         )
@@ -47,6 +48,7 @@ describe('tests/css-validation', function () {
         assert.throws(
           () => {
             throw new Error(err)
+            done()
           },
           /Invalid server response/,
         )
