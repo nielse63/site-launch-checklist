@@ -1,6 +1,6 @@
 {
   "name": "launch-checklist",
-  "version": "1.2.3",
+  "version": "1.4.1",
   "description": "Automated launch checklist tests",
   "homepage": "https://github.com/nielse63/launch-checklist",
   "author": {
@@ -26,7 +26,8 @@
     "lint": "npm run lint:root && npm run lint:lib && npm run lint:tests",
     "pretest": "npm run lint",
     "test": "NODE_ENV=debug gulp test",
-    "posttest": "gulp submit-coverage"
+    "posttest": "gulp submit-coverage",
+    "release": "git status && git push && npm test && npm run prepublish && npm version patch && git push --follow-tags && npm publish"
   },
   "devDependencies": {
     "babel-core": "^6.11.4",
