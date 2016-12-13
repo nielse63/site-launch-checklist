@@ -1,93 +1,80 @@
 
-var path = require('path');
-var gulp = require('gulp');
-var eslint = require('gulp-eslint');
-var excludeGitignore = require('gulp-exclude-gitignore');
-var mocha = require('gulp-mocha');
-var istanbul = require('gulp-istanbul');
-var nsp = require('gulp-nsp');
-var plumber = require('gulp-plumber');
-var coveralls = require('gulp-coveralls');
-var lec = require('gulp-line-ending-corrector');
-var babel = require('gulp-babel');
-var del = require('del');
-var isparta = require('isparta');
+const path = require('path')
+const gulp = require('gulp')
+const excludeGitignore = require('gulp-exclude-gitignore')
+const mocha = require('gulp-mocha')
+const istanbul = require('gulp-istanbul')
+const nsp = require('gulp-nsp')
+const plumber = require('gulp-plumber')
+const coveralls = require('gulp-coveralls')
+const lec = require('gulp-line-ending-corrector')
+const babel = require('gulp-babel')
+const del = require('del')
+const isparta = require('isparta')
 
 // Initialize the babel transpiler so ES2015 files gets compiled
 // when they're loaded
-require('babel-register');
+require('babel-register')
 
-gulp.task('nsp', function (cb) {
-  nsp({package: path.resolve('package.json')}, cb);
-});
+gulp.task('nsp', cb => {
+  nsp({ package: path.resolve('package.json') }, cb)
+})
 
-gulp.task('pre-test', function () {
-  return gulp.src(['lib/**/*.js', '!lib/cli.js'])
+gulp.task('pre-test', () => gulp.src(['lib/**/*.js', '!lib/cli.js'])
     .pipe(excludeGitignore())
     .pipe(istanbul({
       includeUntested: true,
-      instrumenter: isparta.Instrumenter
+      instrumenter: isparta.Instrumenter,
     }))
-    .pipe(istanbul.hookRequire());
-});
+    .pipe(istanbul.hookRequire()))
 
-gulp.task('test', ['pre-test'], function (cb) {
-  var mochaErr;
+gulp.task('test', ['pre-test'], cb => {
+  let mochaErr
 
   gulp.src([
-      './test/**/*.js',
-      '!./test/index.js',
-      // 'test/*.js',
-    ])
+    './test/**/*.js',
+    '!./test/index.js',
+  ])
     .pipe(plumber())
     .pipe(mocha())
-    .on('error', function (err) {
-      // console.trace(err)
-      mochaErr = err;
+    .on('error', err => {
+      mochaErr = err
     })
     .pipe(istanbul.writeReports())
-    .on('end', function () {
-      cb(mochaErr);
-    });
-});
+    .on('end', () => {
+      cb(mochaErr)
+    })
+})
 
-gulp.task('line-ending-corrector', function () {
-  return gulp.src('lib/cli.js')
+gulp.task('line-ending-corrector', () => gulp.src('lib/cli.js')
     .pipe(excludeGitignore())
     .pipe(lec())
-    .pipe(gulp.dest('.'));
-});
+    .pipe(gulp.dest('.')))
 
-gulp.task('cli', function () {
-  return gulp.src('lib/cli.js')
+gulp.task('cli', () => gulp.src('lib/cli.js')
     // .pipe(excludeGitignore())
     .pipe(babel())
-    .pipe(gulp.dest('./dist'));
-});
+    .pipe(gulp.dest('./dist')))
 
-gulp.task('watch', function () {
-  gulp.watch(['lib/**/*.js', 'test/**'], ['babel']);
-  gulp.watch(['lib/cli.js'], ['cli']);
-});
+gulp.task('watch', () => {
+  gulp.watch(['lib/**/*.js', 'test/**'], ['babel'])
+  gulp.watch(['lib/cli.js'], ['cli'])
+})
 
-gulp.task('coveralls', ['test'], function () {
+gulp.task('coveralls', ['test'], () => {
   if (!process.env.CI) {
-    return;
+    return
   }
 
   return gulp.src(path.join(__dirname, 'coverage/lcov.info'))
-    .pipe(coveralls());
-});
+    .pipe(coveralls())
+})
 
-gulp.task('babel', ['clean'], function () {
-  return gulp.src('lib/**/*.js')
+gulp.task('babel', ['clean'], () => gulp.src('lib/**/*.js')
     .pipe(babel())
-    .pipe(gulp.dest('dist'));
-});
+    .pipe(gulp.dest('dist')))
 
-gulp.task('clean', function () {
-  return del('dist');
-});
+gulp.task('clean', () => del('dist'))
 
-gulp.task('prepublish', ['nsp', 'line-ending-corrector', 'babel']);
-gulp.task('default', ['test', 'coveralls']);
+gulp.task('prepublish', ['nsp', 'line-ending-corrector', 'babel'])
+gulp.task('default', ['test', 'coveralls'])
