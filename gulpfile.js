@@ -77,7 +77,7 @@ gulp.task('babel', ['clean'], () => gulp.src('lib/**/*.js')
   .pipe(gulp.dest('dist')))
 
 gulp.task('submit-coverage', () => {
-  console.log(CI)
+  console.log(process.env.CI)
   if (process.env.CI) {
     return
   }

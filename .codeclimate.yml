@@ -15,7 +15,7 @@ engines:
 ratings:
   paths:
   - "**.js"
-  - "**.md"
+  - "./*.md"
 exclude_paths:
 - test/
 - node_modules/
