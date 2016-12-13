@@ -12,7 +12,6 @@ const lec = require('gulp-line-ending-corrector')
 const babel = require('gulp-babel')
 const del = require('del')
 const isparta = require('isparta')
-// const should = require('should')
 
 // Initialize the babel transpiler so ES2015 files gets compiled
 // when they're loaded
@@ -23,21 +22,19 @@ gulp.task('nsp', cb => {
 })
 
 gulp.task('pre-test', () => gulp.src(['lib/**/*.js', '!lib/cli.js'])
-    .pipe(excludeGitignore())
-    .pipe(istanbul({
-      includeUntested: true,
-      instrumenter: isparta.Instrumenter,
-    }))
-    .pipe(istanbul.hookRequire()))
+  .pipe(excludeGitignore())
+  .pipe(istanbul({
+    includeUntested: true,
+    instrumenter: isparta.Instrumenter,
+  }))
+  .pipe(istanbul.hookRequire()))
 
 gulp.task('test', ['pre-test'], cb => {
   let mochaErr
 
   gulp.src([
     './test/**/*.js',
-    '!./test/index.js',
-    '!./test/**/.*.js',
-    // './test/tests/mobile.js',
+    '!**/.*',
   ])
     .pipe(plumber())
     .pipe(mocha())
@@ -56,7 +53,7 @@ gulp.task('line-ending-corrector', () => gulp.src('lib/cli.js')
     .pipe(gulp.dest('.')))
 
 gulp.task('cli', () => gulp.src('lib/cli.js')
-    // .pipe(excludeGitignore())
+    .pipe(excludeGitignore())
     .pipe(babel())
     .pipe(gulp.dest('./dist')))
 
@@ -65,14 +62,13 @@ gulp.task('watch', () => {
   gulp.watch(['lib/cli.js'], ['cli'])
 })
 
-gulp.task('coveralls', ['test'], () => {
-  if (!process.env.CI) {
-    return
-  }
+gulp.task('coveralls', ['test'], () =>
+  // if (!process.env.CI) {
+  //   return
+  // }
 
-  return gulp.src(path.join(__dirname, 'coverage/lcov.info'))
-    .pipe(coveralls())
-})
+   gulp.src(path.join(__dirname, 'coverage/lcov.info'))
+    .pipe(coveralls()))
 
 gulp.task('babel', ['clean'], () => gulp.src('lib/**/*.js')
     .pipe(babel())

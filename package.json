@@ -23,7 +23,7 @@
     "lint:tests": "./node_modules/.bin/eslint ./test/**/*.js --fix",
     "lint": "npm run lint:root; npm run lint:lib; npm run lint:tests",
     "pretest": "npm run lint",
-    "test": "NODE_ENV=debug gulp"
+    "test": "NODE_ENV=debug gulp test"
   },
   "devDependencies": {
     "babel-core": "^6.11.4",

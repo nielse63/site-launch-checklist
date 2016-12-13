@@ -20,5 +20,6 @@ module.exports = {
     }],
     "consistent-return": "off",
     "max-nested-callbacks": ["error", 3],
+    "complexity": ["error", 4]
   }
 };
