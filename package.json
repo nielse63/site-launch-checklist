@@ -48,7 +48,6 @@
     "gulp-mocha": "^3.0.1",
     "gulp-nsp": "^2.4.2",
     "gulp-plumber": "^1.0.0",
-    "heapdump": "^0.3.7",
     "isparta": "^4.0.0",
     "jsdoc-babel": "^0.3.0",
     "shelljs": "^0.7.5",
