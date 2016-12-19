@@ -96,7 +96,7 @@ gulp.task('submit-coverage', () => {
   })
 })
 
-gulp.task('clean:files', function() {
+gulp.task('clean:files', () => {
   del('./*.log')
   del('./*.heapsnapshot')
 })

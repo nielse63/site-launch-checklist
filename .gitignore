@@ -2,5 +2,6 @@ node_modules
 coverage
 dist
 .env
-*-v8.log
-npm-debug.log
+*.log
+_site
+.sass-cache

@@ -16,7 +16,8 @@ module.exports = {
     "max-statements": ["error", 10],
     "max-len": ["error", {
       "ignoreStrings": true,
-      "ignoreTemplateLiterals": true
+      "ignoreTemplateLiterals": true,
+      "ignoreComments": true
     }],
     "consistent-return": "off",
     "max-nested-callbacks": ["error", 3],
