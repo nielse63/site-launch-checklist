@@ -8,6 +8,11 @@ engines:
   eslint:
     enabled: true
     channel: "eslint-3"
+    checks:
+      import/no-unresolved:
+        enabled: false
+      func-names:
+        enabled: false
   fixme:
     enabled: true
   markdownlint:
@@ -23,3 +28,4 @@ exclude_paths:
 - "static/"
 - "test/"
 - "gulpfile.js"
+- "cli.js"

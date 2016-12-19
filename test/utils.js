@@ -1,12 +1,33 @@
 import assert from 'assert'
 import _ from 'lodash'
+// import heapdump from 'heapdump'
+// import path from 'path'
 import * as utils from '../lib/utils'
 import sampleData from '../static/sample-data.json'
 
 const TEST_STRING_INPUT = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt veritatis non unde, eius ducimus numquam, impedit, similique quasi nam ex sit dolor voluptate! Fugiat, architecto!'
 const TEST_STRING_OUTPUT = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt veritatis\nnon unde, eius ducimus numquam, impedit, similique quasi nam ex sit dolor\nvoluptate! Fugiat, architecto!'
 
+// function memdump(status = 'before') {
+//   heapdump.writeSnapshot(
+//     path.resolve(__dirname, '..', `memdump.${status}.heapsnapshot`),
+//     err => {
+//       if (err) {
+//         console.trace(err)
+//       }
+//     },
+//   )
+// }
+
 describe('utils', () => {
+  // before(function() {
+  //   memdump()
+  // })
+
+  // after(function() {
+  //   memdump('after')
+  // })
+
   describe('#hasKey', () => {
     const tmp = {
       key: 'value',

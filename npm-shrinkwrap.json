@@ -3864,6 +3864,12 @@
       "from": "hawk@>=3.1.3 <3.2.0",
       "resolved": "https://registry.npmjs.org/hawk/-/hawk-3.1.3.tgz"
     },
+    "heapdump": {
+      "version": "0.3.7",
+      "from": "heapdump@latest",
+      "resolved": "https://registry.npmjs.org/heapdump/-/heapdump-0.3.7.tgz",
+      "dev": true
+    },
     "hoek": {
       "version": "2.16.3",
       "from": "hoek@>=2.0.0 <3.0.0",

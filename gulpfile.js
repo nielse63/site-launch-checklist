@@ -96,6 +96,11 @@ gulp.task('submit-coverage', () => {
   })
 })
 
+gulp.task('clean:files', function() {
+  del('./*.log')
+  del('./*.heapsnapshot')
+})
+
 gulp.task('clean', () => del('dist'))
 
 gulp.task('prepublish', ['nsp', 'line-ending-corrector', 'babel'])
