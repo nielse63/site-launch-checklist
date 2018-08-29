@@ -5,3 +5,4 @@ dist
 *.log
 _site
 .sass-cache
+.nyc_output/

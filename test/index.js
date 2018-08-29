@@ -6,7 +6,6 @@ import launchChecklist from '../lib'
 const TEST_URL = 'https://www.facebook.com/'
 let results
 
-// FIXME: Another fixme test
 describe('launch-checklist', function () {
   this.timeout(0)
 

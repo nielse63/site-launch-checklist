@@ -1,6 +1,7 @@
 --reporter spec
+--require babel-register
 --check-leaks
 --prof
---delay
---require should
---timeout 0
+--trace-deprecation
+--recursive
+--log-timer-events

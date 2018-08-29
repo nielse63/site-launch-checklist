@@ -8,6 +8,7 @@ module.exports = {
   "parserOptions": {
     "sourceType": "module"
   },
+  "parser": "babel-eslint",
   "rules": {
     "semi": ["error", "never"],
     "no-param-reassign": "warn",
