@@ -4,6 +4,8 @@
 
 # Launch Checklist
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/nielse63/site-launch-checklist.svg)](https://greenkeeper.io/)
+
 > Automated launch checklist tests
 
 [![NPM version][npm-image]][npm-url]
