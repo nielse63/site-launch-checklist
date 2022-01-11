@@ -62,7 +62,7 @@
     "launch-checklist": "./dist/cli.js"
   },
   "dependencies": {
-    "async": "^2.1.2",
+    "async": "^3.2.3",
     "broken-link-checker": "^0.7.3",
     "cheerio": "^0.22.0",
     "cli-color": "^1.1.0",
