@@ -68,7 +68,7 @@
     "cli-color": "^1.1.0",
     "cli-table": "^0.3.1",
     "commander": "^2.9.0",
-    "dotenv": "^2.0.0",
+    "dotenv": "^12.0.3",
     "html-validator": "^2.0.4",
     "lodash": "^4.17.2",
     "pa11y": "^4.2.0",
